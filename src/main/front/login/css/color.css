@@ -1,0 +1,104 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f9f9f9;
+}
+
+.login-box {
+    display: flex;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    width: 800px;
+    max-width: 90%;
+}
+
+/* 왼쪽 로그인 부분 */
+.left {
+    flex: 1;
+    padding: 40px;
+}
+
+h4 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+p {
+    color: gray;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.log_input input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.check {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    margin: 10px 0;
+}
+
+.text2 {
+    color: red;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.loginbox {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    background-color: #8DD3BB;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.signup {
+    margin-top: 15px;
+    color: black;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* 오른쪽 이미지 부분 */
+.right {
+    flex: 1;
+}
+
+.right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/*sns 박스 부분*/
+.snsbox{
+    display: flex;
+}
+.facebook{
+    border: #8DD3BB;
+    border-radius: 4px;
+    width: 30px;
+    height: 10px;
+    cursor: pointer;
+}
