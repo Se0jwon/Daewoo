@@ -2,7 +2,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
 }
 
 .container {
@@ -18,7 +17,6 @@
     background: #fff;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     width: 800px;
     max-width: 90%;
 }
@@ -40,12 +38,26 @@ p {
     margin-bottom: 20px;
 }
 
+/*비밀번호 아이콘 부분*/
 .log_input input {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.passwordbox {
+    position: relative;
+}
+
+.passwordbox i {
+    color: black;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(140%);
+    cursor: pointer;
 }
 
 .check {
@@ -94,11 +106,59 @@ p {
 /*sns 박스 부분*/
 .snsbox{
     display: flex;
+    margin-bottom: 10px;
+    gap: 10px;
 }
 .facebook{
-    border: #8DD3BB;
+    display: inline-block;
+    border: 1px solid #8DD3BB;
+    text-align: center;
     border-radius: 4px;
-    width: 30px;
-    height: 10px;
+    width:120px;
+    height: 40px;
+    padding-top: 5px;
+    font-size: 15px;
     cursor: pointer;
 }
+.google{
+    display: inline-block;
+    border: 1px solid #8DD3BB;
+    text-align: center;
+    border-radius: 4px;
+    width:120px;
+    height: 40px;
+    padding-top: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.apple{
+    display: inline-block;
+    border: 1px solid #8DD3BB;
+    text-align: center;
+    border-radius: 4px;
+    width:120px;
+    height: 40px;
+    padding-top: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+/*경계선 테두리 부분*/
+.boundary_line{
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: #112211;
+    font-size: 18px;
+    margin: 6px 0px;
+}
+.boundary_line::before,
+.boundary_line::after{
+    content: "";
+    flex-grow: 1;
+    background: gray;
+    height: 1px;
+    font-size: 0px;
+    line-height: 0px;
+    margin: 25px 7px;
+}
+

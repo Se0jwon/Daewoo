@@ -7,6 +7,7 @@
           integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/color.css">
+    <script src="js/login.js"></script>
 </head>
 <body>
 <div class="container">
@@ -19,8 +20,11 @@
 
             <div class="log_input">
                 <form action="post">
+                    <div class="passwordbox">
                     <input type="text" name="userName" placeholder="Email">
-                    <input type="password" name="userPassword" placeholder="Password">
+                    <input type="password" name="userPassword" placeholder="Password" >
+                        <i class="fa-solid fa-eye-slash"></i>
+                    </div>
                 </form>
             </div>
 
@@ -34,20 +38,24 @@
             <button class="loginbox">Login</button>
             <p class="signup">회원가입</p>
 
+            <!-- sns 로그인 경계선 -->
+            <div class="boundary_line">
+                <p>Or login with</p>
+            </div>
+
         <!-- sns 로그인 창 -->
             <div class="snsbox">
                 <div class="facebook">
                     <i class="fa-brands fa-facebook"></i>
                 </div>
-                <div class="googlebox">
+                <div class="google">
                     <i class="fa-brands fa-google"></i>
                 </div>
-                <div class="applebox">
+                <div class="apple">
                     <i class="fa-brands fa-apple"></i>
                 </div>
             </div>
         </div>
-
 
         <!-- 오른쪽 이미지 -->
         <div class="right">
