@@ -1,1 +1,22 @@
-spring.application.name=Daewoo
+spring:
+  application:
+    name: Daewoo
+  datasource: # mysql 접속
+    url: jdbc:log4jdbc:mysql://localhost:3306/db이름?serverTimezone=Asia/Seoul&characterEncoding=UTF-8    # 접속 URL
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: 아이디  # mysql 유저
+    password: 비번  # mysql 유저 암호
+
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.example.daewoo
+  configuration:
+    map-underscore-to-camel-case: true
