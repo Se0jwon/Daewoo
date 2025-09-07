@@ -1,0 +1,210 @@
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+    <style>
+        body{
+            margin: 0;
+            overflow: hidden;
+            overflow-x: hidden;
+        }
+
+        .container{
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            padding: 0 105px;
+            height: 87px;
+        }
+
+        .item span {
+            display: flex;
+            gap: 4px;
+        }
+
+        .circle {
+            width: 45px;
+            height: 45px;
+            background-color: #D9D9D9;
+            border: 1px solid #000000;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .mini-circle {
+            position: absolute;
+            background-color: #FF8682;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            top: 33px;
+            right: 1px;
+        }
+
+        .check {
+            width: 6px;
+            height: 3px;
+            border-left: 2px solid black;
+            border-bottom: 2px solid black;
+            transform: rotate(-45deg);
+            position: absolute;
+            top: 2px;
+            left: 2px;
+        }
+
+        .flex {
+            display: flex;
+            gap: 10px;
+        }
+
+        .vertical-center {
+            align-items: center;
+        }
+
+        img {
+            object-fit: contain;
+        }
+
+        .subscription-box{
+            background-color: #cdeae1;
+            border-radius: 10px;
+            margin: 50px auto;
+            padding: 30px;
+            width: 1232px;
+            height: 305px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer{
+            background-color: #8dd3bb;
+            height: 422px;
+            width: 100%;
+            bottom: 0;
+            position: absolute;
+            display: flex;
+            justify-content: space-between;
+            padding: 40px 105px;
+            box-sizing: border-box;
+        }
+
+        .footer-letter{
+            justify-content: space-evenly;
+        }
+        .footer-span{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+        }
+    </style>
+
+
+    <body>
+    <div class="container">
+        <nav class="nav-container">
+
+            <!-- 왼쪽 -->
+            <div class="item">
+                    <span>
+                        <img src="../../resources/images/bed.png" height="17" width="22"/>
+                        hotels
+                    </span>
+            </div>
+
+            <!-- 오른쪽 -->
+            <div class="item">
+                <div class="flex vertical-center">
+                    <!-- 오른쪽 첫번째 -->
+                    <img src="../../resources/images/heart.png" height="19" width="20"/>
+                    <span>
+                            찜하기
+                    </span>
+                    |
+                    <!-- 오른쪽 두번째 -->
+                    <div class="circle ">
+                        <div class="mini-circle">
+                            <div class="check"></div>
+                        </div>
+                    </div>
+                    <span>
+                            Tomhoon
+                    </span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+    <section class="subscription-box">
+        <div class="subscription-content">
+            <h1>구독서비스<br> 신청해보세요</h1>
+            <p>The Travel</p>
+            <p>구독하고 무료, 최신 여행 정보를 받아보세요</p>
+            <div class="subscription-form-container">
+                <input type="email" placeholder="Your email address">
+                <button type="submit">Subscribe</button>
+            </div>
+        </div>
+        <div class="subscription-image">
+            <img style="top: 20px" src="../../resources/images/letter-box.png" height="390" width="400" alt=""/>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-letter">
+                <span>
+                    <img src="../../resources/images/facebook.png" height="19" width="18" alt="" style="margin-right: 10px;"/>
+                    <img src="../../resources/images/twitter.png" height="16" width="20" alt="" style="margin-right: 10px;"/>
+                    <img src="../../resources/images/youtube.png" height="14" width="20" alt="" style="margin-right: 10px;"/>
+                    <img src="../../resources/images/insta.png" height="18" width="17" alt="" style="margin-right: 10px;"/>
+                </span>
+        </div>
+
+        <div class="footer-letter" style="margin-right: 20px">
+            <span class="footer-span">
+                Our Destinations
+                <br>
+            </span>
+            <span class="footer-span">
+                <span>Canada</span>
+                <span>Alaska</span>
+                <span>France</span>
+                <span>Iceland</span>
+            </span>
+
+        </div>
+        <div class="footer-letter" style="margin-right: 20px" >
+            <span>adsada </span>
+        </div>
+        <div class="footer-letter" style="margin-right: 20px">
+            <span>adsada </span>
+        </div>
+        <div class="footer-letter" style="margin-right: 20px">
+            <span>adsada </span>
+        </div>
+        <div class="footer-letter" style="margin-right: 20px">
+            <span>adsada </span>
+        </div>
+    </footer>
+
+    </body>
+
+
+    </html>
