@@ -1,0 +1,137 @@
+/*폰트 */
+@font-face {
+    font-family: 'OneStoreMobilePop';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-POP.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f9f9f9;
+}
+
+.login-box {
+    display: flex;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 800px;
+    max-width: 90%;
+}
+
+/* 왼쪽 */
+.left {
+    flex: 1;
+    padding: 40px;
+}
+
+h4 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+p {
+    color: gray;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+/* 입력 박스 */
+.log_input input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 두 줄 정렬 */
+.row-input {
+    display: flex;
+    gap: 10px;
+}
+
+.row-input input {
+    flex: 1;
+}
+
+/* 비밀번호 박스 */
+.passwordbox {
+    position: relative;
+}
+
+.passwordbox input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.passwordbox i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: gray;
+}
+
+.resend{
+    background: none;
+    border: none;
+    font-size: 12px;
+    color: gray;
+    text-decoration-line: none;
+    margin-bottom: 15px;
+
+}
+
+.certified {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    background-color: #8DD3BB;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* 오른쪽 이미지 */
+.right {
+    flex: 1;
+}
+
+.right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/*Back to Login 부분*/
+.back{
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.font{
+    font-family: 'OneStoreMobilePop';
+    color: black;
+}
+
+a{
+    text-decoration-line: none;
+}
