@@ -13,11 +13,11 @@
 <div class="container">
     <div class="login-box">
 
-        <!-- 왼쪽 회원가입 -->
+        <!-- 왼쪽 인증하기-->
         <div class="left">
             <div class="back">
                 <i class="fa-solid fa-chevron-left"></i>
-                <p class="font"><a href="main.html">Back to Login</a>
+                <p class="font"><a href="../../login/html/main.html">Back to Login</a>
                 </p>
             </div>
             <h4>인증하기</h4>
@@ -27,20 +27,28 @@
                 <form action="post">
 
                     <!--인증 부분 -->
-                    <div class="passwordbox">
-                        <input type="password" id="password" placeholder="Password">
-                        <i class="fa-solid fa-eye toggle-password" data-target="password"></i>
+                    <div class="codebox">
+                        <input type="password" id="code" placeholder="code">
+                        <i class="fa-solid fa-eye toggle-password" data-target="code"></i>
                     </div>
                     <button type="button" class="resend">재전송하기</button>
                 </form>
             </div>
+
             <button class="certified">인증하기</button>
 
         </div>
 
         <!-- 오른쪽 이미지 -->
         <div class="right">
-            <img src="../images/hotel.jpg" alt="hotel image">
+            <img src="../../img/img.jpg" alt="hotel image" class="slide active">
+            <img src="../../img/img2.jpg" alt="hotel image" class="slide">
+            <img src="../../img/img3.jpg" alt="hotel image" class="slide">
+            <div class="dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
         </div>
     </div>
 </div>
