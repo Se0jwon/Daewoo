@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daewoo.wish.WishMapper">
+
+    <resultMap id="wishResultMap" type="com.example.daewoo.wish.WishDto">
+        <id property="wishId" column="wish_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="fk" column="FK"/>
+        <result property="email" column="email"/>
+        <result property="fk2" column="FK2"/>
+        <result property="field2" column="Field2"/>
+    </resultMap>
+
+    <insert id="insertWish" parameterType="com.example.daewoo.wish.WishDto">
+        INSERT INTO wish (
+            wish_id, user_id, FK, email, FK2, Field2
+        ) VALUES (
+                     #{wishId}, #{userId}, #{fk}, #{email}, #{fk2}, #{field2}
+                 )
+    </insert>
+
+    <select id="findWishById" resultMap="wishResultMap">
+        SELECT * FROM wish WHERE wish_id = #{id}
+    </select>
+
+    <select id="findAllWishes" resultMap="wishResultMap">
+        SELECT * FROM wish
+    </select>
+
+    <update id="updateWish" parameterType="com.example.daewoo.wish.WishDto">
+        UPDATE wish
+        SET user_id = #{userId},
+            FK = #{fk},
+            email = #{email},
+            FK2 = #{fk2},
+            Field2 = #{field2}
+        WHERE wish_id = #{wishId}
+    </update>
+
+    <delete id="deleteWish" parameterType="int">
+        DELETE FROM wish WHERE wish_id = #{id}
+    </delete>
+</mapper>
