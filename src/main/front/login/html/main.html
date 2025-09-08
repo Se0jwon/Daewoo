@@ -16,10 +16,10 @@
         <!-- 왼쪽 로그인 -->
         <div class="left">
             <h4>Login</h4>
-            <p>로그인 해주세요</p>
+            <p class="login_text">로그인 해주세요</p>
 
             <div class="log_input">
-                <form action="post">
+                <form id="loginForm" method="post" >
                     <div class="passwordbox">
                     <input type="text" name="userName" placeholder="Email">
                     <input type="password" name="userPassword" placeholder="Password" >
@@ -32,12 +32,14 @@
                 <label>
                     <input type="checkbox" id="remember"> 비밀번호 기억하기
                 </label>
-                <p class="text2">Forgot Password</p>
+                <p class="text2">
+                   <a href="../../find_password/html/findp.html"> Forgot Password</a>
+                </p>
             </div>
 
             <button class="loginbox">Login</button>
             <p class="signup">
-                <a href="">회원가입</a>
+                <a href="../../sign up/html/signup.html">회원가입</a>
             </p>
 
             <!-- sns 로그인 경계선 -->
@@ -61,7 +63,14 @@
 
         <!-- 오른쪽 이미지 -->
         <div class="right">
-            <img src="" alt="hotel image">
+            <img src="../../img/img.jpg" alt="hotel image" class="slide active">
+            <img src="../../img/img2.jpg" alt="hotel image" class="slide">
+            <img src="../../img/img3.jpg" alt="hotel image" class="slide">
+            <div class="dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
         </div>
 
     </div>
