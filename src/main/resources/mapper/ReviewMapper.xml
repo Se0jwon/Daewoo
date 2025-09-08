@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daewoo.review.ReviewMapper">
+
+    <resultMap id="reviewResultMap" type="com.example.daewoo.review.ReviewDto">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userId2" column="user_id2"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="score" column="score"/>
+    </resultMap>
+
+    <insert id="insertReview" parameterType="com.example.daewoo.review.ReviewDto">
+        INSERT INTO review (
+            id, user_id, user_id2, title, content, score
+        ) VALUES (
+                     #{id}, #{userId}, #{userId2}, #{title}, #{content}, #{score}
+                 )
+    </insert>
+
+    <select id="findReviewById" resultMap="reviewResultMap">
+        SELECT * FROM review WHERE id = #{id}
+    </select>
+
+    <select id="findAllReviews" resultMap="reviewResultMap">
+        SELECT * FROM review
+    </select>
+
+    <update id="updateReview" parameterType="com.example.daewoo.review.ReviewDto">
+        UPDATE review
+        SET user_id = #{userId},
+            user_id2 = #{userId2},
+            title = #{title},
+            content = #{content},
+            score = #{score}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteReview" parameterType="long">
+        DELETE FROM review WHERE id = #{id}
+    </delete>
+</mapper>
