@@ -5,6 +5,132 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로필 페이지</title>
     <style>
+        header{
+            margin-bottom: 30px;
+        }
+
+        .container{
+            width: 1440px;
+            margin: 0 auto;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            padding: 0 105px;
+            height: 87px;
+            box-sizing: border-box;
+        }
+
+        .item span {
+            display: flex;
+            gap: 4px;
+        }
+
+        .circle {
+            width: 45px;
+            height: 45px;
+            background-color: #D9D9D9;
+            border: 1px solid #000000;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .mini-circle {
+            position: absolute;
+            background-color: #FF8682;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            top: 33px;
+            right: 1px;
+        }
+
+        .check {
+            width: 6px;
+            height: 3px;
+            border-left: 2px solid black;
+            border-bottom: 2px solid black;
+            transform: rotate(-45deg);
+            position: absolute;
+            top: 2px;
+            left: 2px;
+        }
+
+        .flex {
+            display: flex;
+            gap: 10px;
+        }
+
+        .vertical-center {
+            align-items: center;
+        }
+
+        img {
+            object-fit: contain;
+        }
+
+        .subscription-box{
+            background-color: #cdeae1;
+            border-radius: 20px;
+            padding: 30px;
+            width: 1232px;
+            height: 305px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-container{
+            display: flex;
+            justify-content: center;
+        }
+
+        footer{
+            background-color: #8dd3bb;
+            height: 422px;
+            width: 1440px;
+            display: flex;
+            justify-content: center;
+            padding: 40px 105px;
+            box-sizing: border-box;
+            align-items: center;
+            margin-top: 230px;
+            flex-direction: column;
+        }
+
+        .footer-bottom{
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            padding: 155px;
+            position: relative;
+            bottom: 100px;
+        }
+        .footer-letter{
+            justify-content: space-evenly;
+            white-space: nowrap;
+        }
+        .footer-span{
+            display: flex;
+            flex-direction: column;
+            font-weight: bold;
+            font-size: 15pt;
+        }
+        .footer-span-details{
+            color: #375844;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            top: 13px;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             background-color: #f7f7f7;
@@ -413,6 +539,41 @@
         }
     </style>
 </head>
+
+<header>
+    <div class="container">
+
+        <nav class="nav-container">
+            <!-- 왼쪽 -->
+            <div class="item">
+            <span>
+                <img src="../../resources/images/bed.png" height="17" width="22" style="position: relative; top: 2px;" alt="">
+                hotels
+            </span>
+            </div>
+            <!-- 오른쪽 -->
+            <div class="item">
+                <div class="flex vertical-center">
+                    <!-- 오른쪽 첫번째 -->
+                    <img src="../../resources/images/heart.png" height="19" width="20"/>
+                    <span>
+                        찜하기
+                    </span>
+                    |
+                    <!-- 오른쪽 두번째 -->
+                    <div class="circle ">
+                        <div class="mini-circle">
+                            <div class="check"></div>
+                        </div>
+                    </div>
+                    <span>
+                    Tomhoon
+                </span>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
 <body>
 
 <div class="main-container">
@@ -544,7 +705,91 @@
         </div>
     </main>
 </div>
+<div class ="footer-container">
+<footer>
+    <section class="subscription-box">
+        <div class="subscription-content">
+            <h1 style="font-size: 35pt; margin-top: 0">구독서비스<br> 신청해보세요</h1>
+            <p style="margin-top: -5px ; font-weight: bold; font-size: 15pt">The Travel</p>
+            <p style="margin-top: -10px">구독하고 무료, 최신 여행 정보를 받아보세요</p>
+            <div class="subscription-form-container">
+                <input type="email" placeholder="   Your email address" style="width: 473px; height: 56px; border-radius: 5px" >
+                <button type="submit" style="height: 56px; width: 107px; background-color: black; color: white; border-radius: 5px" >Subscribe</button>
+            </div>
+        </div>
+        <div class="subscription-image">
+            <img style="height:390px; width:390px; margin-right: 40px;" src="../../resources/images/letter-box.png" alt="" />
+        </div>
+    </section>
 
+    <div class = "footer-bottom">
+        <div class="footer-letter">
+        <span>
+            <img src="../../resources/images/facebook.png" height="19" width="18" alt="" style="margin-right: 10px;"/>
+            <img src="../../resources/images/twitter.png" height="16" width="20" alt="" style="margin-right: 10px;"/>
+            <img src="../../resources/images/youtube.png" height="14" width="20" alt="" style="margin-right: 10px;"/>
+            <img src="../../resources/images/insta.png" height="18" width="17" alt="" style="margin-right: 10px;"/>
+        </span>
+        </div>
+        <!--첫번째 문구-->
+        <div class="footer-letter" style="margin-right: 20px">
+        <span class="footer-span">
+            Our Destinations<br>
+        </span>
+            <span class="footer-span-details" >
+            <span>Canada</span>
+            <span>Alaska</span>
+            <span>France</span>
+            <span>Iceland</span>
+        </span>
+        </div>
+        <!--두번째 문구-->
+        <div class="footer-letter" style="margin-right: 20px" >
+        <span class="footer-span">
+        Our Activities<br>
+        </span>
+            <span class="footer-span-details">
+            <span>Northern Lights</span>
+            <span>Cruising & sailing</span>
+            <span>Multi-activities</span>
+            <span>Kayaing</span>
+        </span>
+        </div>
+        <!--세번째 문구-->
+        <div class="footer-letter" style="margin-right: 20px" >
+        <span class="footer-span">
+        Travel Blogs<br>
+        </span>
+            <span class="footer-span-details">
+            <span>Bali Travel Guide</span>
+            <span>Sri Lanks Travel Guide</span>
+            <span>Peru Travel Guide</span>
+            <span>Bali Travel Guide</span>
+        </span>
+        </div>
+        <!--다섯번째 문구-->
+        <div class="footer-letter" style="margin-right: 20px" >
+        <span class="footer-span">
+        About Us<br>
+        </span>
+            <span class="footer-span-details">
+            <span>Our Story</span>
+            <span>Work with us</span>
+        </span>
+        </div>
+        <!--여섯번째 문구-->
+        <div class="footer-letter" style="margin-right: 20px" >
+        <span class="footer-span">
+        Contact Us<br>
+        </span>
+            <span class="footer-span-details">
+            <span>Our Story</span>
+            <span>Work with us</span>
+        </span>
+        </div>
+    </div>
+</footer>
+</div>
 <script src="account.js"></script>
 </body>
 </html>
