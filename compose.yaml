@@ -1,1 +1,26 @@
 services:
+  database:
+    image: mysql:8.0
+    container_name: daewoo-mysql
+    restart: always
+    environment:
+      # DBeaver에 설정된 데이터베이스 이름
+      MYSQL_DATABASE: reservation_db
+
+      # DBeaver에 설정된 사용자 이름
+      MYSQL_USER: daewoo
+
+      # DBeaver에 설정된 비밀번호 (실제 비밀번호로 변경하세요)
+      MYSQL_PASSWORD: daewoo1234!
+
+      # MySQL root 사용자의 비밀번호 (필수)
+      MYSQL_ROOT_PASSWORD: daewoo1234!
+    ports:
+      # 호스트(로컬)와 컨테이너의 포트를 연결
+      - "3306:3306"
+    volumes:
+      # MySQL 데이터의 영속성을 위해 볼륨 설정 (선택 사항)
+      - daewoo_db_data:/var/lib/mysql
+
+volumes:
+  daewoo_db_data:

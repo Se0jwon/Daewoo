@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daewoo.user.UserMapper">
+    <resultMap id="userResultMap" type="com.example.daewoo.user.UserDto">
+        <id property="id" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPwd" column="user_pwd"/>
+        <result property="userAddress" column="user_address"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userBirth" column="user_birth"/>
+    </resultMap>
+
+    <insert id="insertUser" parameterType="com.example.daewoo.user.UserDto">
+        INSERT INTO USER (
+            user_name,
+            user_pwd,
+            user_address,
+            user_phone,
+            user_birth,
+            user_email)
+        VALUES (#{userName},
+                #{userPwd},
+                #{userAddress},
+                #{userPhone},
+                #{userBirth},
+                #{userEmail})
+    </insert>
+
+    <select id="findUserById" resultMap="userResultMap">
+        SELECT * FROM USER WHERE user_id = #{id}
+    </select>
+
+    <select id="findAllUser" resultMap="userResultMap">
+        SELECT * FROM USER
+    </select>
+
+    <update id="updateUser" parameterType="com.example.daewoo.user.UserDto">
+        UPDATE USER
+        SET user_name = #{userName},
+            user_pwd = #{userPwd},
+            user_address = #{userAddress},
+            user_phone = #{userPhone},
+            user_birth = #{userBirth},
+            user_email = #{userEmail}
+        WHERE user_id = #{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="int">
+        DELETE FROM USER WHERE user_id = #{id}
+    </delete>
+</mapper>

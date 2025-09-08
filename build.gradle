@@ -20,6 +20,12 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    // 이 부분을 추가하여 의존성 충돌 해결
+    all {
+        resolutionStrategy {
+            force 'com.graphql-java:java-dataloader:5.0.0'
+        }
+    }
 }
 
 repositories {
@@ -31,6 +37,8 @@ ext {
 }
 
 dependencies {
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.modulith:spring-modulith-starter-core'
     compileOnly 'org.projectlombok:lombok'
