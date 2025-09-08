@@ -538,6 +538,29 @@
             height: 20px;
             color: #555;
         }
+
+        .card-container{
+            background-color: #ffffff;
+            border-radius: 5px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .card{
+            width: 378px;
+            height: 212px;
+            border-radius: 15px;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .existing-card{
+            background-color: #8dd3bb;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
     </style>
 </head>
 
@@ -701,9 +724,17 @@
         </div>
 
         <div class="tab-content" id="payment-tab">
-            <h2 class="content-title">결제수단</h2>
-            <p>결제수단 정보가 여기에 표시됩니다.</p>
+            <p class="content-title" style="font-size: 32px; ">결제수단</p>
+            <div class="card-container">
+                <div class="card existing-card">
+
+                </div>
+                <div class="card new-card">
+
+                </div>
+            </div>
         </div>
+
     </main>
 </div>
 <div class ="footer-container">
@@ -714,8 +745,8 @@
             <p style="margin-top: -5px ; font-weight: bold; font-size: 15pt">The Travel</p>
             <p style="margin-top: -10px">구독하고 무료, 최신 여행 정보를 받아보세요</p>
             <div class="subscription-form-container">
-                <input type="email" placeholder="   Your email address" style="width: 473px; height: 56px; border-radius: 5px" >
-                <button type="submit" style="height: 56px; width: 107px; background-color: black; color: white; border-radius: 5px" >Subscribe</button>
+                <input type="email" placeholder="   Your email address" style="width: 473px; height: 56px; border-radius: 5px; border: none" >
+                <button type="submit" style="height: 56px; width: 107px; background-color: black; color: white; border-radius: 5px; border: none" >Subscribe</button>
             </div>
         </div>
         <div class="subscription-image">
