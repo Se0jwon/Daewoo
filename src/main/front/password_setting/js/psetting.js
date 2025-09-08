@@ -36,3 +36,40 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+    // 비밀번호 설정하고 로그인 페이지로 이동
+const authenticate = document.querySelector(".submit");
+authenticate.addEventListener("click", function (e) {
+    e.preventDefault();
+
+
+    document.body.classList.add("fade-slide-out");
+    setTimeout(() => {
+        window.location.href = "../../login/html/main.html";
+    }, 600);
+});
+
+// 이미지 슬라이드
+document.addEventListener("DOMContentLoaded", function () {
+    const slides = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".dot");
+    let index = 0;
+
+    function showSlide(n) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle("active", i === n);
+            dots[i].classList.toggle("active", i === n);
+        });
+        index = n;
+    }
+
+    function nextSlide() {
+        index = (index + 1) % slides.length;
+        showSlide(index);
+    }
+
+
+    showSlide(index);
+
+    // 3초 자동 이미지 전환
+    setInterval(nextSlide, 3000);
+});
