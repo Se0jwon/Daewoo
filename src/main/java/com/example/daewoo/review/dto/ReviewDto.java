@@ -26,12 +26,13 @@ public class ReviewDto {
         return entity;
     }
 
-    public ReviewDto fromEntity(ReviewEntity entity){
+    public static ReviewDto fromEntity(ReviewEntity entity){
         ReviewDto dto = new ReviewDto();
         dto.setReviewId(entity.getReviewId());
         dto.setTitle(entity.getTitle());
         dto.setContent(entity.getContent());
         dto.setScore(entity.getScore());
+        dto.setUserId(entity.getUserEntity().getUserId());
 
         return dto;
     }

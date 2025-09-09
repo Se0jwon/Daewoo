@@ -1,30 +1,30 @@
-package com.example.daewoo.review.apicontroller;
+package com.example.daewoo.user.apicontroller;
 
 import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
-import com.example.daewoo.review.dto.ReviewDto;
-import com.example.daewoo.review.dto.ReviewEntity;
-import com.example.daewoo.review.service.ReviewService;
+import com.example.daewoo.user.dto.UserDto;
+import com.example.daewoo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("api/review")
-public class ApiReviewController extends CommonRestController {
+@RequestMapping("api/user")
+public class ApiUserController extends CommonRestController {
 
     @Autowired
-    private ReviewService service;
+    private UserService service;
 
     @PostMapping("")
-    public ResponseEntity<ResponseDto> insert(@RequestBody ReviewDto dto){
+    public ResponseEntity<ResponseDto> insert(@RequestBody UserDto dto){
         try{
-            service.insert(dto);
-            return getResponseEntity(ResponseCode.SUCCESS, "Insert Ok", dto, null);
+            UserDto result = service.insert(dto);
+            return getResponseEntity(ResponseCode.SUCCESS, "Insert Ok", result, null);
         }catch (Throwable e){
             log.error(e.toString());
             return getResponseEntity(ResponseCode.INSERT_FAIL, "Insert Error", dto, e);
@@ -34,7 +34,7 @@ public class ApiReviewController extends CommonRestController {
     @GetMapping("")
     public ResponseEntity<ResponseDto> findAll(){
         try {
-            List<ReviewDto> list = this.service.findAll();
+            List<UserDto> list = this.service.findAll();
             return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
         }catch (Throwable e){
             log.error(e.toString());
@@ -45,7 +45,7 @@ public class ApiReviewController extends CommonRestController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> findById(@PathVariable Long id){
         try {
-            Optional<ReviewDto> find = this.service.findById(id);
+            Optional<UserDto> find = this.service.findById(id);
             return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
         }catch (Throwable e){
             log.error(e.toString());
@@ -54,11 +54,11 @@ public class ApiReviewController extends CommonRestController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponseDto> update(@RequestBody ReviewDto dto,@PathVariable Long id){
+    public ResponseEntity<ResponseDto> update(@RequestBody UserDto dto,@PathVariable Long id){
         try{
-            dto.setReviewId(id);
-            service.update(dto);
-            return getResponseEntity(ResponseCode.SUCCESS, "Update Ok", dto, null);
+            dto.setUserId(id);
+            UserDto result = service.update(dto);
+            return getResponseEntity(ResponseCode.SUCCESS, "Update Ok", result, null);
         }catch (Throwable e){
             log.error(e.toString());
             return getResponseEntity(ResponseCode.UPDATE_FAIL, "Update Error", dto, e);

@@ -1,5 +1,6 @@
 package com.example.daewoo.review.dto;
 
+import com.example.daewoo.user.dto.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,4 +19,7 @@ public class ReviewEntity {
     private String content;
     private Integer score;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 }

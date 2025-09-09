@@ -2,35 +2,55 @@ package com.example.daewoo.review.service;
 
 import com.example.daewoo.review.dto.ReviewDto;
 import com.example.daewoo.review.dto.ReviewEntity;
+import com.example.daewoo.user.dto.UserEntity;
+import com.example.daewoo.user.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewService {
     @Autowired
-    private ReviewRepository repository;
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public void insert(ReviewDto dto) {
         ReviewEntity entity = dto.toEntity();
-        
 
-        this.repository.save(entity);
+        UserEntity userEntity = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
+        entity.setUserEntity(userEntity);
+
+        this.reviewRepository.save(entity);
     }
 
-    public List<ReviewEntity> findAll(){
-        return this.repository.findAll();
+    public List<ReviewDto> findAll(){
+        List<ReviewEntity> entities = reviewRepository.findAll();
+
+        return entities.stream()
+                .map(ReviewDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
-    public Optional<ReviewEntity> findById(Long id){
-        return this.repository.findById(id);
+    public Optional<ReviewDto> findById(Long id){
+        return reviewRepository.findById(id)
+                .map(ReviewDto::fromEntity);
     }
 
-    public void update(ReviewEntity entity){
-        this.repository.save(entity);
+    public void update(ReviewDto dto){
+        ReviewEntity entity = dto.toEntity();
+
+        UserEntity userEntity = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
+        entity.setUserEntity(userEntity);
+
+        this.reviewRepository.save(entity);
     }
 
     public void delete(Long id){
-        this.repository.deleteById(id);
+        this.reviewRepository.deleteById(id);
     }
 }
