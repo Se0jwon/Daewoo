@@ -1,5 +1,6 @@
 package com.example.daewoo.review.service;
 
+import com.example.daewoo.review.dto.ReviewDto;
 import com.example.daewoo.review.dto.ReviewEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,10 @@ public class ReviewService {
     @Autowired
     private ReviewRepository repository;
 
-    public void insert(ReviewEntity entity){
+    public void insert(ReviewDto dto) {
+        ReviewEntity entity = dto.toEntity();
+        
+
         this.repository.save(entity);
     }
 

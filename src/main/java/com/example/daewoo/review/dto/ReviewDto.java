@@ -14,5 +14,25 @@ public class ReviewDto {
     private String title;
     private String content;
     private Integer score;
+    private Long userId;
 
+    public ReviewEntity toEntity(){
+        ReviewEntity entity = new ReviewEntity();
+        entity.setReviewId(this.reviewId);
+        entity.setTitle(this.title);
+        entity.setContent(this.content);
+        entity.setScore(this.score);
+
+        return entity;
+    }
+
+    public ReviewDto fromEntity(ReviewEntity entity){
+        ReviewDto dto = new ReviewDto();
+        dto.setReviewId(entity.getReviewId());
+        dto.setTitle(entity.getTitle());
+        dto.setContent(entity.getContent());
+        dto.setScore(entity.getScore());
+
+        return dto;
+    }
 }

@@ -16,6 +16,6 @@ public class ReviewEntity {
     private Long reviewId;
     private String title;
     private String content;
-    private String score;
+    private Integer score;
 
 }

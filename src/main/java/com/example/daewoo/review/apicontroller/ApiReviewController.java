@@ -3,6 +3,7 @@ package com.example.daewoo.review.apicontroller;
 import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
+import com.example.daewoo.review.dto.ReviewDto;
 import com.example.daewoo.review.dto.ReviewEntity;
 import com.example.daewoo.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,13 +21,13 @@ public class ApiReviewController extends CommonRestController {
     private ReviewService service;
 
     @PostMapping("")
-    public ResponseEntity<ResponseDto> insert(@RequestBody ReviewEntity entity){
+    public ResponseEntity<ResponseDto> insert(@RequestBody ReviewDto dto){
         try{
-            service.insert(entity);
-            return getResponseEntity(ResponseCode.SUCCESS, "Insert Ok", entity, null);
+            service.insert(dto);
+            return getResponseEntity(ResponseCode.SUCCESS, "Insert Ok", dto, null);
         }catch (Throwable e){
             log.error(e.toString());
-            return getResponseEntity(ResponseCode.INSERT_FAIL, "Insert Error", entity, e);
+            return getResponseEntity(ResponseCode.INSERT_FAIL, "Insert Error", dto, e);
         }
     }
 
