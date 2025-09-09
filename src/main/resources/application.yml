@@ -1,11 +1,11 @@
 spring:
   application:
     name: Daewoo
-  datasource: # mysql 접속
-    url: jdbc:log4jdbc:mysql://localhost:3306/hotels_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8    # 접속 URL
+  datasource:
+    url: jdbc:log4jdbc:mysql://localhost:3306/reservation_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    username: hotels_user  # mysql 유저
-    password: hotels12345  # mysql 유저 암호
+    username: daewoo
+    password: daewoo1234!
 
 server:
   port: 8085
