@@ -8,6 +8,10 @@ import com.example.daewoo.review.dto.ReviewEntity;
 import com.example.daewoo.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -32,12 +36,13 @@ public class ApiReviewController extends CommonRestController {
     }
 
     @GetMapping("")
-    public ResponseEntity<ResponseDto> findAll(){
+    public ResponseEntity<ResponseDto> findAll(@PageableDefault(size = 5, sort = "reviewId", direction = Sort.Direction.ASC)
+                                                         Pageable pageable){
         try {
-            List<ReviewDto> list = this.service.findAll();
+            Page<ReviewDto> list = this.service.findAll(pageable);
             return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
         }catch (Throwable e){
-            log.error(e.toString());
+            log.error("예외 : "+e.toString());
             return getResponseEntity(ResponseCode.SELECT_FAIL, "Find All Error", null, e);
         }
     }

@@ -5,6 +5,8 @@ import com.example.daewoo.review.dto.ReviewEntity;
 import com.example.daewoo.user.dto.UserEntity;
 import com.example.daewoo.user.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,12 +29,10 @@ public class ReviewService {
         this.reviewRepository.save(entity);
     }
 
-    public List<ReviewDto> findAll(){
-        List<ReviewEntity> entities = reviewRepository.findAll();
+    public Page<ReviewDto> findAll(Pageable pageable){
+        Page<ReviewEntity> entities = reviewRepository.findAll(pageable);
 
-        return entities.stream()
-                .map(ReviewDto::fromEntity)
-                .collect(Collectors.toList());
+        return entities.map(ReviewDto::fromEntity);
     }
 
     public Optional<ReviewDto> findById(Long id){
