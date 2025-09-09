@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>카드 추가</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+
+        }
+
+        .add_card_container {
+            width: 640px;
+            height: 686px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .card_input {
+            display: flex;
+            position: relative;
+            margin-bottom: 25px; /* 다음 입력 필드와의 간격 */
+            width: 512px;
+            height: 56px;
+        }
+
+        .card_input label {
+            position: absolute;
+            top: -10px; /* input 테두리 위로 올림 */
+            left: 10px;
+            background-color: white; /* 글자 배경을 흰색으로 하여 input 테두리를 덮음 */
+            padding: 0 5px;
+            font-size: 14px;
+            color: black;
+            z-index: 1; /* label이 input보다 위에 오도록 */
+        }
+
+        .card_input input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            position: relative;
+            background-color: transparent;
+            z-index: 0;
+        }
+
+        .card_input select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            appearance: none;
+            background-image: url("../../resources/images/arrow.png");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        .card_input input[type="checkbox"]:checked{
+            accent-color: black;
+        }
+    </style>
+</head>
+<body>
+<div class="add_card_container">
+    <div style="margin-bottom:50px; font-size: 40px; font-weight: bold; position: relative; right: 185px ">
+        카드추가
+    </div>
+    <div class="card_input">
+        <label for="cardNumber" style="background-image: url("") ">Card Number</label>
+<!--         background-image: url("../../resources/images/arrow.png");
+        background-repeat: no-repeat;
+        background-position: right 10px center;/-->
+        <input type="text" id="cardNumber" placeholder="1234 5678 9101 1121">
+    </div>
+    <div class="card_input">
+        <label for="expDate">Exp. Date</label>
+        <input type="text" id="expDate" placeholder="MM/YY"  style="margin-right: 20px">
+
+        <label for="CVC" style="left: 280px">CVC</label>
+        <input type="text" id="CVC" placeholder="123">
+    </div>
+    <div class="card_input">
+        <label for="nameOnCard">Name on Card</label>
+        <input type="text" id="nameOnCard" placeholder="John Doe">
+    </div>
+    <div class="card_input">
+        <label for="country_onRegion">Country on Region</label>
+        <select id = "country_onRegion" name="country">
+            <option value="us">United States</option>
+            <option value="kr">South Korea</option>
+            <option value="jp">Japan</option>
+            <option value="cn">China</option>
+        </select>
+    </div>
+    <div class="card_input" style="position: relative; right: 19px">
+        <label class="save-info-checkbox">
+            <input type="checkbox" id="saveInfo">
+            <span>정보 저장하기</span>
+        </label>
+    </div>
+    <div class="card_input" style="position: relative; right: 19px">
+        <label class="add_card_text">
+            <button style="width: 512px; height: 48px; background-color: #8dd3bb; border-radius: 5px; font-size: 14px; border: none; position: relative; bottom: 30px">
+                Add Card
+            </button>
+        </label>
+    </div>
+
+
+</div>
+</body>
+</html>
