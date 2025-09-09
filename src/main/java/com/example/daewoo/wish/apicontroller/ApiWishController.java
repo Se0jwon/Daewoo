@@ -1,10 +1,10 @@
-package com.example.daewoo.accommodation.apicontroller;
+package com.example.daewoo.wish.apicontroller;
 
 import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
-import com.example.daewoo.accommodation.dto.AccommodationDto;
-import com.example.daewoo.accommodation.service.AccommodationService;
+import com.example.daewoo.wish.dto.WishDto;
+import com.example.daewoo.wish.service.WishService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +14,16 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("api/accommodation")
-public class ApiAccommodationController extends CommonRestController {
+@RequestMapping("api/wish")
+public class ApiWishController extends CommonRestController {
 
     @Autowired
-    private AccommodationService service;
+    private WishService service;
 
     @PostMapping("")
-    public ResponseEntity<ResponseDto> insert(@RequestBody AccommodationDto dto) {
+    public ResponseEntity<ResponseDto> insert(@RequestBody WishDto dto) {
         try {
-            AccommodationDto result = service.insert(dto);
+            WishDto result = service.insert(dto);
             return getResponseEntity(ResponseCode.SUCCESS, "Insert Ok", result, null);
         } catch (Throwable e) {
             log.error(e.toString());
@@ -34,7 +34,7 @@ public class ApiAccommodationController extends CommonRestController {
     @GetMapping("")
     public ResponseEntity<ResponseDto> findAll() {
         try {
-            List<AccommodationDto> list = this.service.findAll();
+            List<WishDto> list = this.service.findAll();
             return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
         } catch (Throwable e) {
             log.error(e.toString());
@@ -45,7 +45,7 @@ public class ApiAccommodationController extends CommonRestController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> findById(@PathVariable Long id) {
         try {
-            Optional<AccommodationDto> find = this.service.findById(id);
+            Optional<WishDto> find = this.service.findById(id);
             return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
         } catch (Throwable e) {
             log.error(e.toString());
@@ -54,10 +54,10 @@ public class ApiAccommodationController extends CommonRestController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponseDto> update(@RequestBody AccommodationDto dto, @PathVariable Long id) {
+    public ResponseEntity<ResponseDto> update(@RequestBody WishDto dto, @PathVariable Long id) {
         try {
-            dto.setAccommodationId(id);
-            AccommodationDto result = service.update(dto);
+            dto.setWishId(id);
+            WishDto result = service.update(dto);
             return getResponseEntity(ResponseCode.SUCCESS, "Update Ok", result, null);
         } catch (Throwable e) {
             log.error(e.toString());

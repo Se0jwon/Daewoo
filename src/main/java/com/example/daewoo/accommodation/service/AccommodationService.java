@@ -1,4 +1,3 @@
-// AccommodationService.java
 package com.example.daewoo.accommodation.service;
 
 import com.example.daewoo.accommodation.dto.AccommodationDto;
