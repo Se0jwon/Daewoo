@@ -14,6 +14,7 @@ public class ReviewDto {
     private String title;
     private String content;
     private Integer score;
+
     private Long userId;
 
     public ReviewEntity toEntity(){

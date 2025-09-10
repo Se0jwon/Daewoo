@@ -15,6 +15,7 @@ public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
+
     private String title;
     private String content;
     private Integer score;
@@ -22,4 +23,8 @@ public class ReviewEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
+
+//    @ManyToOne
+//    @JoinColumn(name = "com_id")
+//    private AccommodationEntity accommodationEntity;
 }
