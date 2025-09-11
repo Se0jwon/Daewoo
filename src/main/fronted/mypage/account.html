@@ -211,6 +211,14 @@
             padding: 0 20px;
             white-space: nowrap;
         }
+        .header_tabs{
+            padding: 0px 15px;
+            text-decoration: none;
+            color: #888888;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+        }
         .tabs {
             display: flex;
             justify-content: center;
@@ -228,6 +236,24 @@
         }
         .tab.active {
             color: #333;
+        }
+        .header_tabs .tab{
+            padding: 11px 75px;
+            text-decoration: none;
+            color: #000000;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .header_tabs .tab.active::after{
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #46BD7B;
+            border-radius: 2px;
         }
         .tab.active::after {
             content: '';
@@ -555,6 +581,8 @@
         }
 
         .existing-card{
+            width: 378px;
+            height: 212px;
             background-color: #8dd3bb;
             position: relative;
             display: flex;
@@ -562,11 +590,17 @@
             justify-content: space-between;
         }
 
-        .card-new-card1{
+        .add-card{
             border-radius: 10px;
-            border-style: dashed;
             width: 1132px;
+            height: 212px;
             border-width: 1px;
+            border-color: #8dd3bb;
+            border-style: dashed;
+            display: flex;
+            position: relative;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -576,17 +610,21 @@
 
         <nav class="nav-container">
             <!-- 왼쪽 -->
-            <div class="item">
-            <span>
-                <img src="../../resources/images/bed.png" height="17" width="22" style="position: relative; top: 2px;" alt="">
-                hotels
-            </span>
-            </div>
+            <nav class="header_tabs">
+                <div class="item">
+                    <a href="#" class="tab active" data-tab="header-tab">
+                <span style="padding: 0">
+                    <img src="../../resources/images/bed.png" height="17" width="22" style="position: relative; top: 2px;" alt="">
+                    hotels
+                </span>
+                    </a>
+                </div>
+            </nav>
             <!-- 오른쪽 -->
             <div class="item">
                 <div class="flex vertical-center">
                     <!-- 오른쪽 첫번째 -->
-                    <img src="../../resources/images/heart.png" height="19" width="20"/>
+                    <img src="../../resources/images/heart.png" height="19" width="20" alt="">
                     <span>
                         찜하기
                     </span>
@@ -733,11 +771,23 @@
         <div class="tab-content" id="payment-tab">
             <div class="content-title" style="font-size: 32px;">결제수단</div>
             <div class="card-container">
-                <div class="card existing-card">
+                <div class="add-card" onclick="openCardModal()">
+                    <div>
+                        <img style="position: absolute; z-index: 1; transform: translate(-50%, -50%); top: 50%; left: 50%" src="../../resources/images/circle.png" height="51" width="50" alt="">
+                        <img style="position: absolute; z-index: 2; transform: translate(-50%, -50%); top: 50%; left: 50%" src="../../resources/images/plus.png" height="23" width="22" alt="">
+                        <div>Add a new card</div>
+                    </div>
+                </div>
+
+                <div class="existing-card">
 
                 </div>
-                <div class="card-new-card1">
-
+            </div>
+            <div id="card-add-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" onclick="closeCardModal()">&times;</span>
+                    <h3>카드 추가</h3>
+                    <button type="button" onclick="addNewCard()">저장</button>
                 </div>
             </div>
         </div>
