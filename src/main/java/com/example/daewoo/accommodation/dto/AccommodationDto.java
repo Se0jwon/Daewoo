@@ -2,6 +2,7 @@ package com.example.daewoo.accommodation.dto;
 
 import com.example.daewoo.accommodation.amenities.AmenitiesDto;
 import com.example.daewoo.accommodation.location.dto.LocationDto;
+import com.example.daewoo.review.dto.ReviewDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

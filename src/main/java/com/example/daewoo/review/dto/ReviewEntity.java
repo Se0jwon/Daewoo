@@ -1,5 +1,6 @@
 package com.example.daewoo.review.dto;
 
+import com.example.daewoo.accommodation.dto.AccommodationEntity;
 import com.example.daewoo.user.dto.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +25,7 @@ public class ReviewEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-//    @ManyToOne
-//    @JoinColumn(name = "com_id")
-//    private AccommodationEntity accommodationEntity;
+    @ManyToOne
+    @JoinColumn(name = "com_id")
+    private AccommodationEntity accommodationEntity;
 }
