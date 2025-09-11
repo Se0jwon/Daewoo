@@ -1,6 +1,7 @@
 package com.example.daewoo.accommodation.dto;
 
 import com.example.daewoo.accommodation.accommodation.AmenitiesEntity;
+import com.example.daewoo.accommodation.location.dto.LocationEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,9 +23,9 @@ public class AccommodationEntity {
     private String comDescription;
     private String comAddress;
 
-
-//    private LocationEntity locationEntity;
-//    private WishEntity wishEntity;
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private LocationEntity locationEntity;
 
     @ManyToMany
     @JoinTable(

@@ -22,9 +22,9 @@ public class ReviewService {
     public void insert(ReviewDto dto) {
         ReviewEntity entity = dto.toEntity();
 
-        UserEntity userEntity = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
-        entity.setUserEntity(userEntity);
+//        UserEntity userEntity = userRepository.findById(dto.getUserId())
+//                .orElseThrow(() -> new RuntimeException("User Not Found"));
+//        entity.setUserEntity(userEntity);
 
         this.reviewRepository.save(entity);
     }
@@ -43,9 +43,9 @@ public class ReviewService {
     public void update(ReviewDto dto){
         ReviewEntity entity = dto.toEntity();
 
-        UserEntity userEntity = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
-        entity.setUserEntity(userEntity);
+//        UserEntity userEntity = userRepository.findById(dto.getUserId())
+//                .orElseThrow(() -> new RuntimeException("User Not Found"));
+//        entity.setUserEntity(userEntity);
 
         this.reviewRepository.save(entity);
     }

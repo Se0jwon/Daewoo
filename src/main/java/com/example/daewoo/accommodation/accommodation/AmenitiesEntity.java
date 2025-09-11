@@ -1,5 +1,6 @@
 package com.example.daewoo.accommodation.accommodation;
 
+import com.example.daewoo.accommodation.dto.AccommodationEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Builder
+@Table(name = "amenities")
 public class AmenitiesEntity {
 
     @Id
@@ -21,6 +22,6 @@ public class AmenitiesEntity {
     private String iconName;
 
     @ManyToMany(mappedBy = "amenities")
-    private List<Accommodation> accommodations = new ArrayList<>();
+    private List<AccommodationEntity> accommodations = new ArrayList<>();
 
 }

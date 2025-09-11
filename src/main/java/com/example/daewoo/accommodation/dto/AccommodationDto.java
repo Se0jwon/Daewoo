@@ -1,9 +1,15 @@
 package com.example.daewoo.accommodation.dto;
 
+import com.example.daewoo.accommodation.accommodation.AmenitiesDto;
+import com.example.daewoo.accommodation.accommodation.AmenitiesEntity;
+import com.example.daewoo.accommodation.location.dto.LocationDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -15,8 +21,9 @@ public class AccommodationDto {
     private String comDescription;
     private String comAddress;
 
-    private Long locationId;
-    private Long wishId;
+    private List<AmenitiesDto> amenities;
+
+    private LocationDto location;
 
     public AccommodationEntity toEntity(){
         AccommodationEntity entity = new AccommodationEntity();
@@ -34,6 +41,12 @@ public class AccommodationDto {
         dto.setComTitle(entity.getComTitle());
         dto.setComDescription(entity.getComDescription());
         dto.setComAddress(entity.getComAddress());
+
+        dto.setAmenities(entity.getAmenities().stream()
+                .map(AmenitiesDto::fromEntity)
+                .collect(Collectors.toList()));
+
+        dto.setLocation(LocationDto.fromEntity(entity.getLocationEntity()));
 
         return dto;
     }
