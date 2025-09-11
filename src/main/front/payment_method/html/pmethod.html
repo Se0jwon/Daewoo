@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Method Add Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+          integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/pmethod.css">
+    <script src="../js/pmethod.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <div class="login-box">
+
+        <!-- 왼쪽 결제수단 -->
+        <div class="left">
+            <h4>결제수단 추가</h4>
+            <p>결제수단을 추가해주세요</p>
+
+            <div class="log_input">
+                <form action="post">
+
+                    <!-- 카드번호 입력 -->
+                    <div class="row-input cardbox">
+                        <input type="text" name="cNumber" id="CNumber" placeholder="Card Number">
+                        <i class="fa-brands fa-cc-visa"></i>
+                    </div>
+
+                    <!-- 카드날짜 & cvc -->
+                    <div class="row-input">
+                        <input type="email" name="date" id="Date" placeholder="Exp.Date">
+                        <input type="text" name="cvc" id="cvc" placeholder="cvc">
+                    </div>
+
+                    <!-- 카드 이름 -->
+                    <div class="namebox">
+                        <input type="password" name="Ncard" id="Ncard" placeholder="Name on Card">
+                    </div>
+
+                    <!-- 국적 -->
+                    <div class="namebox">
+                        <input type="password" name="Country" id="Country" placeholder="Country or Region">
+
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="check">
+                <label>
+                    <input type="checkbox" id="remember"> 저장하고 One 터치로 결제하기
+                </label>
+            </div>
+
+            <button class="Pay_Add">결제수단 추가</button>
+            <p class="description">By confirming your subscription, you allow The Outdoor lnn Crowd Limited to charge
+                your card for this payment and future payments in accordance with their terms, You can
+                always cancel your subscription.
+            </p>
+
+        </div>
+
+        <!-- 오른쪽 이미지 -->
+        <div class="right">
+            <img src="../../img/img.jpg" alt="hotel image" class="slide active">
+            <img src="../../img/img2.jpg" alt="hotel image" class="slide">
+            <img src="../../img/img3.jpg" alt="hotel image" class="slide">
+            <div class="dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
