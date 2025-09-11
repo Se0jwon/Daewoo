@@ -20,7 +20,7 @@ public class UserService {
                 .userAddress(dto.getUserAddress())
                 .userPhone(dto.getUserPhone())
                 .userBirth(dto.getUserBirth())
-                .userEmail(dto.getUserEmail())
+                .userEmail(dto.getEmail())
                 .build();
         UserEntity savedEntity = this.repository.save(entity);
 
@@ -67,7 +67,7 @@ public class UserService {
         entity.setUserAddress(dto.getUserAddress());
         entity.setUserPhone(dto.getUserPhone());
         entity.setUserBirth(dto.getUserBirth());
-        entity.setUserEmail(dto.getUserEmail());
+        entity.setUserEmail(dto.getEmail());
 
         UserEntity updatedEntity = this.repository.save(entity);
         return new UserDto(

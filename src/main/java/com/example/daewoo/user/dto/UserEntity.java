@@ -17,11 +17,14 @@ public class UserEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "user_name")
+    @Column(name = "username") // `user_tbl`의 컬럼명과 일치
     private String username;
 
-    @Column(name = "user_pwd")
+    @Column(name = "password") // `user_tbl`의 컬럼명과 일치
     private String password;
+
+    @Column(name = "email") // `user_tbl`의 컬럼명과 일치
+    private String userEmail;
 
     @Column(name = "user_address")
     private String userAddress;
@@ -32,6 +35,4 @@ public class UserEntity {
     @Column(name = "user_birth")
     private LocalDate userBirth;
 
-    @Column(name = "user_email")
-    private String userEmail;
 }
