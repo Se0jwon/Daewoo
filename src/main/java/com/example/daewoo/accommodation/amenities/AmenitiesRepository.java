@@ -1,4 +1,4 @@
-package com.example.daewoo.accommodation.accommodation;
+package com.example.daewoo.accommodation.amenities;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

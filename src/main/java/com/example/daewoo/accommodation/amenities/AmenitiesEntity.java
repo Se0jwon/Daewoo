@@ -1,4 +1,4 @@
-package com.example.daewoo.accommodation.accommodation;
+package com.example.daewoo.accommodation.amenities;
 
 import com.example.daewoo.accommodation.dto.AccommodationEntity;
 import jakarta.persistence.*;

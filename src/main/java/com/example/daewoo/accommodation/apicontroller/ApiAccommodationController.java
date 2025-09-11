@@ -1,6 +1,5 @@
 package com.example.daewoo.accommodation.apicontroller;
 
-import com.example.daewoo.accommodation.accommodation.AmenitiesRepository;
 import com.example.daewoo.accommodation.dto.AccommodationDto;
 import com.example.daewoo.accommodation.service.AccommodationService;
 import com.example.daewoo.common.CommonRestController;
@@ -26,7 +25,7 @@ public class ApiAccommodationController extends CommonRestController {
     private AccommodationService accommodationService;
 
     @GetMapping("")
-    public ResponseEntity<ResponseDto> findAll(@PageableDefault(size = 5, sort = "comId", direction = Sort.Direction.ASC)
+    public ResponseEntity<ResponseDto> findAll(@PageableDefault(size = 4, sort = "comId", direction = Sort.Direction.ASC)
                                                          Pageable pageable){
         try {
             Page<AccommodationDto> list = this.accommodationService.findAll(pageable);
@@ -47,5 +46,4 @@ public class ApiAccommodationController extends CommonRestController {
             return getResponseEntity(ResponseCode.SELECT_FAIL, "Find One Error", null, e);
         }
     }
-
 }

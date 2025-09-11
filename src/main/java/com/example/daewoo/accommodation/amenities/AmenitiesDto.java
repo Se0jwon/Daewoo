@@ -1,13 +1,7 @@
-package com.example.daewoo.accommodation.accommodation;
+package com.example.daewoo.accommodation.amenities;
 
-import com.example.daewoo.accommodation.dto.AccommodationDto;
-import com.example.daewoo.accommodation.dto.AccommodationEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter

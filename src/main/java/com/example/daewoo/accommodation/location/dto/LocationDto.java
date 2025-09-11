@@ -1,16 +1,11 @@
 package com.example.daewoo.accommodation.location.dto;
 
 
-import com.example.daewoo.accommodation.accommodation.AmenitiesDto;
-import com.example.daewoo.accommodation.dto.AccommodationDto;
-import com.example.daewoo.accommodation.dto.AccommodationEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.stream.Collectors;
 
 @Getter
 @Setter

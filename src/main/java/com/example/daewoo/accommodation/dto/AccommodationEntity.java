@@ -1,6 +1,6 @@
 package com.example.daewoo.accommodation.dto;
 
-import com.example.daewoo.accommodation.accommodation.AmenitiesEntity;
+import com.example.daewoo.accommodation.amenities.AmenitiesEntity;
 import com.example.daewoo.accommodation.location.dto.LocationEntity;
 import jakarta.persistence.*;
 import lombok.*;

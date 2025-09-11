@@ -1,7 +1,6 @@
 package com.example.daewoo.accommodation.dto;
 
-import com.example.daewoo.accommodation.accommodation.AmenitiesDto;
-import com.example.daewoo.accommodation.accommodation.AmenitiesEntity;
+import com.example.daewoo.accommodation.amenities.AmenitiesDto;
 import com.example.daewoo.accommodation.location.dto.LocationDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
