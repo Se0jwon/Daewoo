@@ -1,0 +1,205 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f9f9f9;
+}
+
+.login-box {
+    display: flex;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 800px;
+    max-width: 90%;
+}
+
+/* 왼쪽 */
+.left {
+    flex: 1;
+    padding: 40px;
+}
+
+h4 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+p {
+    color: gray;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+/* 입력 박스 */
+.log_input input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 두 줄 정렬 */
+.row-input {
+    display: flex;
+    gap: 10px;
+}
+
+.row-input input {
+    flex: 1;
+}
+
+/* 비밀번호 박스 */
+.passwordbox {
+    position: relative;
+}
+
+.passwordbox input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.passwordbox i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: gray;
+}
+
+.check {
+    font-size: 12px;
+    margin: 10px 0;
+}
+
+.loginbox {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    background-color: #8DD3BB;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.signup {
+    margin-top: 15px;
+    color: black;
+    text-align: center;
+}
+
+/* 오른쪽 이미지 */
+.right {
+    flex: 1;
+}
+
+.right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* SNS 박스 */
+.snsbox {
+    display: flex;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.snsbox div {
+    flex: 1;
+    border: 1px solid #8DD3BB;
+    text-align: center;
+    border-radius: 4px;
+    height: 40px;
+    padding-top: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* 경계선 */
+.boundary_line {
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: #112211;
+    font-size: 14px;
+    margin: 20px 0;
+}
+.boundary_line::before,
+.boundary_line::after {
+    content: "";
+    flex-grow: 1;
+    background: gray;
+    height: 1px;
+    margin: 0 7px;
+}
+
+/* 오른쪽 이미지 영역 */
+.right {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    margin-right: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+/* 이미지 슬라이드 */
+.right img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    border-radius: 15px;
+}
+
+
+.right img.active {
+    opacity: 1;
+}
+
+
+.dots {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    bottom: 34%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 2;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.dot.active {
+    opacity: 1;
+    background: #8DD3BB;
+}
