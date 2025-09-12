@@ -602,6 +602,92 @@
             justify-content: center;
             align-items: center;
         }
+
+        .add-card:hover{
+            cursor: pointer;
+        }
+        /*결제수단 모달 css*/
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /*반투명 회색 배경*/
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal-content{
+            width: 640px;
+            height: 686px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            justify-content: space-evenly;
+            align-items: center;
+            background-color: white;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        /*.modal-body{*/
+        /*  */
+        /*}*/
+    /*    모달 css 설정   */
+
+        .card_input {
+            display: flex;
+            position: relative;
+            margin-bottom: 25px; /* 다음 입력 필드와의 간격 */
+            width: 512px;
+            height: 56px;
+        }
+
+        .card_input label {
+            position: absolute;
+            top: -10px; /* input 테두리 위로 올림 */
+            left: 10px;
+            background-color: white; /* 글자 배경을 흰색으로 하여 input 테두리를 덮음 */
+            padding: 0 5px;
+            font-size: 14px;
+            color: black;
+            z-index: 1; /* label이 input보다 위에 오도록 */
+        }
+
+        .card_input input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            position: relative;
+            background-color: transparent;
+            z-index: 0;
+        }
+
+        .card_input select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            appearance: none;
+            background-image: url("../../resources/images/arrow.png");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        .card_input input[type="checkbox"]:checked{
+            accent-color: black;
+        }
+
     </style>
 </head>
 
@@ -771,32 +857,66 @@
         <div class="tab-content" id="payment-tab">
             <div class="content-title" style="font-size: 32px;">결제수단</div>
             <div class="card-container">
-                <div class="add-card" onclick="openCardModal()">
+                <div class="add-card">
                     <div>
                         <img style="position: absolute; z-index: 1; transform: translate(-50%, -50%); top: 50%; left: 50%" src="../../resources/images/circle.png" height="51" width="50" alt="">
                         <img style="position: absolute; z-index: 2; transform: translate(-50%, -50%); top: 50%; left: 50%" src="../../resources/images/plus.png" height="23" width="22" alt="">
-                        <div>Add a new card</div>
+                        <div style="display: flex; position: relative; top: 40px">Add a new card</div>
                     </div>
                 </div>
+                <div class="modal-overlay" id="cardModalOverlay">
+                    <div class="modal-content">
 
-                <div class="existing-card">
+                            <div style="margin-bottom: 10px; padding-left: 62px; align-self: flex-start">
+                                <p style="text-align: left; font-size: 40px; font-weight: bold">카드 추가</p>
+                            </div>
+                            <span style="display: none" class="close-button" onclick="closeCardModal();">&times;</span>
+                                <div class="card_input">
+                                    <label for="cardNumber" style="background-image: url("") ">Card Number</label>
+                                    <input type="text" id="cardNumber" placeholder="1234 5678 9101 1121">
+                                </div>
+                                <div class="card_input">
+                                    <label for="expDate">Exp. Date</label>
+                                    <input type="text" id="expDate" placeholder="MM/YY"  style="margin-right: 20px">
 
-                </div>
-            </div>
-            <div id="card-add-modal" class="modal">
-                <div class="modal-content">
-                    <span class="close-button" onclick="closeCardModal()">&times;</span>
-                    <h3>카드 추가</h3>
-                    <button type="button" onclick="addNewCard()">저장</button>
+                                    <label for="CVC" style="left: 280px">CVC</label>
+                                    <input type="text" id="CVC" placeholder="123">
+                                </div>
+                                <div class="card_input">
+                                    <label for="nameOnCard">Name on Card</label>
+                                    <input type="text" id="nameOnCard" placeholder="John Doe">
+                                </div>
+                                <div class="card_input">
+                                    <label for="country_onRegion">Country on Region</label>
+                                    <select id = "country_onRegion" name="country">
+                                        <option value="us">United States</option>
+                                        <option value="kr">South Korea</option>
+                                        <option value="jp">Japan</option>
+                                        <option value="cn">China</option>
+                                    </select>
+                                </div>
+                                <div class="card_input" style="position: relative; right: 19px">
+                                    <label class="save-info-checkbox">
+                                        <input type="checkbox" id="saveInfo">
+                                        <span>정보 저장하기</span>
+                                    </label>
+                                </div>
+                                <div class="card_input" style="position: relative; right: 19px">
+                                    <label class="add_card_text">
+                                        <button style="width: 512px; height: 48px; background-color: #8dd3bb; border-radius: 5px; font-size: 14px; border: none; position: relative; bottom: 30px">
+                                            Add Card
+                                        </button>
+                                    </label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </main>
 </div>
 <div class ="footer-container">
 <footer>
-    <section class="subscription-box">
+    <section class="subscription-box" style="z-index: 1">
         <div class="subscription-content">
             <h1 style="font-size: 35pt; margin-top: 0">구독서비스<br> 신청해보세요</h1>
             <p style="margin-top: -5px ; font-weight: bold; font-size: 15pt">The Travel</p>
@@ -880,5 +1000,6 @@
 </footer>
 </div>
 <script src="account.js"></script>
+<script src="add_card.js"></script>
 </body>
 </html>
