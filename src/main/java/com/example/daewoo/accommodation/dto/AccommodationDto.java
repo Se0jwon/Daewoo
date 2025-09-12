@@ -25,6 +25,8 @@ public class AccommodationDto {
 
     private LocationDto location;
 
+    private List<ReviewDto> reviews;
+
     public AccommodationEntity toEntity(){
         AccommodationEntity entity = new AccommodationEntity();
         entity.setComId(this.comId);
@@ -44,6 +46,10 @@ public class AccommodationDto {
 
         dto.setAmenities(entity.getAmenities().stream()
                 .map(AmenitiesDto::fromEntity)
+                .collect(Collectors.toList()));
+
+        dto.setReviews(entity.getReviews().stream()
+                .map(ReviewDto::fromEntity)
                 .collect(Collectors.toList()));
 
         dto.setLocation(LocationDto.fromEntity(entity.getLocationEntity()));

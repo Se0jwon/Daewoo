@@ -1,5 +1,6 @@
 package com.example.daewoo.review.dto;
 
+import com.example.daewoo.accommodation.dto.AccommodationDto;
 import com.example.daewoo.accommodation.location.dto.LocationDto;
 import com.example.daewoo.user.dto.UserDto;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,8 @@ public class ReviewDto {
 
     private String username;
 
+    private Long comId;
+
     public ReviewEntity toEntity(){
         ReviewEntity entity = new ReviewEntity();
         entity.setReviewId(this.reviewId);
@@ -36,6 +39,7 @@ public class ReviewDto {
         dto.setContent(entity.getContent());
         dto.setScore(entity.getScore());
         dto.setUsername(entity.getUserEntity().getUsername());
+        dto.setComId(entity.getAccommodationEntity().getComId());
 
         return dto;
     }
