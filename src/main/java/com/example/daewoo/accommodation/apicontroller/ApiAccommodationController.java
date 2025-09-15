@@ -36,10 +36,10 @@ public class ApiAccommodationController extends CommonRestController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto> findById(@PathVariable Long id){
+    @GetMapping("/{comId}")
+    public ResponseEntity<ResponseDto> findById(@PathVariable Long comId){
         try {
-            Optional<AccommodationDto> find = this.accommodationService.findById(id);
+            Optional<AccommodationDto> find = this.accommodationService.findById(comId);
             return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
         }catch (Throwable e){
             log.error(e.toString());

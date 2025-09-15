@@ -1,18 +1,12 @@
 package com.example.daewoo.accommodation.amenities;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Builder
 public class AmenitiesDto {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long amId;
 
     private String amCategory;

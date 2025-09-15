@@ -2,6 +2,7 @@ package com.example.daewoo.accommodation.dto;
 
 import com.example.daewoo.accommodation.amenities.AmenitiesDto;
 import com.example.daewoo.accommodation.location.dto.LocationDto;
+import com.example.daewoo.parlor.dto.ParlorDto;
 import com.example.daewoo.review.dto.ReviewDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,8 @@ public class AccommodationDto {
 
     private List<ReviewDto> reviews;
 
+    private List<ParlorDto> parlors;
+
     public AccommodationEntity toEntity(){
         AccommodationEntity entity = new AccommodationEntity();
         entity.setComId(this.comId);
@@ -50,6 +53,10 @@ public class AccommodationDto {
 
         dto.setReviews(entity.getReviews().stream()
                 .map(ReviewDto::fromEntity)
+                .collect(Collectors.toList()));
+
+        dto.setParlors(entity.getParlors().stream()
+                .map(ParlorDto::fromEntity)
                 .collect(Collectors.toList()));
 
         dto.setLocation(LocationDto.fromEntity(entity.getLocationEntity()));
