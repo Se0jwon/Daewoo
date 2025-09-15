@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daewoo.accommodation.AccommodationMapper">
+
+    <resultMap id="accommodationResultMap" type="com.example.daewoo.accommodation.AccommodationDto">
+        <id property="comId" column="com_id"/>
+        <result property="areaId" column="area_id"/>
+        <result property="amId" column="am_id"/>
+        <result property="comTitle" column="com_title"/>
+        <result property="comDescription" column="com_description"/>
+        <result property="comReview" column="com_review"/>
+        <result property="wishId" column="wish_id"/>
+        <result property="comAddress" column="com_address"/>
+    </resultMap>
+
+    <insert id="insertAccommodation" parameterType="com.example.daewoo.accommodation.AccommodationDto">
+        INSERT INTO Accommodation (
+            com_id, area_id, am_id, com_title,
+            com_description, com_review, wish_id, com_address
+        ) VALUES (
+                     #{comId}, #{areaId}, #{amId}, #{comTitle},
+                     #{comDescription}, #{comReview}, #{wishId}, #{comAddress}
+                 )
+    </insert>
+
+    <select id="findAccommodationById" resultMap="accommodationResultMap">
+        SELECT * FROM Accommodation WHERE com_id = #{id}
+    </select>
+
+    <select id="findAllAccommodations" resultMap="accommodationResultMap">
+        SELECT * FROM Accommodation
+    </select>
+
+    <update id="updateAccommodation" parameterType="com.example.daewoo.accommodation.AccommodationDto">
+        UPDATE Accommodation
+        SET area_id = #{areaId},
+            am_id = #{amId},
+            com_title = #{comTitle},
+            com_description = #{comDescription},
+            com_review = #{comReview},
+            wish_id = #{wishId},
+            com_address = #{comAddress}
+        WHERE com_id = #{comId}
+    </update>
+
+    <delete id="deleteAccommodation" parameterType="int">
+        DELETE FROM Accommodation WHERE com_id = #{id}
+    </delete>
+</mapper>
