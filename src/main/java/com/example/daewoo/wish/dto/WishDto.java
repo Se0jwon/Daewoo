@@ -12,5 +12,5 @@ import lombok.Setter;
 public class WishDto {
     private Long wishId;
     private Long userId;
-    private Long accommodationId;
+    private Long parlorId;
 }

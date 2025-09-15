@@ -19,6 +19,6 @@ public class WishEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "acc_id") // accommodationId를 acc_id로 변경
-    private Long accommodationId;
+    @Column(name = "par_id")
+    private Long parlorId;
 }
