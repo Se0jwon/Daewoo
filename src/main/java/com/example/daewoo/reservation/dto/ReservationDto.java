@@ -15,7 +15,6 @@ public class ReservationDto {
     private Long reservationId;
     private Long parId;
     private Long userId;
-    private Boolean status;
     private LocalDate checkIn;
     private LocalDate checkOut;
 
