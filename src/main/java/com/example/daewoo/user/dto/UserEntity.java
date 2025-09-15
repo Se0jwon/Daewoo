@@ -2,36 +2,28 @@ package com.example.daewoo.user.dto;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDate;
-
-
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-
 @Table(name = "`user_tbl`")
-
-@Table(name = "user_tbl")
-
 @Builder
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "username") // `user_tbl`의 컬럼명과 일치
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "password") // `user_tbl`의 컬럼명과 일치
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "email") // `user_tbl`의 컬럼명과 일치
+    @Column(name = "email")
     private String userEmail;
 
     @Column(name = "user_address")
@@ -42,11 +34,4 @@ public class UserEntity {
 
     @Column(name = "user_birth")
     private LocalDate userBirth;
-
-
-    private Long userId;
-    private String username;
-    private String password;
-    private String email;
-
 }

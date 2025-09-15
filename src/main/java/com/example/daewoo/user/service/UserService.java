@@ -12,7 +12,6 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-
     public UserDto insert(UserDto dto){
         // DTO를 Entity로 변환합니다. (userId는 null 상태)
         UserEntity entity = UserEntity.builder()
@@ -21,20 +20,10 @@ public class UserService {
                 .userAddress(dto.getUserAddress())
                 .userPhone(dto.getUserPhone())
                 .userBirth(dto.getUserBirth())
-                .userEmail(dto.getEmail())
+                .userEmail(dto.getUserEmail())
                 .build();
         UserEntity savedEntity = this.repository.save(entity);
 
-        dto.setUserId(savedEntity.getUserId());
-
-
-    // DTO를 받아 Entity로 변환 후 저장
-    public UserDto insert(UserDto dto){
-        UserEntity entity = UserEntity.builder()
-                .username(dto.getUsername())
-                .email(dto.getEmail())
-                .build();
-        UserEntity savedEntity = this.repository.save(entity);
         dto.setUserId(savedEntity.getUserId());
 
         return dto;
@@ -43,7 +32,6 @@ public class UserService {
     // Entity 리스트를 DTO 리스트로 변환하여 반환
     public List<UserDto> findAll(){
         return this.repository.findAll().stream()
-
                 .map(entity -> new UserDto(
                         entity.getUserId(),
                         entity.getUsername(),
@@ -52,16 +40,12 @@ public class UserService {
                         entity.getUserPhone(),
                         entity.getUserEmail(),
                         entity.getUserBirth()))
-
-                .map(entity -> new UserDto(entity.getUserId(), entity.getUsername(), entity.getEmail()))
-
                 .collect(Collectors.toList());
     }
 
     // Entity를 DTO로 변환하여 반환
     public Optional<UserDto> findById(Long id){
         return this.repository.findById(id)
-
                 .map(entity -> new UserDto(
                         entity.getUserId(),
                         entity.getUsername(),
@@ -70,9 +54,6 @@ public class UserService {
                         entity.getUserPhone(),
                         entity.getUserEmail(),
                         entity.getUserBirth()));
-
-                .map(entity -> new UserDto(entity.getUserId(), entity.getUsername(), entity.getEmail()));
-
     }
 
     // DTO를 받아 Entity를 업데이트
@@ -80,14 +61,13 @@ public class UserService {
         UserEntity entity = this.repository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-
         // DTO에서 받은 데이터로 Entity 필드 업데이트
         entity.setUsername(dto.getUsername());
         entity.setPassword(dto.getPassword());
         entity.setUserAddress(dto.getUserAddress());
         entity.setUserPhone(dto.getUserPhone());
         entity.setUserBirth(dto.getUserBirth());
-        entity.setUserEmail(dto.getEmail());
+        entity.setUserEmail(dto.getUserEmail());
 
         UserEntity updatedEntity = this.repository.save(entity);
         return new UserDto(
@@ -98,12 +78,6 @@ public class UserService {
                 updatedEntity.getUserPhone(),
                 updatedEntity.getUserEmail(),
                 updatedEntity.getUserBirth());
-
-        entity.setUsername(dto.getUsername());
-        entity.setEmail(dto.getEmail());
-        UserEntity updatedEntity = this.repository.save(entity);
-        return new UserDto(updatedEntity.getUserId(), updatedEntity.getUsername(), updatedEntity.getEmail());
-
     }
 
     // ID를 받아 삭제

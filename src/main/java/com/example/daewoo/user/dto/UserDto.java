@@ -15,13 +15,9 @@ import java.time.LocalDate;
 public class UserDto {
     private Long userId;
     private String username;
-
     private String password;
     private String userAddress;
     private String userPhone;
-    private String email;
+    private String userEmail;
     private LocalDate userBirth;
-
-    private String email;
-
 }
