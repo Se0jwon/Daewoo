@@ -1,34 +1,34 @@
-package com.example.daewoo.user.apicontroller;
+package com.example.daewoo.review.apicontroller;
 
 import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
-import com.example.daewoo.user.dto.UserDto;
-import com.example.daewoo.user.service.UserService;
+import com.example.daewoo.review.dto.ReviewDto;
+import com.example.daewoo.review.dto.ReviewEntity;
+import com.example.daewoo.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @RestController
-
-@RequestMapping("/api/user")
-
-@RequestMapping("api/user")
-
-public class ApiUserController extends CommonRestController {
+@RequestMapping("api/review")
+public class ApiReviewController extends CommonRestController {
 
     @Autowired
-    private UserService service;
+    private ReviewService service;
 
     @PostMapping("")
-    public ResponseEntity<ResponseDto> insert(@RequestBody UserDto dto){
+    public ResponseEntity<ResponseDto> insert(@RequestBody ReviewDto dto){
         try{
-            UserDto result = service.insert(dto);
-            return getResponseEntity(ResponseCode.SUCCESS, "Insert Ok", result, null);
+            service.insert(dto);
+            return getResponseEntity(ResponseCode.SUCCESS, "Insert Ok", dto, null);
         }catch (Throwable e){
             log.error(e.toString());
             return getResponseEntity(ResponseCode.INSERT_FAIL, "Insert Error", dto, e);
@@ -36,12 +36,13 @@ public class ApiUserController extends CommonRestController {
     }
 
     @GetMapping("")
-    public ResponseEntity<ResponseDto> findAll(){
+    public ResponseEntity<ResponseDto> findAll(@PageableDefault(size = 5, sort = "reviewId", direction = Sort.Direction.ASC)
+                                                         Pageable pageable){
         try {
-            List<UserDto> list = this.service.findAll();
+            Page<ReviewDto> list = this.service.findAll(pageable);
             return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
         }catch (Throwable e){
-            log.error(e.toString());
+            log.error("예외 : "+e.toString());
             return getResponseEntity(ResponseCode.SELECT_FAIL, "Find All Error", null, e);
         }
     }
@@ -49,7 +50,7 @@ public class ApiUserController extends CommonRestController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDto> findById(@PathVariable Long id){
         try {
-            Optional<UserDto> find = this.service.findById(id);
+            Optional<ReviewDto> find = this.service.findById(id);
             return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
         }catch (Throwable e){
             log.error(e.toString());
@@ -58,11 +59,11 @@ public class ApiUserController extends CommonRestController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponseDto> update(@RequestBody UserDto dto,@PathVariable Long id){
+    public ResponseEntity<ResponseDto> update(@RequestBody ReviewDto dto,@PathVariable Long id){
         try{
-            dto.setUserId(id);
-            UserDto result = service.update(dto);
-            return getResponseEntity(ResponseCode.SUCCESS, "Update Ok", result, null);
+            dto.setReviewId(id);
+            service.update(dto);
+            return getResponseEntity(ResponseCode.SUCCESS, "Update Ok", dto, null);
         }catch (Throwable e){
             log.error(e.toString());
             return getResponseEntity(ResponseCode.UPDATE_FAIL, "Update Error", dto, e);

@@ -2,18 +2,26 @@ package com.example.daewoo.user.dto;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDate;
+
+
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+
 @Table(name = "`user_tbl`")
+
+@Table(name = "user_tbl")
+
 @Builder
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "user_id")
     private Long userId;
 
@@ -34,5 +42,11 @@ public class UserEntity {
 
     @Column(name = "user_birth")
     private LocalDate userBirth;
+
+
+    private Long userId;
+    private String username;
+    private String password;
+    private String email;
 
 }
