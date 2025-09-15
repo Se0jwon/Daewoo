@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("api/wish")
+@RequestMapping("/api/wish")
 public class ApiWishController extends CommonRestController {
 
     @Autowired

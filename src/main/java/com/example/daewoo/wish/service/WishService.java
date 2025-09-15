@@ -15,7 +15,7 @@ public class WishService {
     public WishDto insert(WishDto dto) {
         WishEntity entity = WishEntity.builder()
                 .userId(dto.getUserId())
-                .accommodationId(dto.getAccommodationId())
+                .parlorId(dto.getParlorId())
                 .build();
         WishEntity savedEntity = this.repository.save(entity);
         dto.setWishId(savedEntity.getWishId());
@@ -24,22 +24,22 @@ public class WishService {
 
     public List<WishDto> findAll() {
         return this.repository.findAll().stream()
-                .map(entity -> new WishDto(entity.getWishId(), entity.getUserId(), entity.getAccommodationId()))
+                .map(entity -> new WishDto(entity.getWishId(), entity.getUserId(), entity.getParlorId()))
                 .collect(Collectors.toList());
     }
 
     public Optional<WishDto> findById(Long id) {
         return this.repository.findById(id)
-                .map(entity -> new WishDto(entity.getWishId(), entity.getUserId(), entity.getAccommodationId()));
+                .map(entity -> new WishDto(entity.getWishId(), entity.getUserId(), entity.getParlorId()));
     }
 
     public WishDto update(WishDto dto) {
         WishEntity entity = this.repository.findById(dto.getWishId())
                 .orElseThrow(() -> new RuntimeException("Wish not found"));
         entity.setUserId(dto.getUserId());
-        entity.setAccommodationId(dto.getAccommodationId());
+        entity.setParlorId(dto.getParlorId());
         WishEntity updatedEntity = this.repository.save(entity);
-        return new WishDto(updatedEntity.getWishId(), updatedEntity.getUserId(), updatedEntity.getAccommodationId());
+        return new WishDto(updatedEntity.getWishId(), updatedEntity.getUserId(), updatedEntity.getParlorId());
     }
 
     public void delete(Long id) {
