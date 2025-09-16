@@ -7,4 +7,5 @@ public enum ResponseCode {
     DELETE_FAIL,
     SELECT_FAIL,
     SIGNIN_FAIL,
+    LOGIN_FAIL,
 }

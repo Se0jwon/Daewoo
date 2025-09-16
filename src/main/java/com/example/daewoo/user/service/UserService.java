@@ -3,6 +3,7 @@ package com.example.daewoo.user.service;
 import com.example.daewoo.user.dto.UserDto;
 import com.example.daewoo.user.dto.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,11 +13,13 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public UserDto insert(UserDto dto){
-        // DTO를 Entity로 변환합니다. (userId는 null 상태)
         UserEntity entity = UserEntity.builder()
                 .username(dto.getUsername())
-                .password(dto.getPassword())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .userAddress(dto.getUserAddress())
                 .userPhone(dto.getUserPhone())
                 .userBirth(dto.getUserBirth())
@@ -29,13 +32,12 @@ public class UserService {
         return dto;
     }
 
-    // Entity 리스트를 DTO 리스트로 변환하여 반환
     public List<UserDto> findAll(){
         return this.repository.findAll().stream()
                 .map(entity -> new UserDto(
                         entity.getUserId(),
                         entity.getUsername(),
-                        null, // 보안을 위해 password는 반환하지 않음
+                        null,
                         entity.getUserAddress(),
                         entity.getUserPhone(),
                         entity.getUserEmail(),
@@ -43,7 +45,6 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    // Entity를 DTO로 변환하여 반환
     public Optional<UserDto> findById(Long id){
         return this.repository.findById(id)
                 .map(entity -> new UserDto(
@@ -56,14 +57,12 @@ public class UserService {
                         entity.getUserBirth()));
     }
 
-    // DTO를 받아 Entity를 업데이트
     public UserDto update(UserDto dto){
         UserEntity entity = this.repository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // DTO에서 받은 데이터로 Entity 필드 업데이트
         entity.setUsername(dto.getUsername());
-        entity.setPassword(dto.getPassword());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity.setUserAddress(dto.getUserAddress());
         entity.setUserPhone(dto.getUserPhone());
         entity.setUserBirth(dto.getUserBirth());
@@ -73,14 +72,13 @@ public class UserService {
         return new UserDto(
                 updatedEntity.getUserId(),
                 updatedEntity.getUsername(),
-                null, // 보안을 위해 password는 반환하지 않음
+                null,
                 updatedEntity.getUserAddress(),
                 updatedEntity.getUserPhone(),
                 updatedEntity.getUserEmail(),
                 updatedEntity.getUserBirth());
     }
 
-    // ID를 받아 삭제
     public void delete(Long id){
         this.repository.deleteById(id);
     }
