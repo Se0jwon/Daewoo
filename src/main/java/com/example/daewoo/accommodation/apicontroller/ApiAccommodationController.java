@@ -42,7 +42,7 @@ public class ApiAccommodationController extends CommonRestController {
             Optional<AccommodationDto> find = this.accommodationService.findById(comId);
             return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
         }catch (Throwable e){
-            log.error(e.toString());
+            log.error("예외 : " + e.toString());
             return getResponseEntity(ResponseCode.SELECT_FAIL, "Find One Error", null, e);
         }
     }

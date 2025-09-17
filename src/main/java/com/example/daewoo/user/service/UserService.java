@@ -64,7 +64,7 @@ public class UserService {
                         entity.getUserPhone(),
                         entity.getUserEmail(),
                         entity.getUserBirth(),
-                                entity.getReservations()
+                        entity.getReservations()
                                 .stream()
                                 .map(ReservationDto::fromEntity)
                                 .toList()));
