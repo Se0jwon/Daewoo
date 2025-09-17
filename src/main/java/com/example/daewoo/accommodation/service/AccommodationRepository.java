@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 
@@ -12,6 +13,9 @@ import java.util.*;
 public interface AccommodationRepository extends JpaRepository<AccommodationEntity, Long> {
     @EntityGraph(attributePaths = "reviews")
     Page<AccommodationEntity> findAll(Pageable pageable);
+
+    @Query("SELECT COUNT(s) FROM AccommodationEntity s")
+    Long hotelCount();
 
     @EntityGraph(attributePaths = "reviews")
     Optional<AccommodationEntity> findById(Long id);

@@ -1,8 +1,5 @@
 package com.example.daewoo.review.dto;
 
-import com.example.daewoo.accommodation.dto.AccommodationDto;
-import com.example.daewoo.accommodation.location.dto.LocationDto;
-import com.example.daewoo.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
