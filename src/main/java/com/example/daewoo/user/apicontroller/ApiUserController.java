@@ -3,11 +3,17 @@ package com.example.daewoo.user.apicontroller;
 import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
+import com.example.daewoo.common.jwt.JwtTokenProvider;
 import com.example.daewoo.user.dto.UserDto;
+import com.example.daewoo.user.dto.LoginDto; // LoginDto import 추가
 import com.example.daewoo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +25,26 @@ public class ApiUserController extends CommonRestController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @PostMapping("/login")
+    public ResponseEntity<ResponseDto> login(@RequestBody LoginDto loginDto) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginDto.getUserEmail(), loginDto.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtTokenProvider.generateToken(authentication);
+            return getResponseEntity(ResponseCode.SUCCESS, "Login Ok", token, null);
+        } catch (Throwable e) {
+            log.error(e.toString());
+            return getResponseEntity(ResponseCode.LOGIN_FAIL, "Login Error", null, e);
+        }
+    }
 
     @PostMapping("")
     public ResponseEntity<ResponseDto> insert(@RequestBody UserDto dto){
