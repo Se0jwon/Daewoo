@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,7 +18,7 @@ public class ReviewDto {
     private Long reviewId;
     private String title;
     private String content;
-    private Integer score;
+    private BigDecimal score;
 
     private String username;
 

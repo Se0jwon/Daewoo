@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class AccommodationDto {
 
     private LocationDto location;
 
+    private BigDecimal reviewAvg;
     private List<ReviewDto> reviews;
 
     private List<ParlorDto> parlors;
