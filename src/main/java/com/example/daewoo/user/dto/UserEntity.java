@@ -34,4 +34,6 @@ public class UserEntity {
 
     @Column(name = "user_birth")
     private LocalDate userBirth;
+
+
 }
