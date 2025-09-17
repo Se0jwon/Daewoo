@@ -1,5 +1,7 @@
 package com.example.daewoo.user.service;
 
+import com.example.daewoo.reservation.dto.ReservationDto;
+import com.example.daewoo.review.dto.ReviewDto;
 import com.example.daewoo.user.dto.UserDto;
 import com.example.daewoo.user.dto.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ public class UserService {
         return dto;
     }
 
+    // Entity 리스트를 DTO 리스트로 변환하여 반환
     public List<UserDto> findAll(){
         return this.repository.findAll().stream()
                 .map(entity -> new UserDto(
@@ -41,20 +44,30 @@ public class UserService {
                         entity.getUserAddress(),
                         entity.getUserPhone(),
                         entity.getUserEmail(),
-                        entity.getUserBirth()))
+                        entity.getUserBirth(),
+                        entity.getReservations()
+                                .stream()
+                                .map(ReservationDto::fromEntity)
+                                .toList()))
                 .collect(Collectors.toList());
+
     }
 
+    // Entity를 DTO로 변환하여 반환
     public Optional<UserDto> findById(Long id){
         return this.repository.findById(id)
-                .map(entity -> new UserDto(
+                       .map(entity -> new UserDto(
                         entity.getUserId(),
                         entity.getUsername(),
                         null,
                         entity.getUserAddress(),
                         entity.getUserPhone(),
                         entity.getUserEmail(),
-                        entity.getUserBirth()));
+                        entity.getUserBirth(),
+                                entity.getReservations()
+                                .stream()
+                                .map(ReservationDto::fromEntity)
+                                .toList()));
     }
 
     public UserDto update(UserDto dto){
@@ -76,7 +89,11 @@ public class UserService {
                 updatedEntity.getUserAddress(),
                 updatedEntity.getUserPhone(),
                 updatedEntity.getUserEmail(),
-                updatedEntity.getUserBirth());
+                updatedEntity.getUserBirth(),
+                entity.getReservations()
+                        .stream()
+                        .map(ReservationDto::fromEntity)
+                        .toList());
     }
 
     public void delete(Long id){

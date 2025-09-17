@@ -30,7 +30,6 @@ public class ReservationEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    private Boolean status;
     private LocalDate checkIn;
     private LocalDate checkOut;
 

@@ -3,6 +3,7 @@ package com.example.daewoo.accommodation.dto;
 import com.example.daewoo.accommodation.amenities.AmenitiesEntity;
 import com.example.daewoo.accommodation.location.dto.LocationEntity;
 import com.example.daewoo.parlor.dto.ParlorEntity;
+import com.example.daewoo.reservation.dto.ReservationEntity;
 import com.example.daewoo.review.dto.ReviewEntity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -45,5 +46,6 @@ public class AccommodationEntity {
     @OneToMany(mappedBy = "accommodationEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference // JSON 출력
     private List<ParlorEntity> parlors = new ArrayList<>();
+
 
 }

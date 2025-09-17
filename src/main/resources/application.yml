@@ -1,11 +1,15 @@
 spring:
   application:
     name: Daewoo
-  datasource: # mysql 접속
-    url: jdbc:log4jdbc:mysql://localhost:3306/hotels_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8    # 접속 URL
+  datasource:
+    url: jdbc:log4jdbc:mysql://localhost:3306/hotels_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    username: hotels_user  # mysql 유저
-    password: hotels12345  # mysql 유저 암호
+    username: hotels_user
+    password: hotels12345
+#    url: jdbc:mariadb://172.21.0.2:3306/hotels_db
+#    username: root
+#    password: 1234
+#    driver-class-name: org.mariadb.jdbc.Driver
 
 server:
   port: 8085
@@ -24,3 +28,4 @@ mybatis:
 
 jwt:
     secret: c2VjcmV0S2V5Zm9ySldUVG9rZW5zZWNyZXRrZXlmb3Jqd3R0b2tlbnNlY3JldGtleWZvcmp3dHRva2Vu
+

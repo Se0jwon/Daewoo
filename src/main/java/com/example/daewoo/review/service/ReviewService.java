@@ -1,5 +1,7 @@
 package com.example.daewoo.review.service;
 
+import com.example.daewoo.accommodation.dto.AccommodationEntity;
+import com.example.daewoo.accommodation.service.AccommodationRepository;
 import com.example.daewoo.review.dto.ReviewDto;
 import com.example.daewoo.review.dto.ReviewEntity;
 import com.example.daewoo.user.dto.UserEntity;
@@ -17,14 +19,14 @@ public class ReviewService {
     private ReviewRepository reviewRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private AccommodationRepository accommodationRepository;
 
     public void insert(ReviewDto dto) {
         ReviewEntity entity = dto.toEntity();
 
-//        UserEntity userEntity = userRepository.findById(dto.getUserId())
-//                .orElseThrow(() -> new RuntimeException("User Not Found"));
-//        entity.setUserEntity(userEntity);
+        AccommodationEntity accommodationEntity = accommodationRepository.findById(dto.getComId())
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
+        entity.setAccommodationEntity(accommodationEntity);
 
         this.reviewRepository.save(entity);
     }
@@ -43,9 +45,9 @@ public class ReviewService {
     public void update(ReviewDto dto){
         ReviewEntity entity = dto.toEntity();
 
-//        UserEntity userEntity = userRepository.findById(dto.getUserId())
-//                .orElseThrow(() -> new RuntimeException("User Not Found"));
-//        entity.setUserEntity(userEntity);
+        AccommodationEntity accommodationEntity = accommodationRepository.findById(dto.getComId())
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
+        entity.setAccommodationEntity(accommodationEntity);
 
         this.reviewRepository.save(entity);
     }

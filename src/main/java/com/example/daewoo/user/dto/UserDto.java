@@ -1,11 +1,13 @@
 package com.example.daewoo.user.dto;
 
+import com.example.daewoo.reservation.dto.ReservationDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Getter
@@ -20,4 +22,7 @@ public class UserDto {
     private String userPhone;
     private String userEmail;
     private LocalDate userBirth;
+
+    private List<ReservationDto> reservations;
+
 }
