@@ -24,3 +24,8 @@ mybatis:
   type-aliases-package: com.example.daewoo
   configuration:
     map-underscore-to-camel-case: true
+
+
+jwt:
+    secret: c2VjcmV0S2V5Zm9ySldUVG9rZW5zZWNyZXRrZXlmb3Jqd3R0b2tlbnNlY3JldGtleWZvcmp3dHRva2Vu
+
