@@ -1,8 +1,12 @@
 package com.example.daewoo.user.dto;
 
+import com.example.daewoo.reservation.dto.ReservationEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,4 +38,8 @@ public class UserEntity {
 
     @Column(name = "user_birth")
     private LocalDate userBirth;
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference // JSON 출력
+    private List<ReservationEntity> reservations = new ArrayList<>();
 }

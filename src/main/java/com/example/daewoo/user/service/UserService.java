@@ -1,5 +1,7 @@
 package com.example.daewoo.user.service;
 
+import com.example.daewoo.reservation.dto.ReservationDto;
+import com.example.daewoo.review.dto.ReviewDto;
 import com.example.daewoo.user.dto.UserDto;
 import com.example.daewoo.user.dto.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +42,13 @@ public class UserService {
                         entity.getUserAddress(),
                         entity.getUserPhone(),
                         entity.getUserEmail(),
-                        entity.getUserBirth()))
+                        entity.getUserBirth(),
+                        entity.getReservations()
+                                .stream()
+                                .map(ReservationDto::fromEntity)
+                                .toList()))
                 .collect(Collectors.toList());
+
     }
 
     // Entity를 DTO로 변환하여 반환
@@ -54,7 +61,11 @@ public class UserService {
                         entity.getUserAddress(),
                         entity.getUserPhone(),
                         entity.getUserEmail(),
-                        entity.getUserBirth()));
+                        entity.getUserBirth(),
+                                entity.getReservations()
+                                .stream()
+                                .map(ReservationDto::fromEntity)
+                                .toList()));
     }
 
     // DTO를 받아 Entity를 업데이트
@@ -78,7 +89,11 @@ public class UserService {
                 updatedEntity.getUserAddress(),
                 updatedEntity.getUserPhone(),
                 updatedEntity.getUserEmail(),
-                updatedEntity.getUserBirth());
+                updatedEntity.getUserBirth(),
+                entity.getReservations()
+                        .stream()
+                        .map(ReservationDto::fromEntity)
+                        .toList());
     }
 
     // ID를 받아 삭제

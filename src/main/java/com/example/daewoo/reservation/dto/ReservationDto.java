@@ -35,8 +35,8 @@ public class ReservationDto {
         dto.setReservationId(entity.getReservationId());
         dto.setCheckIn(entity.getCheckIn());
         dto.setCheckOut(entity.getCheckOut());
-        dto.setUserId(entity.getUserEntity().getUserId());
         dto.setParId(entity.getParlorEntity().getParId());
+        dto.setUserId(entity.getUserEntity().getUserId());
 
         return dto;
     }
