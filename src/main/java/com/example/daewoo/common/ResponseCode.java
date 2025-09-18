@@ -8,4 +8,6 @@ public enum ResponseCode {
     SELECT_FAIL,
     SIGNIN_FAIL,
     LOGIN_FAIL,
+    INVALID_REQUEST,
+    ERROR
 }
