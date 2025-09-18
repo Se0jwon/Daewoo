@@ -50,6 +50,9 @@ public class UserService {
 
     // 회원가입 시 임시 저장 기능
     public void insert(UserDto dto) {
+        if(dto.getReservations() == null){
+            dto.setReservations(null);
+        }
         String userJson = convertUserDtoToJson(dto);
         redisTemplate.opsForValue().set("signup:" + dto.getUserEmail(), userJson, Duration.ofMinutes(10)); // 10분 동안 임시 저장
     }

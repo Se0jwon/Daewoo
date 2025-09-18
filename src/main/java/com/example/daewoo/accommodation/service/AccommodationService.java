@@ -50,8 +50,17 @@ public class AccommodationService {
                 .map(AccommodationOneDto::fromEntity);
         AccommodationOneDto dto = accOpt.get();
 
-        dto.setReviewAvg(reviewRepository.findAverageScoreByComId(id).setScale(1, RoundingMode.HALF_UP));
-        dto.setReviewCount(reviewRepository.findReviewCountByComId(id));
+        if(dto.getReviewAvg() != null || dto.getReviewCount() != null) {
+            BigDecimal avg = reviewRepository.findAverageScoreByComId(id).setScale(1, RoundingMode.HALF_UP);
+            dto.setReviewAvg(avg);
+
+            Integer count = reviewRepository.findReviewCountByComId(id);
+            dto.setReviewCount(count);
+        }else{
+            BigDecimal avg = new BigDecimal("0.0");
+            dto.setReviewAvg(avg);
+            dto.setReviewCount(0);
+        }
         return Optional.of(dto);
     }
 }
