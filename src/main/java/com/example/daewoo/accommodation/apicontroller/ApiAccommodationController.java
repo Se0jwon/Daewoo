@@ -36,10 +36,15 @@ public class ApiAccommodationController extends CommonRestController {
     public ResponseEntity<ResponseDto> findAll(@PageableDefault(size = 4, sort = "comId", direction = Sort.Direction.ASC)
                                                          Pageable pageable){
         try {
-            Slice<AccommodationAllDto> list = this.accommodationService.findAll(pageable);
-            Long totalCount = accommodationService.totalCount();
-            AccommodationResponse res = new AccommodationResponse(totalCount, list);
-            return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", res, null);
+            if (pageable.getPageNumber() == 0) {
+                Slice<AccommodationAllDto> list = this.accommodationService.findAll(pageable);
+                Long totalCount = accommodationService.totalCount();
+                AccommodationResponse res = new AccommodationResponse(totalCount, list);
+                return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", res, null);
+            }else{
+                Slice<AccommodationAllDto> list = this.accommodationService.findAll(pageable);
+                return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
+            }
         }catch (Throwable e){
             log.error("예외 : "+e.toString());
             return getResponseEntity(ResponseCode.SELECT_FAIL, "Find All Error", null, e);
