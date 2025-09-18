@@ -43,7 +43,7 @@ services:
       - TZ=Asia/Seoul
     depends_on:
       - redis
-      - mariadb_container # Changed from mariadb1
+      - mariadb_container
     networks:
       - a_network
 #    restart: always
