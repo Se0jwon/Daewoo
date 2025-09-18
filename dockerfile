@@ -1,10 +1,8 @@
 FROM openjdk:21-jdk-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy the built JAR file (adjust the path and name)
 COPY build/libs/Daewoo.jar Daewoo.jar
+COPY src/main/resources/application-prod.yml ./application-prod.yml
 
-# Set command to run the JAR
 ENTRYPOINT ["java", "-jar", "Daewoo.jar"]
