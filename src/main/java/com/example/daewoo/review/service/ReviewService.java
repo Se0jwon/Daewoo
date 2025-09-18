@@ -37,6 +37,12 @@ public class ReviewService {
         return entities.map(ReviewDto::fromEntity);
     }
 
+    public Page<ReviewDto> findAllByAccommodationEntity_ComId(Long comId, Pageable pageable){
+        Page<ReviewEntity> entities = reviewRepository.findAllByAccommodationEntity_ComId(comId, pageable);
+
+        return entities.map(ReviewDto::fromEntity);
+    }
+
     public Optional<ReviewDto> findById(Long id){
         return reviewRepository.findById(id)
                 .map(ReviewDto::fromEntity);

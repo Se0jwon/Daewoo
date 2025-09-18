@@ -30,7 +30,7 @@ public class AccommodationOneDto {
 
     private BigDecimal reviewAvg;
     private Integer reviewCount;
-    private List<ReviewDto> reviews;
+//    private List<ReviewDto> reviews;
 
     private List<ParlorDto> parlors;
 
@@ -55,9 +55,9 @@ public class AccommodationOneDto {
                 .map(AmenitiesDto::fromEntity)
                 .collect(Collectors.toList()));
 
-        dto.setReviews(entity.getReviews().stream()
-                .map(ReviewDto::fromEntity)
-                .collect(Collectors.toList()));
+//        dto.setReviews(entity.getReviews().stream()
+//                .map(ReviewDto::fromEntity)
+//                .collect(Collectors.toList()));
 
         dto.setParlors(entity.getParlors().stream()
                 .map(ParlorDto::fromEntity)

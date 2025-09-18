@@ -39,9 +39,9 @@ public class AccommodationEntity {
     )
     private List<AmenitiesEntity> amenities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "accommodationEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference // JSON 출력
-    private List<ReviewEntity> reviews = new ArrayList<>();
+//    @OneToMany(mappedBy = "accommodationEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    @JsonManagedReference // JSON 출력
+//    private List<ReviewEntity> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "accommodationEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference // JSON 출력

@@ -11,12 +11,12 @@ import java.util.*;
 
 @Repository
 public interface AccommodationRepository extends JpaRepository<AccommodationEntity, Long> {
-    @EntityGraph(attributePaths = "reviews")
-    Page<AccommodationEntity> findAll(Pageable pageable);
+//    @EntityGraph(attributePaths = "reviews")
+//    Page<AccommodationEntity> findAll(Pageable pageable);
 
     @Query("SELECT COUNT(s) FROM AccommodationEntity s")
     Long hotelCount();
 
-    @EntityGraph(attributePaths = "reviews")
-    Optional<AccommodationEntity> findById(Long id);
+//    @EntityGraph(attributePaths = "reviews")
+//    Optional<AccommodationEntity> findById(Long id);
 }
