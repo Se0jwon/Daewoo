@@ -1,0 +1,28 @@
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 16379
+      database: 0
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:13306/hotels_db
+    username: hotels_user
+    password: hotels12345
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+#JPA log
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        orm:
+          jdbc:
+            bind: TRACE
