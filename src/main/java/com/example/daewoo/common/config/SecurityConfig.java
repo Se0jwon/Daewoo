@@ -35,10 +35,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Deprecated 'csrf().disable()' replaced
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Deprecated 'sessionManagement()' replaced
-                .authorizeHttpRequests(authorize -> authorize // Deprecated 'authorizeRequests()' replaced
-                        .requestMatchers("/api/user/login", "/api/user").permitAll()
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/user/login", "/api/user", "/api/user/verify-email", "/api/user/reset-password").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

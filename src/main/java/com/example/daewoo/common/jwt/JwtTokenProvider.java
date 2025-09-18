@@ -30,7 +30,6 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // JWT 토큰을 생성하는 메서드
     public String generateToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -38,11 +37,8 @@ public class JwtTokenProvider {
 
         long now = (new Date()).getTime();
 
-        // Access Token 생성
-        // 만료 시간: 1시간
-        Date accessTokenExpiresIn = new Date(now + 3600000);
+        Date accessTokenExpiresIn = new Date(now + 10800000);
 
-        // 최신 버전의 JWT 라이브러리 문법으로 변경
         String accessToken = Jwts.builder()
                 .subject(authentication.getName())
                 .claim("auth", authorities)
@@ -53,7 +49,6 @@ public class JwtTokenProvider {
         return accessToken;
     }
 
-    // JWT 토큰에서 인증 정보를 추출하는 메서드
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
 
@@ -70,10 +65,8 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
-    // 토큰 유효성 검증
     public boolean validateToken(String token) {
         try {
-            // 최신 버전의 JWT 파서 빌더 문법으로 변경
             Jwts.parser().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
@@ -90,7 +83,6 @@ public class JwtTokenProvider {
 
     private Claims parseClaims(String accessToken) {
         try {
-            // 최신 버전의 JWT 파서 빌더 문법으로 변경
             return Jwts.parser().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
