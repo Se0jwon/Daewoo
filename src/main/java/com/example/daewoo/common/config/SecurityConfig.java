@@ -30,8 +30,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용 안 함
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/user/**", "/login", "/signup").permitAll() // user API에 대한 모든 접근 허용
-                        .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
+//                        .requestMatchers("/api/user/**", "/login", "/signup").permitAll() // user API에 대한 모든 접근 허용
+//                        .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
+                                .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // JWT 필터 추가
         return http.build();
