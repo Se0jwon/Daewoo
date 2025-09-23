@@ -43,13 +43,17 @@ public class ApiUserController extends CommonRestController {
     @PostMapping("")
     public ResponseEntity<ResponseDto> registerAndSendVerificationEmail(@RequestBody UserDto dto){
         try{
+
             service.insert(dto);
+
             String verificationCode = service.generateVerificationCode(dto.getUserEmail());
             emailService.sendVerificationCode(dto.getUserEmail(), verificationCode);
             return getResponseEntity(ResponseCode.SUCCESS, "회원가입을 위해 이메일로 전송된 인증번호를 확인해주세요.", null, null);
         }catch (Throwable e){
             log.error(e.toString());
+
             return getResponseEntity(ResponseCode.INSERT_FAIL, e.getMessage(), dto, e);
+
         }
     }
 
@@ -100,10 +104,12 @@ public class ApiUserController extends CommonRestController {
         }
     }
 
+
     // 비밀번호 재설정 API
     @PatchMapping("/reset-password")
     public ResponseEntity<ResponseDto> resetPassword(@RequestBody PasswordResetDto dto) {
         try {
+
             // 이메일과 인증번호를 이용해 코드 유효성 검증
             if (!service.verifyCode(dto.getUserEmail(), dto.getVerificationCode())) {
                 return getResponseEntity(ResponseCode.INVALID_REQUEST, "유효하지 않은 인증번호입니다.", null, null);
@@ -112,6 +118,7 @@ public class ApiUserController extends CommonRestController {
             // 인증 성공 시 비밀번호 재설정
             service.resetPassword(dto.getUserEmail(), dto.getNewPassword());
             return getResponseEntity(ResponseCode.SUCCESS, "비밀번호가 성공적으로 재설정되었습니다.", null, null);
+
         } catch (Throwable e) {
             log.error(e.toString());
             return getResponseEntity(ResponseCode.ERROR, "비밀번호 재설정 실패", null, e);

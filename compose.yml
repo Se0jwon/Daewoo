@@ -27,7 +27,9 @@ services:
   #    restart: always
 
   boot-app:
+
     image: seojw173/back_image
+
     build:
       context: ./
       dockerfile: dockerfile
@@ -44,7 +46,9 @@ services:
       - TZ=Asia/Seoul
     depends_on:
       - redis
+
       - mariadb_container
+
     networks:
       - a_network
 #    restart: always

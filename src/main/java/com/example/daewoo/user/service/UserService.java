@@ -37,10 +37,12 @@ public class UserService {
         Random random = new Random();
         String code = String.format("%0" + VERIFICATION_CODE_LENGTH + "d", random.nextInt((int) Math.pow(10, VERIFICATION_CODE_LENGTH)));
         redisTemplate.opsForValue().set(userEmail, code, Duration.ofSeconds(VERIFICATION_CODE_TTL));
+
         return code;
     }
 
     public boolean verifyCode(String userEmail, String code) {
+
         if (userEmail == null || userEmail.trim().isEmpty()) {
             return false;
         }
@@ -73,6 +75,7 @@ public class UserService {
         return generateVerificationCode(userEmail);
     }
 
+
     public UserDto saveUserToDatabase(String userEmail) {
         String userJson = redisTemplate.opsForValue().get("signup:" + userEmail);
         if (userJson == null) {
@@ -90,6 +93,7 @@ public class UserService {
                 .build();
         UserEntity savedEntity = this.repository.save(entity);
         dto.setUserId(savedEntity.getUserId());
+
         redisTemplate.delete("signup:" + userEmail);
         return dto;
     }
@@ -197,5 +201,6 @@ public class UserService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error converting JSON to UserDto", e);
         }
+
     }
 }
