@@ -27,6 +27,7 @@ services:
   #    restart: always
 
   boot-app:
+    image: seojw173/back_image
     build:
       context: ./
       dockerfile: dockerfile
