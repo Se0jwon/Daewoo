@@ -3,6 +3,10 @@ package com.example.daewoo.user.service;
 import com.example.daewoo.reservation.dto.ReservationDto;
 import com.example.daewoo.user.dto.UserDto;
 import com.example.daewoo.user.dto.UserEntity;
+import com.example.daewoo.user.service.UserRepository; // 이 부분을 추가해야 합니다.
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
+
+// ... 이하 코드는 기존과 동일 ...
 
 @Service
 public class UserService {
@@ -25,40 +31,58 @@ public class UserService {
     private static final int VERIFICATION_CODE_LENGTH = 6;
     private static final long VERIFICATION_CODE_TTL = 300L; // 5분 (300초)
 
+    private static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+
     public String generateVerificationCode(String userEmail) {
         Random random = new Random();
         String code = String.format("%0" + VERIFICATION_CODE_LENGTH + "d", random.nextInt((int) Math.pow(10, VERIFICATION_CODE_LENGTH)));
-
-        // Redis에 이메일 주소를 키로, 인증번호를 값으로 저장하고 5분 뒤 만료되도록 설정
         redisTemplate.opsForValue().set(userEmail, code, Duration.ofSeconds(VERIFICATION_CODE_TTL));
 
         return code;
     }
 
     public boolean verifyCode(String userEmail, String code) {
-        String storedCode = redisTemplate.opsForValue().get(userEmail); // Redis에서 인증번호 조회
 
-        // 인증번호가 존재하고, 사용자가 입력한 코드와 일치하는지 확인
+        if (userEmail == null || userEmail.trim().isEmpty()) {
+            return false;
+        }
+        String storedCode = redisTemplate.opsForValue().get(userEmail);
+
+        // Redis에 저장된 코드가 존재하고, 입력된 코드와 일치하는지 확인
         if (storedCode != null && storedCode.equals(code)) {
-            redisTemplate.delete(userEmail); // 인증 성공 시 Redis 데이터 삭제
             return true;
         }
+
         return false;
     }
 
-    // 회원가입 시 임시 저장 기능
     public void insert(UserDto dto) {
+        if (repository.findByUserEmail(dto.getUserEmail()).isPresent()) {
+            throw new RuntimeException("이미 존재하는 이메일입니다.");
+        }
+
         String userJson = convertUserDtoToJson(dto);
-        redisTemplate.opsForValue().set("signup:" + dto.getUserEmail(), userJson, Duration.ofMinutes(10)); // 10분 동안 임시 저장
+        redisTemplate.opsForValue().set("signup:" + dto.getUserEmail(), userJson, Duration.ofMinutes(10));
     }
 
-    // 이메일 인증 후 실제 데이터베이스에 저장
+    // 비밀번호 재설정 인증번호 발송 요청 메서드
+    public String sendPasswordResetCode(String userEmail) {
+        // 이메일이 데이터베이스에 존재하는지 확인
+        if (repository.findByUserEmail(userEmail).isEmpty()) {
+            throw new RuntimeException("등록되지 않은 이메일입니다.");
+        }
+        // 인증번호 생성 및 Redis에 저장
+        return generateVerificationCode(userEmail);
+    }
+
+
     public UserDto saveUserToDatabase(String userEmail) {
         String userJson = redisTemplate.opsForValue().get("signup:" + userEmail);
         if (userJson == null) {
             throw new RuntimeException("회원가입 정보가 만료되었거나 존재하지 않습니다.");
         }
         UserDto dto = convertJsonToUserDto(userJson);
+
         UserEntity entity = UserEntity.builder()
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
@@ -69,16 +93,23 @@ public class UserService {
                 .build();
         UserEntity savedEntity = this.repository.save(entity);
         dto.setUserId(savedEntity.getUserId());
-        redisTemplate.delete("signup:" + userEmail); // 저장 완료 후 Redis 데이터 삭제
+
+        redisTemplate.delete("signup:" + userEmail);
         return dto;
     }
 
-    // 비밀번호 재설정 기능
     public UserDto resetPassword(String userEmail, String newPassword) {
         UserEntity entity = this.repository.findByUserEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        if (passwordEncoder.matches(newPassword, entity.getPassword())) {
+            throw new IllegalArgumentException("기존 비밀번호와 동일한 비밀번호로는 변경할 수 없습니다.");
+        }
         entity.setPassword(passwordEncoder.encode(newPassword));
         UserEntity updatedEntity = this.repository.save(entity);
+
+        // 비밀번호 재설정 완료 후 Redis에서 인증번호 삭제
+        redisTemplate.delete(userEmail);
+
         return new UserDto(
                 updatedEntity.getUserId(),
                 updatedEntity.getUsername(),
@@ -93,7 +124,6 @@ public class UserService {
                         .toList());
     }
 
-    // --- 기존의 다른 메서드들 (findAll, findById, update, delete)은 그대로 유지됩니다. ---
     public List<UserDto> findAll(){
         return this.repository.findAll().stream()
                 .map(entity -> new UserDto(
@@ -157,22 +187,20 @@ public class UserService {
         this.repository.deleteById(id);
     }
 
-    // JSON 직렬화/역직렬화 Helper 메서드
     private String convertUserDtoToJson(UserDto dto) {
-        // 실제로는 ObjectMapper를 사용해야 하지만, 여기서는 간단히 표현
-        return String.format("{\"username\":\"%s\",\"password\":\"%s\",\"userEmail\":\"%s\"}",
-                dto.getUsername(), dto.getPassword(), dto.getUserEmail());
+        try {
+            return objectMapper.writeValueAsString(dto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error converting UserDto to JSON", e);
+        }
     }
 
     private UserDto convertJsonToUserDto(String json) {
-        // 실제로는 ObjectMapper를 사용해야 하지만, 여기서는 간단히 표현
-        String username = json.split("\"username\":\"")[1].split("\"")[0];
-        String password = json.split("\"password\":\"")[1].split("\"")[0];
-        String userEmail = json.split("\"userEmail\":\"")[1].split("\"")[0];
-        UserDto dto = new UserDto();
-        dto.setUsername(username);
-        dto.setPassword(password);
-        dto.setUserEmail(userEmail);
-        return dto;
+        try {
+            return objectMapper.readValue(json, UserDto.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error converting JSON to UserDto", e);
+        }
+
     }
 }
