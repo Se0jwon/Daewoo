@@ -1,12 +1,11 @@
 package com.example.daewoo.review.dto;
 
-import com.example.daewoo.accommodation.dto.AccommodationDto;
-import com.example.daewoo.accommodation.location.dto.LocationDto;
-import com.example.daewoo.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -16,7 +15,7 @@ public class ReviewDto {
     private Long reviewId;
     private String title;
     private String content;
-    private Integer score;
+    private BigDecimal score;
 
     private String username;
 

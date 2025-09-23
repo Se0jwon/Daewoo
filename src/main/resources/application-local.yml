@@ -13,9 +13,13 @@ spring:
     url: jdbc:mariadb://localhost:13306/hotels_db
     username: hotels_user
     password: hotels12345
-  jpa:
-    hibernate:
-      ddl-auto: update
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+
+file:
+  upload-dir: D:/image/
+  resource-handler: /images/**
 
 #JPA log
 logging:
