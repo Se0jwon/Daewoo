@@ -1,12 +1,14 @@
 spring:
   application:
     name: backend
+  profiles:
+    active: local
 
   mail:
     host: smtp.gmail.com
     port: 587
-    username: sjso11426682@gmail.com
-    password: bjjihyiojfpcznwo
+    username: jhh010143@gmail.com
+    password: yrrjdunfydfycrof
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true

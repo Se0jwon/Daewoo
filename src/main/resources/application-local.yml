@@ -17,6 +17,10 @@ spring:
 #    hibernate:
 #      ddl-auto: update
 
+file:
+  upload-dir: D:/image/
+  resource-handler: /images/**
+
 #JPA log
 logging:
   level:

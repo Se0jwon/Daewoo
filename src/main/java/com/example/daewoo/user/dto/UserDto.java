@@ -22,6 +22,7 @@ public class UserDto {
     private String userPhone;
     private String userEmail;
     private LocalDate userBirth;
+    private String imageUrl;
 
     private List<ReservationDto> reservations;
 
