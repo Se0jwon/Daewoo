@@ -25,7 +25,7 @@ public class ReviewService {
         ReviewEntity entity = dto.toEntity();
 
         AccommodationEntity accommodationEntity = accommodationRepository.findById(dto.getComId())
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
+                .orElseThrow(() -> new RuntimeException("hotel Not Found"));
         entity.setAccommodationEntity(accommodationEntity);
 
         this.reviewRepository.save(entity);
@@ -33,6 +33,12 @@ public class ReviewService {
 
     public Page<ReviewDto> findAll(Pageable pageable){
         Page<ReviewEntity> entities = reviewRepository.findAll(pageable);
+
+        return entities.map(ReviewDto::fromEntity);
+    }
+
+    public Page<ReviewDto> findAllByAccommodationEntity_ComId(Long comId, Pageable pageable){
+        Page<ReviewEntity> entities = reviewRepository.findAllByAccommodationEntity_ComId(comId, pageable);
 
         return entities.map(ReviewDto::fromEntity);
     }
@@ -46,7 +52,7 @@ public class ReviewService {
         ReviewEntity entity = dto.toEntity();
 
         AccommodationEntity accommodationEntity = accommodationRepository.findById(dto.getComId())
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
+                .orElseThrow(() -> new RuntimeException("hotel Not Found"));
         entity.setAccommodationEntity(accommodationEntity);
 
         this.reviewRepository.save(entity);

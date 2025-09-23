@@ -39,6 +39,9 @@ public class UserEntity {
     @Column(name = "user_birth")
     private LocalDate userBirth;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference // JSON 출력
     private List<ReservationEntity> reservations = new ArrayList<>();

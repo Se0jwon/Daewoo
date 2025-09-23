@@ -27,6 +27,8 @@ public class UserDto {
     private String userPhone;
     private String userEmail;
     private LocalDate userBirth;
+    private String imageUrl;
+
     private List<ReservationDto> reservations;
 
     // Entity -> Dto
@@ -38,6 +40,7 @@ public class UserDto {
         this.userPhone = entity.getUserPhone();
         this.userEmail = entity.getUserEmail();
         this.userBirth = entity.getUserBirth();
+        this.imageUrl = entity.getImageUrl();
         if (entity.getReservations() != null) {
             this.reservations = entity.getReservations().stream()
                     .map(ReservationDto::fromEntity)

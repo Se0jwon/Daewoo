@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,7 +22,7 @@ public class ReviewEntity {
 
     private String title;
     private String content;
-    private Integer score;
+    private BigDecimal score;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

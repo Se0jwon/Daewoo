@@ -9,15 +9,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
 
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccommodationDto {
+public class AccommodationOneDto {
     private Long comId;
     private String comTitle;
     private String comDescription;
@@ -27,7 +29,9 @@ public class AccommodationDto {
 
     private LocationDto location;
 
-    private List<ReviewDto> reviews;
+    private BigDecimal reviewAvg;
+    private Integer reviewCount;
+//    private List<ReviewDto> reviews;
 
     private List<ParlorDto> parlors;
 
@@ -42,8 +46,8 @@ public class AccommodationDto {
         return entity;
     }
 
-    public static AccommodationDto fromEntity(AccommodationEntity entity){
-        AccommodationDto dto = new AccommodationDto();
+    public static AccommodationOneDto fromEntity(AccommodationEntity entity){
+        AccommodationOneDto dto = new AccommodationOneDto();
         dto.setComId(entity.getComId());
         dto.setComTitle(entity.getComTitle());
         dto.setComDescription(entity.getComDescription());
@@ -53,9 +57,9 @@ public class AccommodationDto {
                 .map(AmenitiesDto::fromEntity)
                 .collect(Collectors.toList()));
 
-        dto.setReviews(entity.getReviews().stream()
-                .map(ReviewDto::fromEntity)
-                .collect(Collectors.toList()));
+//        dto.setReviews(entity.getReviews().stream()
+//                .map(ReviewDto::fromEntity)
+//                .collect(Collectors.toList()));
 
         dto.setParlors(entity.getParlors().stream()
                 .map(ParlorDto::fromEntity)

@@ -4,21 +4,21 @@ import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
 import com.example.daewoo.common.jwt.JwtTokenProvider;
-import com.example.daewoo.user.dto.UserDto;
-import com.example.daewoo.user.dto.LoginDto;
-import com.example.daewoo.user.dto.EmailVerificationDto;
-import com.example.daewoo.user.dto.VerificationRequestDto;
-import com.example.daewoo.user.dto.PasswordResetDto;
+import com.example.daewoo.user.dto.*;
 import com.example.daewoo.user.service.EmailService;
 import com.example.daewoo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -181,6 +181,33 @@ public class ApiUserController extends CommonRestController {
         }catch (Throwable e){
             log.error(e.toString());
             return getResponseEntity(ResponseCode.UPDATE_FAIL, "Delete Error", id, e);
+        }
+    }
+
+    // 이미지 업로드
+    @PostMapping("/{userId}/profile-image")
+    public ResponseEntity<ResponseDto> updateUserProfileImage(
+            @PathVariable Long userId,
+            @RequestParam("image") MultipartFile imageFile) {
+        try {
+            // 서비스를 호출하여 이미지 업로드 및 URL 업데이트 처리
+            String imageUrl = service.imageUpload(userId, imageFile);
+            return getResponseEntity(ResponseCode.SUCCESS, "Image Upload Ok", imageUrl, null);
+        } catch (Throwable e) {
+            log.error(e.toString());
+            return getResponseEntity(ResponseCode.UPDATE_FAIL, "Image Upload Error", null, e);
+        }
+    }
+
+    @GetMapping("/images/{filename}")
+    public ResponseEntity<ResponseDto> serveImage(@PathVariable String filename) {
+        try {
+            // 1. 파일 경로 생성
+            Resource resource = service.loadImage(filename);
+            return getResponseEntity(ResponseCode.SUCCESS, "Image Load Ok", resource, null);
+        } catch (Throwable e) {
+            // 5. 경로가 이상하면 500 에러 반환
+            return getResponseEntity(ResponseCode.SELECT_FAIL, "Image Load Error", null, e);
         }
     }
 }

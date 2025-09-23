@@ -8,9 +8,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,6 +38,9 @@ public class UserService {
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     private static final int VERIFICATION_CODE_LENGTH = 6;
     private static final long VERIFICATION_CODE_TTL = 300L; // 5분 (300초)
@@ -56,6 +70,47 @@ public class UserService {
         return false;
     }
 
+    //사용자 이미지 업로드
+    @Transactional
+    public String imageUpload(Long userId, MultipartFile image) throws IOException {
+        UserEntity entity = repository.findById(userId)
+                .orElseThrow(()->new IllegalArgumentException("사용자가 존재하지 않습니다."));
+
+        if(image.isEmpty()){
+            throw new IllegalArgumentException("파일이 존재하지 않습니다.");
+        }
+
+        String originalFilename = image.getOriginalFilename();
+        String uuidFilename = UUID.randomUUID().toString()+"_"+originalFilename;
+
+        File file = new File(uploadDir + uuidFilename);
+        image.transferTo(file);
+
+        entity.setImageUrl(uuidFilename);
+        repository.save(entity);
+
+        return "/images/"+uuidFilename;
+    }
+
+    public Resource loadImage(String filename) {
+        try {
+            // Path 객체를 사용하여 파일 경로를 안전하게 조합합니다.
+            Path filePath = Paths.get(uploadDir).resolve(filename).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                // 파일이 존재하지 않거나 읽을 수 없는 경우 예외를 발생시킵니다.
+                throw new RuntimeException("파일을 찾을 수 없거나 읽을 수 없습니다: " + filename);
+            }
+        } catch (MalformedURLException e) {
+            // 파일 경로가 유효하지 않은 URL 형식일 때 예외를 발생시킵니다.
+            throw new RuntimeException("파일 경로가 올바르지 않습니다: " + filename, e);
+        }
+    }
+
+    // 회원가입 시 임시 저장 기능
     public void insert(UserDto dto) {
         if (repository.findByUserEmail(dto.getUserEmail()).isPresent()) {
             throw new RuntimeException("이미 존재하는 이메일입니다.");
@@ -98,6 +153,8 @@ public class UserService {
         return dto;
     }
 
+    // Entity 리스트를 DTO 리스트로 변환하여 반환
+    // 비밀번호 재설정 기능
     public UserDto resetPassword(String userEmail, String newPassword) {
         UserEntity entity = this.repository.findByUserEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -118,6 +175,7 @@ public class UserService {
                 updatedEntity.getUserPhone(),
                 updatedEntity.getUserEmail(),
                 updatedEntity.getUserBirth(),
+                updatedEntity.getImageUrl(),
                 updatedEntity.getReservations()
                         .stream()
                         .map(ReservationDto::fromEntity)
@@ -134,16 +192,19 @@ public class UserService {
                         entity.getUserPhone(),
                         entity.getUserEmail(),
                         entity.getUserBirth(),
+                        entity.getImageUrl(),
                         entity.getReservations()
                                 .stream()
                                 .map(ReservationDto::fromEntity)
                                 .toList()))
                 .collect(Collectors.toList());
+
     }
 
+    // Entity를 DTO로 변환하여 반환
     public Optional<UserDto> findById(Long id){
         return this.repository.findById(id)
-                .map(entity -> new UserDto(
+                       .map(entity -> new UserDto(
                         entity.getUserId(),
                         entity.getUsername(),
                         null,
@@ -151,6 +212,7 @@ public class UserService {
                         entity.getUserPhone(),
                         entity.getUserEmail(),
                         entity.getUserBirth(),
+                        entity.getImageUrl(),
                         entity.getReservations()
                                 .stream()
                                 .map(ReservationDto::fromEntity)
@@ -177,6 +239,7 @@ public class UserService {
                 updatedEntity.getUserPhone(),
                 updatedEntity.getUserEmail(),
                 updatedEntity.getUserBirth(),
+                updatedEntity.getImageUrl(),
                 entity.getReservations()
                         .stream()
                         .map(ReservationDto::fromEntity)
