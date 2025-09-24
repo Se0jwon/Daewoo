@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Getter
@@ -26,6 +27,8 @@ public class AccommodationEntity {
     private String comTitle;
     private String comDescription;
     private String comAddress;
+    private BigDecimal reviewAvg;
+    private Integer reviewCount;
     private Integer star;
 
     @ManyToOne

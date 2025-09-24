@@ -33,8 +33,7 @@ public class ApiAccommodationController extends CommonRestController {
     private ReviewService reviewService;
 
     @GetMapping("")
-    public ResponseEntity<ResponseDto> findAll(@PageableDefault(size = 4, sort = "comId"
-                                                , direction = Sort.Direction.ASC) Pageable pageable){
+    public ResponseEntity<ResponseDto> findAll(@PageableDefault(size = 4, direction = Sort.Direction.DESC) Pageable pageable){
         try {
             if (pageable.getPageNumber() == 0) {
                 Slice<AccommodationAllDto> list = this.accommodationService.findAll(pageable);
