@@ -24,7 +24,6 @@ public class AccommodationOneDto {
     private String comTitle;
     private String comDescription;
     private String comAddress;
-    private Integer star;
 
     private List<AmenitiesDto> amenities;
 
@@ -43,7 +42,6 @@ public class AccommodationOneDto {
         entity.setComTitle(this.comTitle);
         entity.setComDescription(this.comDescription);
         entity.setComAddress(this.comAddress);
-        entity.setStar(this.star);
 
         return entity;
     }
@@ -54,7 +52,6 @@ public class AccommodationOneDto {
         dto.setComTitle(entity.getComTitle());
         dto.setComDescription(entity.getComDescription());
         dto.setComAddress(entity.getComAddress());
-        dto.setStar(entity.getStar());
 
         dto.setAmenities(entity.getAmenities().stream()
                 .map(AmenitiesDto::fromEntity)

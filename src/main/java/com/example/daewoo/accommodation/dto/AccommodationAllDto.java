@@ -22,7 +22,6 @@ public class AccommodationAllDto {
     private String comTitle;
     private String comDescription;
     private String comAddress;
-    private Integer star;
 
     private LocationDto location;
 
@@ -36,7 +35,6 @@ public class AccommodationAllDto {
         entity.setComTitle(this.comTitle);
         entity.setComDescription(this.comDescription);
         entity.setComAddress(this.comAddress);
-        entity.setStar(this.star);
 
         return entity;
     }
@@ -47,7 +45,6 @@ public class AccommodationAllDto {
         dto.setComTitle(entity.getComTitle());
         dto.setComDescription(entity.getComDescription());
         dto.setComAddress(entity.getComAddress());
-        dto.setStar(entity.getStar());
 
         dto.setLocation(LocationDto.fromEntity(entity.getLocationEntity()));
 
