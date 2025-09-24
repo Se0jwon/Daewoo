@@ -26,6 +26,7 @@ public class AccommodationEntity {
     private String comTitle;
     private String comDescription;
     private String comAddress;
+    private Integer star;
 
     @ManyToOne
     @JoinColumn(name = "location_id")

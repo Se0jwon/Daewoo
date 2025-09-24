@@ -1,5 +1,6 @@
 package com.example.daewoo.accommodation.image.apicontroller;
 
+import com.example.daewoo.accommodation.image.dto.ComImageDetailDto;
 import com.example.daewoo.accommodation.image.dto.ComImageDto;
 import com.example.daewoo.accommodation.image.service.ComImageRepository;
 import com.example.daewoo.accommodation.image.service.ComImageService;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 
 @Slf4j
@@ -27,20 +30,32 @@ public class ApiComImageController extends CommonRestController {
     @Autowired
     private ComImageService comImageService;
 
-    @GetMapping("/main/{filename}")
-    public ResponseEntity<Resource> mainImage(@PathVariable String filename) {
+    @GetMapping("/load/{filename}")
+    public ResponseEntity<Resource> loadImage(@PathVariable String filename) {
         try {
-            // 1. 파일 경로 생성
+            // 1. 서비스에서 Resource 객체를 가져옵니다.
             Resource resource = comImageService.loadImage(filename);
-            String contentType = "image/jpeg"; // 또는 적절한 MIME 타입 설정 로직 추가
 
+            // 2. 파일의 MIME 타입을 동적으로 결정합니다.
+            //    이 로직은 서비스나 유틸리티 클래스에서 처리하는 것이 더 좋습니다.
+            //    여기서는 설명을 위해 직접 작성합니다.
+            String contentType = null;
+            try {
+                contentType = Files.probeContentType(resource.getFile().toPath());
+            } catch (IOException e) {
+                log.error("Failed to determine content type for file: {}", filename, e);
+            }
+            if (contentType == null) {
+                contentType = "application/octet-stream"; // 기본값
+            }
+
+            // 3. HTTP 응답 헤더에 Content-Type을 설정하여 반환합니다.
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_TYPE, contentType)
                     .body(resource);
-//            return getResponseEntity(ResponseCode.SUCCESS, "Image Load Ok", resource, null);
-        } catch (Throwable e) {
-            // 5. 경로가 이상하면 500 에러 반환
-//            return getResponseEntity(ResponseCode.SELECT_FAIL, "Image Load Error", null, e);
+
+        } catch (RuntimeException e) {
+            log.error("Image load error for filename {}: {}", filename, e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
@@ -48,8 +63,8 @@ public class ApiComImageController extends CommonRestController {
     @GetMapping("/{comId}")
     public ResponseEntity<ResponseDto> findComImage(@PathVariable Long comId){
         try{
-            List<ComImageDto> list = this.comImageService.findComImage(comId);
-            return getResponseEntity(ResponseCode.SUCCESS, "Image Select Ok", list, null);
+            ComImageDetailDto dto = this.comImageService.findComImage(comId);
+            return getResponseEntity(ResponseCode.SUCCESS, "Image Select Ok", dto, null);
         }catch (Throwable e){
             log.error(e.toString());
             return getResponseEntity(ResponseCode.SELECT_FAIL, "Image Select Error", null, e);

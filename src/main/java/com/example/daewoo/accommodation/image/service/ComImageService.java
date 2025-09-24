@@ -2,6 +2,7 @@ package com.example.daewoo.accommodation.image.service;
 
 import com.example.daewoo.accommodation.dto.AccommodationEntity;
 import com.example.daewoo.accommodation.dto.AccommodationOneDto;
+import com.example.daewoo.accommodation.image.dto.ComImageDetailDto;
 import com.example.daewoo.accommodation.image.dto.ComImageDto;
 import com.example.daewoo.accommodation.image.dto.ComImageEntity;
 import com.example.daewoo.accommodation.service.AccommodationRepository;
@@ -11,25 +12,24 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ComImageService {
     @Autowired
     private ComImageRepository comImageRepository;
 
-    @Autowired
-    private AccommodationRepository accommodationRepository;
-
     @Value("${file.upload-dir}")
     private String uploadDir;
 
     public Resource loadImage(String filename) {
         try {
-            // Path 객체를 사용하여 파일 경로를 안전하게 조합합니다.
             Path filePath = Paths.get(uploadDir).resolve(filename).normalize();
             Resource resource = new UrlResource(filePath.toUri());
 
@@ -45,9 +45,26 @@ public class ComImageService {
         }
     }
 
-    public List<ComImageDto> findComImage(Long comId){
+    public String getMimeType(Resource resource) throws IOException {
+        String contentType = Files.probeContentType(resource.getFile().toPath());
+        return contentType != null ? contentType : "application/octet-stream";
+    }
+
+    public ComImageDetailDto findComImage(Long comId){
         List<ComImageEntity> entities = this.comImageRepository.findByAccommodation_ComId(comId);
-        return entities.stream().map(ComImageDto::fromEntity).toList();
+
+        String mainImage = entities.stream()
+                .filter(ComImageEntity::getIsMain)
+                .map(ComImageEntity::getImageUrl)
+                .findFirst()
+                .orElse(null);
+
+        List<String> subImages = entities.stream()
+                .filter(image -> !image.getIsMain())
+                .map(ComImageEntity::getImageUrl)
+                .toList();
+
+        return new ComImageDetailDto(comId, mainImage, subImages);
     }
 
 }
