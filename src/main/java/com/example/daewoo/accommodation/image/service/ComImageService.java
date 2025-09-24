@@ -27,12 +27,6 @@ public class ComImageService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public List<ComImageDto> imageList(Long comId){
-        List<ComImageEntity> entities = this.comImageRepository.findByAccommodation_ComId(comId);
-
-        return entities.stream().map(ComImageDto::fromEntity).toList();
-    }
-
     public Resource loadImage(String filename) {
         try {
             // Path 객체를 사용하여 파일 경로를 안전하게 조합합니다.
@@ -50,4 +44,10 @@ public class ComImageService {
             throw new RuntimeException("파일 경로가 올바르지 않습니다: " + filename, e);
         }
     }
+
+    public List<ComImageDto> findComImage(Long comId){
+        List<ComImageEntity> entities = this.comImageRepository.findByAccommodation_ComId(comId);
+        return entities.stream().map(ComImageDto::fromEntity).toList();
+    }
+
 }
