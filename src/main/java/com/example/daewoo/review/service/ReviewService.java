@@ -32,11 +32,11 @@ public class ReviewService {
         ReviewEntity entity = dto.toEntity();
 
         UserEntity userEntity = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException("hotel Not Found"));
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
         entity.setUserEntity(userEntity);
 
         AccommodationEntity accommodationEntity = accommodationRepository.findById(dto.getComId())
-                .orElseThrow(() -> new RuntimeException("hotel Not Found"));
+                .orElseThrow(() -> new RuntimeException("Hotel Not Found"));
         entity.setAccommodationEntity(accommodationEntity);
 
         this.reviewRepository.save(entity);
@@ -64,11 +64,11 @@ public class ReviewService {
         ReviewEntity entity = dto.toEntity();
 
         UserEntity userEntity = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException("hotel Not Found"));
+                .orElseThrow(() -> new RuntimeException("User Not Found"));
         entity.setUserEntity(userEntity);
 
         AccommodationEntity accommodationEntity = accommodationRepository.findById(dto.getComId())
-                .orElseThrow(() -> new RuntimeException("hotel Not Found"));
+                .orElseThrow(() -> new RuntimeException("Hotel Not Found"));
         entity.setAccommodationEntity(accommodationEntity);
 
         this.reviewRepository.save(entity);
@@ -96,7 +96,7 @@ public class ReviewService {
             avgScore = new BigDecimal("0.0"); // 리뷰가 없으면 0.0으로 설정
         } else {
             avgScore = new BigDecimal(avgScoreDouble) // Double을 BigDecimal로 변환
-                    .setScale(2, RoundingMode.HALF_UP); // 소수점 첫째 자리까지 반올림
+                    .setScale(1, RoundingMode.HALF_UP); // 소수점 첫째 자리까지 반올림
         }
 
         Integer reviewCount = reviewRepository.findReviewCountByComId(comId);

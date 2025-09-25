@@ -8,6 +8,7 @@ import com.example.daewoo.review.service.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -42,8 +43,12 @@ public class AccommodationService {
 //            return dto;
 //        });
 //    }
-    public Slice<AccommodationAllDto> findAll(Pageable pageable){
-        Slice<AccommodationEntity> entities = accommodationRepository.findAll(pageable);
+    public Slice<AccommodationAllDto> findAll(Integer minPrice,Integer maxPrice, List<String> amCategory, String comTitle, Integer star, Pageable pageable){
+        Specification<AccommodationEntity> spec = AccommodationSpecification.hasPriceInRange(minPrice, maxPrice);
+        spec = spec.and(AccommodationSpecification.hasAmenities(amCategory));
+        spec = spec.and(AccommodationSpecification.hasName(comTitle));
+        spec = spec.and(AccommodationSpecification.hasStar(star));
+        Slice<AccommodationEntity> entities = accommodationRepository.findAll(spec, pageable);
 
         return entities.map(AccommodationAllDto::fromEntity);
     }
