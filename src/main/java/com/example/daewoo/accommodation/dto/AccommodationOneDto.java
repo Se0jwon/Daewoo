@@ -26,6 +26,7 @@ public class AccommodationOneDto {
     private String comAddress;
     private Integer star;
 
+
     private List<AmenitiesDto> amenities;
 
     private LocationDto location;

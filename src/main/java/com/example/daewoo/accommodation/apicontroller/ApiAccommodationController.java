@@ -41,12 +41,16 @@ public class ApiAccommodationController extends CommonRestController {
                                                @RequestParam(defaultValue = "") Integer star){
         try {
             if (pageable.getPageNumber() == 0) {
+
                 Slice<AccommodationAllDto> list = this.accommodationService.findAll(minPrice, maxPrice, amCategory, comTitle, star, pageable);
+
                 Long totalCount = accommodationService.totalCount();
                 AccommodationResponse res = new AccommodationResponse(totalCount, list);
                 return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", res, null);
             }else{
+
                 Slice<AccommodationAllDto> list = this.accommodationService.findAll(minPrice, maxPrice, amCategory, comTitle, star, pageable);
+
                 return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
             }
         }catch (Throwable e){

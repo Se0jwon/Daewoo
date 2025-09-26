@@ -10,6 +10,7 @@ import com.example.daewoo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -211,6 +212,7 @@ public class ApiUserController extends CommonRestController {
             // 5. 경로가 이상하면 500 에러 반환
 //            return getResponseEntity(ResponseCode.SELECT_FAIL, "Image Load Error", null, e);
             return ResponseEntity.notFound().build();
+
         }
     }
 }

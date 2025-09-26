@@ -37,6 +37,7 @@ public class ReviewService {
 
         AccommodationEntity accommodationEntity = accommodationRepository.findById(dto.getComId())
                 .orElseThrow(() -> new RuntimeException("Hotel Not Found"));
+
         entity.setAccommodationEntity(accommodationEntity);
 
         this.reviewRepository.save(entity);
@@ -63,12 +64,14 @@ public class ReviewService {
     public void update(ReviewDto dto){
         ReviewEntity entity = dto.toEntity();
 
+
         UserEntity userEntity = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User Not Found"));
         entity.setUserEntity(userEntity);
 
         AccommodationEntity accommodationEntity = accommodationRepository.findById(dto.getComId())
                 .orElseThrow(() -> new RuntimeException("Hotel Not Found"));
+
         entity.setAccommodationEntity(accommodationEntity);
 
         this.reviewRepository.save(entity);
