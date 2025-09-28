@@ -1,3 +1,4 @@
+// JwtTokenProvider.java
 package com.example.daewoo.common.jwt;
 
 import io.jsonwebtoken.*;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -36,8 +38,7 @@ public class JwtTokenProvider {
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-
-        Date accessTokenExpiresIn = new Date(now + 10800000);
+        Date accessTokenExpiresIn = new Date(now + 10800000); // 3시간
 
         String accessToken = Jwts.builder()
                 .subject(authentication.getName())
@@ -47,6 +48,17 @@ public class JwtTokenProvider {
                 .compact();
 
         return accessToken;
+    }
+
+    /**
+     * 특정 사용자 이메일을 기반으로 JWT 토큰을 생성합니다. (Social Signup Complete 시 사용)
+     * ⭐ ApiUserController.java에서 사용됩니다.
+     */
+    public String generateTokenFromUserEmail(String email) {
+        Collection<? extends GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        UserDetails principal = new User(email, "", authorities);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", authorities);
+        return generateToken(authentication);
     }
 
     public Authentication getAuthentication(String accessToken) {

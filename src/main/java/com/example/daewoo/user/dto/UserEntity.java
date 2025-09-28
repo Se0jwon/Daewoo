@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
+@Setter // 💡 setRegistrationId, setOauthId, setRole 등이 자동으로 생성됩니다.
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -41,6 +41,18 @@ public class UserEntity {
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    // 💡 [추가] 소셜 서비스 제공자 이름 (kakao, naver, google)
+    @Column(name = "registration_id")
+    private String registrationId;
+
+    // 💡 [추가] 소셜 서비스의 고유 식별자
+    @Column(name = "oauth_id")
+    private String oauthId;
+
+    // 💡 [추가] 사용자 권한 (ROLE_USER, ROLE_PENDING_REGISTRATION 등)
+    @Column(name = "role")
+    private String role;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference // JSON 출력

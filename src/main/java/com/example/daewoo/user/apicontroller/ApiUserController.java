@@ -1,10 +1,11 @@
+// ApiUserController.java
 package com.example.daewoo.user.apicontroller;
 
 import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
 import com.example.daewoo.common.jwt.JwtTokenProvider;
-import com.example.daewoo.user.dto.*;
+import com.example.daewoo.user.dto.*; // SocialSignupRequestDto, UserDto, LoginDto 등 DTO를 포함
 import com.example.daewoo.user.service.EmailService;
 import com.example.daewoo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -139,6 +140,30 @@ public class ApiUserController extends CommonRestController {
         }
     }
 
+    /**
+     * 소셜 회원가입 추가 정보 입력 및 완료
+     * ⭐ [확인사항] undefined 오류를 유발했던 재인증 로직을 제거하고 토큰을 바로 생성합니다.
+     */
+    @PostMapping("/complete-social-signup")
+    public ResponseEntity<ResponseDto> completeSocialSignup(@RequestBody SocialSignupRequestDto dto) {
+        try {
+            // 1. 서비스 호출: DB에 추가 정보 저장 및 권한을 ROLE_USER로 변경
+            UserDto userDto = service.completeSocialSignup(dto);
+
+            // 2. 재인증 실패 가능성을 제거하고, 권한이 업데이트된 사용자 정보로 바로 토큰 생성
+            String token = jwtTokenProvider.generateTokenFromUserEmail(userDto.getUserEmail());
+
+            // 3. 응답 DTO에 토큰을 담아 클라이언트에 반환
+            return getResponseEntity(ResponseCode.SUCCESS, "소셜 회원가입 및 로그인 완료", token, null);
+
+        } catch (Throwable e) {
+            log.error("소셜 회원가입 완료 실패: {}", e.toString());
+            // 실패 시 클라이언트에서 토큰을 찾지 못해 undefined 오류가 발생하지 않도록
+            // 에러 메시지와 함께 실패 응답을 반환합니다.
+            return getResponseEntity(ResponseCode.UPDATE_FAIL, "회원가입 완료 실패: " + e.getMessage(), null, e);
+        }
+    }
+
     @GetMapping("")
     public ResponseEntity<ResponseDto> findAll(){
         try {
@@ -190,7 +215,6 @@ public class ApiUserController extends CommonRestController {
             @PathVariable Long userId,
             @RequestParam("image") MultipartFile imageFile) {
         try {
-            // 서비스를 호출하여 이미지 업로드 및 URL 업데이트 처리
             String imageUrl = service.imageUpload(userId, imageFile);
             return getResponseEntity(ResponseCode.SUCCESS, "Image Upload Ok", imageUrl, null);
         } catch (Throwable e) {
@@ -202,11 +226,9 @@ public class ApiUserController extends CommonRestController {
     @GetMapping("/images/{filename}")
     public ResponseEntity<ResponseDto> serveImage(@PathVariable String filename) {
         try {
-            // 1. 파일 경로 생성
             Resource resource = service.loadImage(filename);
             return getResponseEntity(ResponseCode.SUCCESS, "Image Load Ok", resource, null);
         } catch (Throwable e) {
-            // 5. 경로가 이상하면 500 에러 반환
             return getResponseEntity(ResponseCode.SELECT_FAIL, "Image Load Error", null, e);
         }
     }
