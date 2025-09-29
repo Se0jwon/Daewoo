@@ -1,3 +1,5 @@
+// RedisConfig.java (수정 제안)
+
 package com.example.daewoo.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -6,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer; // StringRedisSerializer import
 
 @Configuration
 public class RedisConfig {
@@ -21,11 +24,18 @@ public class RedisConfig {
         return new LettuceConnectionFactory(host, port);
     }
 
-    //RedisTemplate 사용을 위한 추가
+    // RedisTemplate Key와 Value의 타입을 String으로 명시하고 Serializer 설정
+    // RedisConfig.java (수정된 코드)
+
     @Bean
-    public RedisTemplate<?, ?> redisTemplate() {
-        RedisTemplate<?, ?> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, String> redisTemplate() {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
+
+        // 🚨 StringRedisSerializer 설정 추가
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+
         return redisTemplate;
     }
 }
