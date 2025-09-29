@@ -69,7 +69,8 @@ public class SecurityConfig {
                                 "/api/user/login",
                                 "/api/user", // 회원가입 요청 POST /api/user
                                 "/images/**", "/css/**", "/js/**",
-                                "/api/user/complete-social-signup"
+                                "/api/user/complete-social-signup",
+                                "/api/user/verify-email"
 
                         ).permitAll()
                         .anyRequest().authenticated()
