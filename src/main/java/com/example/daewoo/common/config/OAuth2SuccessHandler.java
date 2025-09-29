@@ -28,11 +28,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 
-        // src/main/java/com/example/daewoo/common/config/OAuth2SuccessHandler.java (수정할 파일)
 
-// ...
-
-// ROLE_PENDING_REGISTRATION 조건문 내부
         if (authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_PENDING_REGISTRATION"))) {
 
@@ -50,6 +46,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             if (nickname == null) nickname = ""; // null일 경우 빈 문자열
 
             // 이메일이나 닉네임이 빈 값이라도 일단 리다이렉트 URL을 안전하게 생성
+
             String redirectUrl = UriComponentsBuilder.fromUriString(FRONTEND_BASE_URL)
                     .path("/signup/additional-info")
                     .queryParam("oauthId", oauthId)
@@ -59,8 +56,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                     .encode(StandardCharsets.UTF_8)
                     .build()
                     .toUriString();
-
-// ...
 
             log.info("Redirecting GUEST user to: {}", redirectUrl);
             response.sendRedirect(redirectUrl);

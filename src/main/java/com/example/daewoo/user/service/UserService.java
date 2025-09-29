@@ -200,20 +200,19 @@ public class UserService {
      * 소셜 회원가입 추가 정보 입력 및 완료 처리
      */
 
+
     @Transactional
     public UserDto completeSocialSignup(SocialSignupRequestDto dto) {
         // 1. 해당 유저 엔티티를 찾습니다.
+
         UserEntity entity = repository.findByOauthIdAndRegistrationId(dto.getOauthId(), dto.getRegistrationId())
                 .orElseThrow(() -> new RuntimeException("소셜 로그인 정보를 찾을 수 없습니다."));
 
         // 2. 추가 정보를 업데이트합니다.
-        // ⭐ [핵심 수정] dto.getUserName() 대신 dto.getUsername()을 사용해야 합니다.
         entity.setUsername(dto.getUsername());
         entity.setUserAddress(dto.getUserAddress());
         entity.setUserPhone(dto.getUserPhone());
         entity.setUserBirth(dto.getUserBirth());
-
-        // 3. 임시 비밀번호 암호화하여 저장
         entity.setPassword(passwordEncoder.encode("TEMP_OAUTH_PASSWORD"));
 
         // 4. 권한을 ROLE_USER로 변경합니다. (가입 완료)

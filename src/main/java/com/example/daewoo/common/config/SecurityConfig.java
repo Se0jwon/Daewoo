@@ -70,6 +70,7 @@ public class SecurityConfig {
                                 "/api/user", // 회원가입 요청 POST /api/user
                                 "/images/**", "/css/**", "/js/**",
                                 "/api/user/complete-social-signup"
+
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
