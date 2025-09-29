@@ -230,9 +230,11 @@ public class ApiUserController extends CommonRestController {
             return ResponseEntity.ok(resource);
 //            return getResponseEntity(ResponseCode.SUCCESS, "Image Load Ok", resource, null);
         } catch (Throwable e) {
+
             // 5. 경로가 이상하면 500 에러 반환
 //            return getResponseEntity(ResponseCode.SELECT_FAIL, "Image Load Error", null, e);
             return ResponseEntity.notFound().build();
+
 
         }
     }
