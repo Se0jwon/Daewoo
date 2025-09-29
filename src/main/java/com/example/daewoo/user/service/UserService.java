@@ -93,28 +93,7 @@ public class UserService {
     }
 
 
-    //사용자 이미지 업로드
-    @Transactional
-    public String imageUpload(Long userId, MultipartFile image) throws IOException {
-        UserEntity entity = repository.findById(userId)
-                .orElseThrow(()->new IllegalArgumentException("사용자가 존재하지 않습니다."));
 
-        if(image.isEmpty()){
-            throw new IllegalArgumentException("파일이 존재하지 않습니다.");
-        }
-
-        String originalFilename = image.getOriginalFilename();
-        String uuidFilename = UUID.randomUUID().toString()+"_"+originalFilename;
-
-        File file = new File(uploadDir + uuidFilename);
-        image.transferTo(file);
-
-        entity.setImageUrl(uuidFilename);
-        repository.save(entity);
-
-        return "/images/"+uuidFilename;
-    }
-  
     public Resource loadImage(String filename) {
         try {
             // Path 객체를 사용하여 파일 경로를 안전하게 조합합니다.

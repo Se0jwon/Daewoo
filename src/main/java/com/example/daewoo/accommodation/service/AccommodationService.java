@@ -20,9 +20,6 @@ public class AccommodationService {
     @Autowired
     private AccommodationRepository accommodationRepository;
 
-    @Autowired
-    private ReviewRepository reviewRepository;
-
     public Long totalCount(){
         return accommodationRepository.hotelCount();
     }
@@ -50,12 +47,27 @@ public class AccommodationService {
         spec = spec.and(AccommodationSpecification.hasAmenities(amCategory));
         spec = spec.and(AccommodationSpecification.hasName(comTitle));
         spec = spec.and(AccommodationSpecification.hasStar(star));
-        Slice<AccommodationEntity> entities = accommodationRepository.findAll(spec, pageable);
 
-        return entities.map(AccommodationAllDto::fromEntity);
+        Slice<AccommodationEntity> entities = accommodationRepository.findAll(spec, pageable);
+        Slice<AccommodationAllDto> dto = entities.map(AccommodationAllDto::fromEntity);
+        List<AccommodationAllDto> list = dto.getContent();
+        for (AccommodationAllDto item : list) {
+            Long comId = item.getComId();
+            Integer price = accommodationRepository.findLowestPriceByHotelId(comId);
+            item.setPrice(price);
+        }
+
+        return dto;
     }
 
-    public Optional<AccommodationOneDto> findById(Long id){
-        return this.accommodationRepository.findById(id).map(AccommodationOneDto::fromEntity);
+    public Optional<AccommodationOneDto> findById(Long comId){
+        AccommodationEntity accommodation = accommodationRepository.findById(comId)
+                .orElseThrow(() -> new RuntimeException("숙소를 찾을 수 없습니다."));
+
+        Integer price = accommodationRepository.findLowestPriceByHotelId(comId);
+        AccommodationOneDto dto = AccommodationOneDto.fromEntity(accommodation);
+        dto.setPrice(price);
+
+        return Optional.of(dto);
     }
 }

@@ -23,6 +23,7 @@ public class AccommodationAllDto {
     private String comDescription;
     private String comAddress;
     private Integer star;
+    private Integer price;
 
     private LocationDto location;
 

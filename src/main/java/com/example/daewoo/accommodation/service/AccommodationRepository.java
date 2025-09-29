@@ -1,6 +1,7 @@
 package com.example.daewoo.accommodation.service;
 
 import com.example.daewoo.accommodation.dto.AccommodationEntity;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -18,6 +19,11 @@ public interface AccommodationRepository extends JpaRepository<AccommodationEnti
 
     @Query("SELECT COUNT(s) FROM AccommodationEntity s")
     Long hotelCount();
+
+    @Query("SELECT MIN(r.price) FROM AccRoomTypeEntity r WHERE r.accommodation.comId = :comId")
+    Integer findLowestPriceByHotelId(@Param("comId") Long comId);
+
+    Long comId(Long comId);
 
 //    @EntityGraph(attributePaths = "reviews")
 //    Optional<AccommodationEntity> findById(Long id);
