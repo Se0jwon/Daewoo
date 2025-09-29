@@ -28,23 +28,31 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 
+
         if (authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_PENDING_REGISTRATION"))) {
 
-            // 정보 추출
-            String oauthId = String.valueOf(oAuth2User.getAttributes().get("oauthId"));
-            String registrationId = (String) oAuth2User.getAttributes().get("registrationId");
-            String email = (String) oAuth2User.getAttributes().get("userEmail");
-            String nickname = (String) oAuth2User.getAttributes().get("nickname");
+            // 🚨 [수정된 부분]: 속성 추출 시 null 체크 및 안전한 값 할당 로직 추가
+            Object oauthIdObj = oAuth2User.getAttributes().get("oauthId");
+            String oauthId = oauthIdObj != null ? String.valueOf(oauthIdObj) : "";
 
-            // ⭐ [최종 수정] build() 호출 전에 .encode()를 명시적으로 호출합니다.
+            String registrationId = (String) oAuth2User.getAttributes().get("registrationId");
+            if (registrationId == null) registrationId = ""; // null일 경우 빈 문자열
+
+            String email = (String) oAuth2User.getAttributes().get("userEmail");
+            if (email == null) email = ""; // null일 경우 빈 문자열
+
+            String nickname = (String) oAuth2User.getAttributes().get("nickname");
+            if (nickname == null) nickname = ""; // null일 경우 빈 문자열
+
+            // 이메일이나 닉네임이 빈 값이라도 일단 리다이렉트 URL을 안전하게 생성
+
             String redirectUrl = UriComponentsBuilder.fromUriString(FRONTEND_BASE_URL)
                     .path("/signup/additional-info")
                     .queryParam("oauthId", oauthId)
                     .queryParam("registrationId", registrationId)
                     .queryParam("email", email)
                     .queryParam("nickname", nickname)
-                    // 🚨 [핵심 수정] build() 전에 UTF-8로 인코딩을 명시적으로 수행
                     .encode(StandardCharsets.UTF_8)
                     .build()
                     .toUriString();

@@ -199,9 +199,12 @@ public class UserService {
     /**
      * 소셜 회원가입 추가 정보 입력 및 완료 처리
      */
+
+
     @Transactional
     public UserDto completeSocialSignup(SocialSignupRequestDto dto) {
-        // 1. 해당 유저 엔티티를 찾습니다. (UserRepository에 메서드 정의 필수)
+        // 1. 해당 유저 엔티티를 찾습니다.
+
         UserEntity entity = repository.findByOauthIdAndRegistrationId(dto.getOauthId(), dto.getRegistrationId())
                 .orElseThrow(() -> new RuntimeException("소셜 로그인 정보를 찾을 수 없습니다."));
 
@@ -210,8 +213,6 @@ public class UserService {
         entity.setUserAddress(dto.getUserAddress());
         entity.setUserPhone(dto.getUserPhone());
         entity.setUserBirth(dto.getUserBirth());
-
-        // 3. 임시 비밀번호 암호화하여 저장 (보안 강화)
         entity.setPassword(passwordEncoder.encode("TEMP_OAUTH_PASSWORD"));
 
         // 4. 권한을 ROLE_USER로 변경합니다. (가입 완료)
@@ -223,10 +224,6 @@ public class UserService {
         // 6. UserDto로 변환하여 반환
         return UserDto.fromEntity(updatedEntity);
     }
-
-    // ======================================================================
-    // 이미지 관련 메서드 (기존 스니펫 기반)
-    // ======================================================================
 
     // 이미지 업로드 로직
     @Transactional

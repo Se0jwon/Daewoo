@@ -1,5 +1,8 @@
 package com.example.daewoo.user.dto;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
@@ -13,7 +16,11 @@ public class SocialSignupRequestDto {
 
     // 사용자 추가 입력 정보
     private String userEmail;
+
+
     private String username;
+
+
     private String userAddress;
     private String userPhone;
     private LocalDate userBirth;
