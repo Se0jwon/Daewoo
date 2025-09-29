@@ -1,8 +1,5 @@
 package com.example.daewoo.reservation.dto;
 
-import com.example.daewoo.parlor.dto.ParlorDto;
-import com.example.daewoo.parlor.dto.ParlorEntity;
-import com.example.daewoo.parlor.roomtype.AccRoomTypeDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,5 +37,4 @@ public class ReservationDto {
 
         return dto;
     }
-
 }

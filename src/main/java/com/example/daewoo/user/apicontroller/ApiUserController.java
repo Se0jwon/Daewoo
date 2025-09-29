@@ -10,6 +10,8 @@ import com.example.daewoo.user.service.EmailService;
 import com.example.daewoo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -224,12 +226,18 @@ public class ApiUserController extends CommonRestController {
     }
 
     @GetMapping("/images/{filename}")
-    public ResponseEntity<ResponseDto> serveImage(@PathVariable String filename) {
+    public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
         try {
             Resource resource = service.loadImage(filename);
-            return getResponseEntity(ResponseCode.SUCCESS, "Image Load Ok", resource, null);
+            return ResponseEntity.ok(resource);
+//            return getResponseEntity(ResponseCode.SUCCESS, "Image Load Ok", resource, null);
         } catch (Throwable e) {
-            return getResponseEntity(ResponseCode.SELECT_FAIL, "Image Load Error", null, e);
+
+            // 5. 경로가 이상하면 500 에러 반환
+//            return getResponseEntity(ResponseCode.SELECT_FAIL, "Image Load Error", null, e);
+            return ResponseEntity.notFound().build();
+
+
         }
     }
 }

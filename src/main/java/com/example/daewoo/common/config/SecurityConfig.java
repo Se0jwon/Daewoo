@@ -34,9 +34,22 @@ public class SecurityConfig {
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final ClientRegistrationRepository clientRegistrationRepository;
 
-    // 🚨 [핵심 수정] 중복 오류를 일으킨 passwordEncoder Bean 정의를 제거합니다.
-    // 이 정의는 PasswordEncoderConfig.java에 있어야 합니다.
-    /*
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용 안 함
+                .authorizeHttpRequests(authorize -> authorize
+//                        .requestMatchers("/api/user/**", "/login", "/signup").permitAll() // user API에 대한 모든 접근 허용
+//                        .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
+                                .anyRequest().permitAll()
+                )
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // JWT 필터 추가
+        return http.build();
+    }
+
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
