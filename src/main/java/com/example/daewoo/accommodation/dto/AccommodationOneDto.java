@@ -25,7 +25,7 @@ public class AccommodationOneDto {
     private String comDescription;
     private String comAddress;
     private Integer star;
-
+    private Integer price;
 
     private List<AmenitiesDto> amenities;
 

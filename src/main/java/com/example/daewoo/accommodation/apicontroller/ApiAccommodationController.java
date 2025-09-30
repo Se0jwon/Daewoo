@@ -71,16 +71,4 @@ public class ApiAccommodationController extends CommonRestController {
     }
 
 
-    @GetMapping("/{comId}/review")
-    public ResponseEntity<ResponseDto> findReview(@PathVariable Long comId,
-                                                  @PageableDefault(size = 5, sort = "reviewId", direction = Sort.Direction.DESC)
-                                                  Pageable pageable){
-        try {
-            Page<ReviewDto> list = this.reviewService.findAllByAccommodationEntity_ComId(comId, pageable);
-            return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
-        }catch (Throwable e){
-            log.error("예외 : "+e.toString());
-            return getResponseEntity(ResponseCode.SELECT_FAIL, "Find All Error", null, e);
-        }
-    }
 }

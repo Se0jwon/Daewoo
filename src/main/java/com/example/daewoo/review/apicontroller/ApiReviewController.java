@@ -18,16 +18,17 @@ import java.util.*;
 
 @Slf4j
 @RestController
-@RequestMapping("api/review")
+@RequestMapping("api/accommodation")
 public class ApiReviewController extends CommonRestController {
 
     @Autowired
     private ReviewService service;
 
-    @PostMapping("")
-    public ResponseEntity<ResponseDto> insert(@RequestBody ReviewDto dto){
+    @PostMapping("/{comId}/review")
+    public ResponseEntity<ResponseDto> insert(@RequestBody ReviewDto dto, @PathVariable Long comId){
         try{
-            service.insert(dto);
+            dto.setComId(comId);
+            this.service.insert(dto);
             return getResponseEntity(ResponseCode.SUCCESS, "Insert Ok", dto, null);
         }catch (Throwable e){
             log.error(e.toString());
@@ -35,11 +36,13 @@ public class ApiReviewController extends CommonRestController {
         }
     }
 
-    @GetMapping("")
-    public ResponseEntity<ResponseDto> findAll(@PageableDefault(size = 5, sort = "reviewId", direction = Sort.Direction.ASC)
-                                                         Pageable pageable){
+
+    @GetMapping("/{comId}/review")
+    public ResponseEntity<ResponseDto> findReview(@PathVariable Long comId,
+                                                  @PageableDefault(size = 5, sort = "reviewId", direction = Sort.Direction.DESC)
+                                                  Pageable pageable){
         try {
-            Page<ReviewDto> list = this.service.findAll(pageable);
+            Page<ReviewDto> list = this.service.findAllByAccommodationEntity_ComId(comId, pageable);
             return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
         }catch (Throwable e){
             log.error("예외 : "+e.toString());
@@ -47,21 +50,13 @@ public class ApiReviewController extends CommonRestController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto> findById(@PathVariable Long id){
-        try {
-            Optional<ReviewDto> find = this.service.findById(id);
-            return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
-        }catch (Throwable e){
-            log.error(e.toString());
-            return getResponseEntity(ResponseCode.SELECT_FAIL, "Find One Error", null, e);
-        }
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<ResponseDto> update(@RequestBody ReviewDto dto,@PathVariable Long id){
+    @PatchMapping("/{comId}/review/{reviewId}")
+    public ResponseEntity<ResponseDto> update(@RequestBody ReviewDto dto
+            , @PathVariable Long comId
+            , @PathVariable Long reviewId){
         try{
-            dto.setReviewId(id);
+            dto.setReviewId(reviewId);
+            dto.setComId(comId);
             service.update(dto);
             return getResponseEntity(ResponseCode.SUCCESS, "Update Ok", dto, null);
         }catch (Throwable e){
@@ -70,14 +65,14 @@ public class ApiReviewController extends CommonRestController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDto> delete(@PathVariable Long id){
+    @DeleteMapping("review/{reviewId}")
+    public ResponseEntity<ResponseDto> delete(@PathVariable Long reviewId){
         try{
-            service.delete(id);
-            return getResponseEntity(ResponseCode.SUCCESS, "Delete Ok", id, null);
+            service.delete(reviewId);
+            return getResponseEntity(ResponseCode.SUCCESS, "Delete Ok", reviewId, null);
         }catch (Throwable e){
             log.error(e.toString());
-            return getResponseEntity(ResponseCode.UPDATE_FAIL, "Delete Error", id, e);
+            return getResponseEntity(ResponseCode.UPDATE_FAIL, "Delete Error", reviewId, e);
         }
     }
 }
