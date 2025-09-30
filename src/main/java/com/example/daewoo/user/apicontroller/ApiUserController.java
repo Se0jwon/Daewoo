@@ -210,12 +210,12 @@ public class ApiUserController extends CommonRestController {
     }
 
     // 이미지 업로드
-    @PostMapping("/{userId}/profile-image")
+        @PostMapping("/{id}/profile-image")
     public ResponseEntity<ResponseDto> updateUserProfileImage(
-            @PathVariable Long userId,
+            @PathVariable Long id,
             @RequestParam("image") MultipartFile imageFile) {
         try {
-            String imageUrl = service.imageUpload(userId, imageFile);
+            String imageUrl = service.imageUpload(id, imageFile);
             return getResponseEntity(ResponseCode.SUCCESS, "Image Upload Ok", imageUrl, null);
         } catch (Throwable e) {
             log.error(e.toString());

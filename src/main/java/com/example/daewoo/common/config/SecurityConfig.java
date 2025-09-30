@@ -86,7 +86,8 @@ public class SecurityConfig {
                                 "/api/user/complete-social-signup"
 
                         ).permitAll()
-                        .anyRequest().authenticated()
+//                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .authorizationEndpoint(endpoint ->
