@@ -3,6 +3,7 @@ package com.example.daewoo.accommodation.apicontroller;
 import com.example.daewoo.accommodation.accresponse.AccommodationResponse;
 import com.example.daewoo.accommodation.dto.AccommodationAllDto;
 import com.example.daewoo.accommodation.dto.AccommodationOneDto;
+import com.example.daewoo.accommodation.image.service.ComImageService;
 import com.example.daewoo.accommodation.service.AccommodationService;
 import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
@@ -31,7 +32,7 @@ public class ApiAccommodationController extends CommonRestController {
     private AccommodationService accommodationService;
 
     @Autowired
-    private ReviewService reviewService;
+    private ComImageService  comImageService;
 
     @GetMapping("")
     public ResponseEntity<ResponseDto> findAll(@PageableDefault(size = 4, direction = Sort.Direction.DESC) Pageable pageable,
@@ -41,7 +42,6 @@ public class ApiAccommodationController extends CommonRestController {
                                                @RequestParam(defaultValue = "") Integer star){
         try {
             if (pageable.getPageNumber() == 0) {
-
                 Slice<AccommodationAllDto> list = this.accommodationService.findAll(minPrice, maxPrice, amCategory, comTitle, star, pageable);
 
                 Long totalCount = accommodationService.totalCount();
