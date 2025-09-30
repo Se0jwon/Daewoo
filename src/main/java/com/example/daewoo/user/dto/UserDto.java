@@ -31,8 +31,6 @@ public class UserDto {
     private LocalDate userBirth;
     private String imageUrl;
 
-    private List<ReservationDto> reservations;
-
     // 💡 기존의 생성자 (Entity -> Dto 변환)
     public UserDto(UserEntity entity) {
         this.userId = entity.getUserId();
@@ -43,15 +41,6 @@ public class UserDto {
         this.userEmail = entity.getUserEmail();
         this.userBirth = entity.getUserBirth();
         this.imageUrl = entity.getImageUrl();
-
-        // 예약 정보 변환
-        if (entity.getReservations() != null) {
-            this.reservations = entity.getReservations().stream()
-                    .map(ReservationDto::fromEntity) // ReservationDto에도 fromEntity 메서드가 있어야 함
-                    .collect(Collectors.toList());
-        } else {
-            this.reservations = Collections.emptyList();
-        }
     }
 
     // ⭐ [필수 추가] Entity -> DTO 변환 (static 메서드 형식, UserDto(entity) 생성자를 활용)

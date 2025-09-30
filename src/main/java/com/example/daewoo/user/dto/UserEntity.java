@@ -54,8 +54,4 @@ public class UserEntity {
     @Column(name = "role")
     private String role;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference // JSON 출력
-    private List<ReservationEntity> reservations = new ArrayList<>();
 }

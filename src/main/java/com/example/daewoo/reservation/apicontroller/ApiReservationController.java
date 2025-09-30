@@ -4,10 +4,13 @@ import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
 import com.example.daewoo.reservation.dto.ReservationDto;
+import com.example.daewoo.reservation.dto.ReservationEntity;
 import com.example.daewoo.reservation.service.ReservationService;
+import com.example.daewoo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -20,10 +23,16 @@ public class ApiReservationController extends CommonRestController {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("")
-    public ResponseEntity<ResponseDto> insert(@RequestBody ReservationDto dto){
+    public ResponseEntity<ResponseDto> insert(@RequestBody ReservationDto dto,
+                                              Authentication authentication) {
         try{
-            this.reservationService.insert(dto);
+            Long userId = userService.findByEmail(authentication.getName()).getUserId();
+            dto.setUserId(userId);
+            this.reservationService.insert(userId ,dto);
             return getResponseEntity(ResponseCode.SUCCESS, "Insert Ok", dto, null);
         }catch (Throwable e){
             log.error(e.toString());
@@ -31,11 +40,26 @@ public class ApiReservationController extends CommonRestController {
         }
     }
 
+//    @GetMapping("")
+//    public ResponseEntity<ResponseDto> select(Authentication authentication) {
+//        try{
+//            Long userId = userService.findByEmail(authentication.getName()).getUserId();
+//            List<ReservationEntity> list = this.reservationService.findByUserId(userId);
+//            return getResponseEntity(ResponseCode.SUCCESS, "Select Ok", list, null);
+//        }catch (Throwable e){
+//            log.error(e.toString());
+//            return getResponseEntity(ResponseCode.SELECT_FAIL, "Select Error", null, e);
+//        }
+//    }
+
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponseDto> update(@RequestBody ReservationDto dto,@PathVariable Long id){
+    public ResponseEntity<ResponseDto> update(@RequestBody ReservationDto dto,@PathVariable Long id,
+                                              Authentication authentication){
         try{
             dto.setReservationId(id);
-            this.reservationService.update(dto);
+            Long userId = userService.findByEmail(authentication.getName()).getUserId();
+            dto.setUserId(userId);
+            this.reservationService.update(userId ,dto);
             return getResponseEntity(ResponseCode.SUCCESS, "Update Ok", dto, null);
         }catch (Throwable e){
             log.error(e.toString());

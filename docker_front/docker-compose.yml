@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  front-app:
+    image: ppyuing/front_image
+    container_name: front_container
+    ports:
+      - 18080:80
+      - 10443:443
