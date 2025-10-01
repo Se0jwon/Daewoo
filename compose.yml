@@ -15,7 +15,7 @@ services:
     ports:
       - 13306:3306
     volumes:
-      - ./mariadb_data:/var/lib/mysql
+      - D:/dockerSql/mariadb_data:/var/lib/mysql
     environment:
       - TZ= Asia/Seoul
       - MARIADB_ROOT_PASSWORD=1234
