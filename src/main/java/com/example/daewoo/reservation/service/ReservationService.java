@@ -21,29 +21,33 @@ public class ReservationService {
     @Autowired
     private UserRepository userRepository;
 
-    public void insert(ReservationDto dto){
+    public void insert(Long userId, ReservationDto dto){
         ReservationEntity entity = dto.toEntity();
 
         ParlorEntity parlorEntity = parlorRepository.findById(dto.getParId())
         .orElseThrow(() -> new RuntimeException("Parlor Not Found"));
         entity.setParlorEntity(parlorEntity);
 
-        UserEntity userEntity = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException("User Not Found"));
+        UserEntity userEntity = userRepository.findById(userId)
+        .orElseThrow(() -> new RuntimeException("User Not Found"));
         entity.setUserEntity(userEntity);
 
         this.reservationRepository.save(entity);
     }
 
+    public List<ReservationEntity> findByUserId(Long userId){
+        return this.reservationRepository.findByUserId(userId);
+    }
 
-    public void update(ReservationDto dto){
+
+    public void update(Long userId, ReservationDto dto){
         ReservationEntity entity = dto.toEntity();
 
         ParlorEntity parlorEntity = parlorRepository.findById(dto.getParId())
                 .orElseThrow(() -> new RuntimeException("Parlor Not Found"));
         entity.setParlorEntity(parlorEntity);
 
-        UserEntity userEntity = userRepository.findById(dto.getUserId())
+        UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User Not Found"));
         entity.setUserEntity(userEntity);
 

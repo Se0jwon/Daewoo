@@ -129,11 +129,7 @@ public class UserService {
                 updatedEntity.getUserPhone(),
                 updatedEntity.getUserEmail(),
                 updatedEntity.getUserBirth(),
-                updatedEntity.getImageUrl(),
-                updatedEntity.getReservations()
-                        .stream()
-                        .map(ReservationDto::fromEntity)
-                        .toList());
+                updatedEntity.getImageUrl());
     }
 
     // ======================================================================

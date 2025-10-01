@@ -36,6 +36,7 @@ public class AccommodationEntity {
     @JoinColumn(name = "location_id")
     private LocationEntity locationEntity;
 
+    @Builder.Default
     @ManyToMany
     @JoinTable(
             name = "accommodation_amenity", // 중간 테이블 이름
@@ -48,10 +49,12 @@ public class AccommodationEntity {
 //    @JsonManagedReference // JSON 출력
 //    private List<ReviewEntity> reviews = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "accommodationEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference // JSON 출력
     private List<ParlorEntity> parlors = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "accommodation")
     private List<AccRoomTypeEntity> room = new ArrayList<>();
 }
