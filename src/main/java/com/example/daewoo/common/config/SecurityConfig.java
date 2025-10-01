@@ -4,6 +4,7 @@ import com.example.daewoo.common.jwt.JwtAuthenticationFilter;
 import com.example.daewoo.common.jwt.JwtTokenProvider;
 import com.example.daewoo.user.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,6 +35,9 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final ClientRegistrationRepository clientRegistrationRepository;
+
+    @Value("${cors.allowed-origins:http://localhost:3000}")
+    private String[] allowedOrigins;
 
 
 //    @Bean
@@ -75,13 +79,12 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // 👇 수정된 부분
                         .requestMatchers(
-                                "/api/user/send-reset-code",  // 🚨 이 줄을 추가해야 합니다.
-                                "/api/user/verify-reset-code", // 🚨 이 줄도 추가해야 합니다.
+                                "/api/user/send-reset-code",
+                                "/api/user/verify-reset-code",
                                 "/api/user/reset-password",
                                 "/api/user/login",
-                                "/api/user", // 회원가입 요청 POST /api/user
+                                "/api/user",
                                 "/images/**", "/css/**", "/js/**",
                                 "/api/user/complete-social-signup",
                                 "/api/user/verify-email"
@@ -107,7 +110,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList(allowedOrigins));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

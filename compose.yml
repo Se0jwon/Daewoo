@@ -1,5 +1,12 @@
 version: '3.8'
 services:
+  front-app:
+    image: ppyuing/front_image
+    container_name: front_container
+    ports:
+      - 18080:80
+      - 10443:443
+    platform: linux/amd64
   redis:
     image: 'redis:latest'
     container_name: 'redis'
@@ -15,7 +22,7 @@ services:
     ports:
       - 13306:3306
     volumes:
-      - ./mariadb_data:/var/lib/mysql
+      - ../dockerdb/mariadb_data:/var/lib/mysql
     environment:
       - TZ= Asia/Seoul
       - MARIADB_ROOT_PASSWORD=1234
@@ -46,7 +53,6 @@ services:
       - TZ=Asia/Seoul
     depends_on:
       - redis
-
       - mariadb_container
 
     networks:
