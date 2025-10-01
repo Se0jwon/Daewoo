@@ -23,6 +23,10 @@ public interface AccommodationRepository extends JpaRepository<AccommodationEnti
     @Query("SELECT MIN(r.price) FROM AccRoomTypeEntity r WHERE r.accommodation.comId = :comId")
     Integer findLowestPriceByHotelId(@Param("comId") Long comId);
 
+    @Query("SELECT c.imageUrl FROM ComImageEntity c WHERE c.accommodation.comId = :comId AND c.isMain = true")
+    String findComImage(@Param("comId") Long comId);
+
+
     Long comId(Long comId);
 
 //    @EntityGraph(attributePaths = "reviews")
