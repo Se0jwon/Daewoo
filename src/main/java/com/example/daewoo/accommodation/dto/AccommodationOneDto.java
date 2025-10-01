@@ -24,6 +24,8 @@ public class AccommodationOneDto {
     private String comTitle;
     private String comDescription;
     private String comAddress;
+    private Integer star;
+    private Integer price;
 
     private List<AmenitiesDto> amenities;
 
@@ -42,6 +44,9 @@ public class AccommodationOneDto {
         entity.setComTitle(this.comTitle);
         entity.setComDescription(this.comDescription);
         entity.setComAddress(this.comAddress);
+        entity.setReviewAvg(this.reviewAvg);
+        entity.setReviewCount(this.reviewCount);
+        entity.setStar(this.star);
 
         return entity;
     }
@@ -52,6 +57,9 @@ public class AccommodationOneDto {
         dto.setComTitle(entity.getComTitle());
         dto.setComDescription(entity.getComDescription());
         dto.setComAddress(entity.getComAddress());
+        dto.setReviewAvg(entity.getReviewAvg());
+        dto.setReviewCount(entity.getReviewCount());
+        dto.setStar(entity.getStar());
 
         dto.setAmenities(entity.getAmenities().stream()
                 .map(AmenitiesDto::fromEntity)

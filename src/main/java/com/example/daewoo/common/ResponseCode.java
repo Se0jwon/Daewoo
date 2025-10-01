@@ -9,5 +9,7 @@ public enum ResponseCode {
     SIGNIN_FAIL,
     LOGIN_FAIL,
     INVALID_REQUEST,
-    ERROR
+    ERROR,
+    INTERNAL_SERVER_ERROR,
+    AUTH_ERROR
 }

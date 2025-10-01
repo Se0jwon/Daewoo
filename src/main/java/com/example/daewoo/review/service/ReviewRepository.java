@@ -15,7 +15,7 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
 
     Page<ReviewEntity> findAllByAccommodationEntity_ComId(Long comId, Pageable pageable);
     @Query("SELECT AVG(s.score) FROM ReviewEntity s WHERE s.accommodationEntity.comId = :comId")
-    BigDecimal findAverageScoreByComId(@Param("comId") Long comId);
+    Double findAverageScoreByComId(@Param("comId") Long comId);
     @Query("SELECT COUNT(s.reviewId) FROM ReviewEntity s WHERE s.accommodationEntity.comId = :comId")
     Integer findReviewCountByComId(@Param("comId") Long comId);
 }
