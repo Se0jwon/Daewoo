@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
@@ -79,11 +80,8 @@ public class UserService {
             return true;
         }
         return false;
-    }
+     }
 
-    /**
-     * 회원가입 최종 완료 (2단계): 인증 완료된 사용자 권한 업데이트
-     */
     @Transactional
     public UserDto saveUserToDatabase(String userEmail) {
         UserEntity entity = repository.findByUserEmail(userEmail)
@@ -255,5 +253,6 @@ public class UserService {
         } else {
             throw new RuntimeException("File not found " + filename);
         }
+
     }
 }

@@ -1,21 +1,21 @@
-// ApiUserController.java
 package com.example.daewoo.user.apicontroller;
 
 import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
 import com.example.daewoo.common.jwt.JwtTokenProvider;
-import com.example.daewoo.user.dto.*; // SocialSignupRequestDto, UserDto, LoginDto 등 DTO를 포함
+import com.example.daewoo.user.dto.*;
 import com.example.daewoo.user.service.EmailService;
 import com.example.daewoo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -210,12 +210,12 @@ public class ApiUserController extends CommonRestController {
     }
 
     // 이미지 업로드
-    @PostMapping("/{userId}/profile-image")
+        @PostMapping("/{id}/profile-image")
     public ResponseEntity<ResponseDto> updateUserProfileImage(
-            @PathVariable Long userId,
+            @PathVariable Long id,
             @RequestParam("image") MultipartFile imageFile) {
         try {
-            String imageUrl = service.imageUpload(userId, imageFile);
+            String imageUrl = service.imageUpload(id, imageFile);
             return getResponseEntity(ResponseCode.SUCCESS, "Image Upload Ok", imageUrl, null);
         } catch (Throwable e) {
             log.error(e.toString());
@@ -224,12 +224,18 @@ public class ApiUserController extends CommonRestController {
     }
 
     @GetMapping("/images/{filename}")
-    public ResponseEntity<ResponseDto> serveImage(@PathVariable String filename) {
+    public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
         try {
             Resource resource = service.loadImage(filename);
-            return getResponseEntity(ResponseCode.SUCCESS, "Image Load Ok", resource, null);
+            return ResponseEntity.ok(resource);
+//            return getResponseEntity(ResponseCode.SUCCESS, "Image Load Ok", resource, null);
         } catch (Throwable e) {
-            return getResponseEntity(ResponseCode.SELECT_FAIL, "Image Load Error", null, e);
+
+            // 5. 경로가 이상하면 500 에러 반환
+//            return getResponseEntity(ResponseCode.SELECT_FAIL, "Image Load Error", null, e);
+            return ResponseEntity.notFound().build();
+
+
         }
     }
 }
