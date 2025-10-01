@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("api/user")
 public class ApiUserController extends CommonRestController {
 
     @Autowired
@@ -164,7 +164,7 @@ public class ApiUserController extends CommonRestController {
         }
     }
 
-    @GetMapping("")
+    @GetMapping("/all")
     public ResponseEntity<ResponseDto> findAll(){
         try {
             List<UserDto> list = this.service.findAll();
@@ -175,10 +175,11 @@ public class ApiUserController extends CommonRestController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto> findById(@PathVariable Long id){
+    @GetMapping("/one")
+    public ResponseEntity<ResponseDto> findById(Authentication authentication){
         try {
-            Optional<UserDto> find = this.service.findById(id);
+            Long userId = service.findByEmail(authentication.getName()).getUserId();
+            Optional<UserDto> find = this.service.findById(userId);
             return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
         }catch (Throwable e){
             log.error(e.toString());
@@ -186,10 +187,11 @@ public class ApiUserController extends CommonRestController {
         }
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<ResponseDto> update(@RequestBody UserDto dto,@PathVariable Long id){
+    @PatchMapping("")
+    public ResponseEntity<ResponseDto> update(@RequestBody UserDto dto, Authentication authentication){
         try{
-            dto.setUserId(id);
+            Long userId = service.findByEmail(authentication.getName()).getUserId();
+            dto.setUserId(userId);
             UserDto result = service.update(dto);
             return getResponseEntity(ResponseCode.SUCCESS, "Update Ok", result, null);
         }catch (Throwable e){
@@ -198,14 +200,15 @@ public class ApiUserController extends CommonRestController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDto> delete(@PathVariable Long id){
+    @DeleteMapping("")
+    public ResponseEntity<ResponseDto> delete(Authentication authentication){
         try{
-            service.delete(id);
-            return getResponseEntity(ResponseCode.SUCCESS, "Delete Ok", id, null);
+            Long userId = service.findByEmail(authentication.getName()).getUserId();
+            service.delete(userId);
+            return getResponseEntity(ResponseCode.SUCCESS, "Delete Ok", userId, null);
         }catch (Throwable e){
             log.error(e.toString());
-            return getResponseEntity(ResponseCode.UPDATE_FAIL, "Delete Error", id, e);
+            return getResponseEntity(ResponseCode.UPDATE_FAIL, "Delete Error", null, e);
         }
     }
 
@@ -213,9 +216,11 @@ public class ApiUserController extends CommonRestController {
         @PostMapping("/{id}/profile-image")
     public ResponseEntity<ResponseDto> updateUserProfileImage(
             @PathVariable Long id,
-            @RequestParam("image") MultipartFile imageFile) {
+            @RequestParam("image") MultipartFile imageFile,
+            Authentication authentication) {
         try {
-            String imageUrl = service.imageUpload(id, imageFile);
+            Long userId = service.findByEmail(authentication.getName()).getUserId();
+            String imageUrl = service.imageUpload(userId, imageFile);
             return getResponseEntity(ResponseCode.SUCCESS, "Image Upload Ok", imageUrl, null);
         } catch (Throwable e) {
             log.error(e.toString());
