@@ -48,6 +48,7 @@ public class TestController {
                     .userBirth(LocalDate.parse("2000-01-01"))
                     .userAddress("123")
                     .userPhone("010-1111-1111")
+                    .oauthId(null)
                     // ... UserEntity의 다른 not-null 필드가 있다면 임시값으로 채워주세요 ...
                     .build();
             userRepository.save(userEntity);
