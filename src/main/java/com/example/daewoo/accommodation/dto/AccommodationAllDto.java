@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
 public class AccommodationAllDto {
     private Long comId;
     private String comTitle;
-    private String comDescription;
     private String comAddress;
     private Integer star;
     private Integer price;
+    private String image;
 
-    private LocationDto location;
+//    private LocationDto location;
 
     private BigDecimal reviewAvg;
     private Integer reviewCount;
@@ -35,7 +35,6 @@ public class AccommodationAllDto {
         AccommodationEntity entity = new AccommodationEntity();
         entity.setComId(this.comId);
         entity.setComTitle(this.comTitle);
-        entity.setComDescription(this.comDescription);
         entity.setComAddress(this.comAddress);
         entity.setReviewAvg(this.reviewAvg);
         entity.setReviewCount(this.reviewCount);
@@ -48,13 +47,12 @@ public class AccommodationAllDto {
         AccommodationAllDto dto = new AccommodationAllDto();
         dto.setComId(entity.getComId());
         dto.setComTitle(entity.getComTitle());
-        dto.setComDescription(entity.getComDescription());
         dto.setComAddress(entity.getComAddress());
         dto.setReviewAvg(entity.getReviewAvg());
         dto.setReviewCount(entity.getReviewCount());
         dto.setStar(entity.getStar());
 
-        dto.setLocation(LocationDto.fromEntity(entity.getLocationEntity()));
+//        dto.setLocation(LocationDto.fromEntity(entity.getLocationEntity()));
 
         return dto;
     }

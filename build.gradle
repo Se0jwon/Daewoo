@@ -69,6 +69,11 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+    // 1. JUnit5, Mockito 등 핵심 테스트 라이브러리를 포함하는 스타터
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // 2. @WithMockUser 등 Spring Security 테스트 기능을 사용하기 위한 라이브러리
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {

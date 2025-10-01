@@ -4,6 +4,7 @@ import com.example.daewoo.accommodation.dto.AccommodationAllDto;
 import com.example.daewoo.accommodation.dto.AccommodationEntity;
 
 import com.example.daewoo.accommodation.dto.AccommodationOneDto;
+import com.example.daewoo.accommodation.image.dto.ComImageDto;
 import com.example.daewoo.review.service.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -54,6 +55,9 @@ public class AccommodationService {
         for (AccommodationAllDto item : list) {
             Long comId = item.getComId();
             Integer price = accommodationRepository.findLowestPriceByHotelId(comId);
+            String image = accommodationRepository.findComImage(comId);
+
+            item.setImage(image);
             item.setPrice(price);
         }
 
