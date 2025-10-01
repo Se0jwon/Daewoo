@@ -36,7 +36,7 @@ public class ReservationService {
     }
 
     public List<ReservationEntity> findByUserId(Long userId){
-        return this.reservationRepository.findByUserId(userId);
+        return this.reservationRepository.findByUserEntity_UserId(userId);
     }
 
 
