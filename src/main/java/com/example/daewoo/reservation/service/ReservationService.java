@@ -37,10 +37,12 @@ public class ReservationService {
         this.reservationRepository.save(entity);
     }
 
+
     public List<ReservationDto> findByUserId(Long userId){
         return this.reservationRepository.findByUserEntity_UserId(userId).stream()
                 .map(ReservationDto::fromEntity)
                 .collect(Collectors.toList());
+
 
     }
 
