@@ -6,9 +6,11 @@ import com.example.daewoo.reservation.dto.ReservationDto;
 import com.example.daewoo.reservation.dto.ReservationEntity;
 import com.example.daewoo.user.dto.UserEntity;
 import com.example.daewoo.user.service.UserRepository;
+import com.example.daewoo.wish.dto.WishDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -35,8 +37,12 @@ public class ReservationService {
         this.reservationRepository.save(entity);
     }
 
-    public List<ReservationEntity> findByUserId(Long userId){
-        return this.reservationRepository.findByUserEntity_UserId(userId);
+
+    public List<ReservationDto> findByUserId(Long userId){
+        return this.reservationRepository.findByUserEntity_UserId(userId).stream()
+                .map(ReservationDto::fromEntity)
+                .collect(Collectors.toList());
+
 
     }
 

@@ -3,27 +3,35 @@ package com.example.daewoo.wish.apicontroller;
 import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
+import com.example.daewoo.user.service.UserService;
 import com.example.daewoo.wish.dto.WishDto;
+import com.example.daewoo.wish.dto.WishEntity;
 import com.example.daewoo.wish.service.WishService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/wish")
+@RequestMapping("api/wish")
 public class ApiWishController extends CommonRestController {
 
     @Autowired
     private WishService service;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("")
-    public ResponseEntity<ResponseDto> insert(@RequestBody WishDto dto) {
+    public ResponseEntity<ResponseDto> insert(@RequestBody WishDto dto, Authentication authentication) {
         try {
-            WishDto result = service.insert(dto);
+            Long userId = userService.findByEmail(authentication.getName()).getUserId();
+            dto.setUserId(userId);
+            WishDto result = service.insert(userId, dto);
             return getResponseEntity(ResponseCode.SUCCESS, "Insert Ok", result, null);
         } catch (Throwable e) {
             log.error(e.toString());
@@ -32,9 +40,10 @@ public class ApiWishController extends CommonRestController {
     }
 
     @GetMapping("")
-    public ResponseEntity<ResponseDto> findAll() {
+    public ResponseEntity<ResponseDto> findAll(Authentication authentication) {
         try {
-            List<WishDto> list = this.service.findAll();
+            Long userId = userService.findByEmail(authentication.getName()).getUserId();
+            List<WishDto> list = this.service.findAll(userId);
             return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
         } catch (Throwable e) {
             log.error(e.toString());
@@ -42,28 +51,28 @@ public class ApiWishController extends CommonRestController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto> findById(@PathVariable Long id) {
-        try {
-            Optional<WishDto> find = this.service.findById(id);
-            return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
-        } catch (Throwable e) {
-            log.error(e.toString());
-            return getResponseEntity(ResponseCode.SELECT_FAIL, "Find One Error", null, e);
-        }
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<ResponseDto> findById(@PathVariable Long id) {
+//        try {
+//            Optional<WishDto> find = this.service.findById(id);
+//            return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
+//        } catch (Throwable e) {
+//            log.error(e.toString());
+//            return getResponseEntity(ResponseCode.SELECT_FAIL, "Find One Error", null, e);
+//        }
+//    }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<ResponseDto> update(@RequestBody WishDto dto, @PathVariable Long id) {
-        try {
-            dto.setWishId(id);
-            WishDto result = service.update(dto);
-            return getResponseEntity(ResponseCode.SUCCESS, "Update Ok", result, null);
-        } catch (Throwable e) {
-            log.error(e.toString());
-            return getResponseEntity(ResponseCode.UPDATE_FAIL, "Update Error", dto, e);
-        }
-    }
+//    @PatchMapping("/{id}")
+//    public ResponseEntity<ResponseDto> update(@RequestBody WishDto dto, @PathVariable Long id) {
+//        try {
+//            dto.setWishId(id);
+//            WishDto result = service.update(dto);
+//            return getResponseEntity(ResponseCode.SUCCESS, "Update Ok", result, null);
+//        } catch (Throwable e) {
+//            log.error(e.toString());
+//            return getResponseEntity(ResponseCode.UPDATE_FAIL, "Update Error", dto, e);
+//        }
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDto> delete(@PathVariable Long id) {
