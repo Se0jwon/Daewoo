@@ -38,3 +38,6 @@ out/
 
 # Log files and folders
 /logs
+
+### mariadb_data ###
+/mariadb_data

@@ -15,7 +15,7 @@ services:
     ports:
       - 13306:3306
     volumes:
-      - D:/dockerSql/mariadb_data:/var/lib/mysql
+      - ./mariadb_data:/var/lib/mysql
     environment:
       - TZ= Asia/Seoul
       - MARIADB_ROOT_PASSWORD=1234
@@ -34,12 +34,7 @@ services:
       - 10443:443
 
   boot-app:
-
     image: seojw173/back_image
-
-    build:
-      context: ./
-      dockerfile: dockerfile
     container_name: boot_container
     ports:
       - 18888:8085
