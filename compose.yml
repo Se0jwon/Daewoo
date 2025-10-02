@@ -26,6 +26,13 @@ services:
       - a_network
   #    restart: always
 
+  front-app:
+    image: ppyuing/front_image
+    container_name: front_container
+    ports:
+      - 18080:80
+      - 10443:443
+
   boot-app:
 
     image: seojw173/back_image
