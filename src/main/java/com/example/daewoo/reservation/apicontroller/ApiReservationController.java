@@ -40,17 +40,17 @@ public class ApiReservationController extends CommonRestController {
         }
     }
 
-//    @GetMapping("")
-//    public ResponseEntity<ResponseDto> select(Authentication authentication) {
-//        try{
-//            Long userId = userService.findByEmail(authentication.getName()).getUserId();
-//            List<ReservationEntity> list = this.reservationService.findByUserId(userId);
-//            return getResponseEntity(ResponseCode.SUCCESS, "Select Ok", list, null);
-//        }catch (Throwable e){
-//            log.error(e.toString());
-//            return getResponseEntity(ResponseCode.SELECT_FAIL, "Select Error", null, e);
-//        }
-//    }
+    @GetMapping("")
+    public ResponseEntity<ResponseDto> select(Authentication authentication) {
+        try{
+            Long userId = userService.findByEmail(authentication.getName()).getUserId();
+            List<ReservationDto> list = this.reservationService.findByUserId(userId);
+            return getResponseEntity(ResponseCode.SUCCESS, "Select Ok", list, null);
+        }catch (Throwable e){
+            log.error(e.toString());
+            return getResponseEntity(ResponseCode.SELECT_FAIL, "Select Error", null, e);
+        }
+    }
 
     @PatchMapping("/{id}")
     public ResponseEntity<ResponseDto> update(@RequestBody ReservationDto dto,@PathVariable Long id,

@@ -79,6 +79,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+
 //                        .requestMatchers(
 //                                "/api/user/send-reset-code",
 //                                "/api/user/verify-reset-code",
@@ -91,6 +92,7 @@ public class SecurityConfig {
 //                        ).permitAll()
 //                        .anyRequest().authenticated()
                         .anyRequest().permitAll()
+
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .authorizationEndpoint(endpoint ->
