@@ -18,7 +18,7 @@ spring:
 #      ddl-auto: update
 
 file:
-  upload-dir: D:/image/
+  upload-dir: /Users/jwo/image/
   resource-handler: /images/**
 
 #JPA log

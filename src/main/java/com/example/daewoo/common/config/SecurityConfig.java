@@ -79,18 +79,18 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(
-//                                "/api/user/send-reset-code",
-//                                "/api/user/verify-reset-code",
-//                                "/api/user/reset-password",
-//                                "/api/user/login",
-//                                "/api/user",
-//                                "/images/**", "/css/**", "/js/**",
-//                                "/api/user/complete-social-signup",
-//                                "/api/user/verify-email"
-//                        ).permitAll()
-//                        .anyRequest().authenticated()
+                        .requestMatchers(
+                                "/api/user/send-reset-code",
+                                "/api/user/verify-reset-code",
+                                "/api/user/reset-password",
+                                "/api/user/login",
+                                "/api/user",
+                                "/images/**", "/css/**", "/js/**",
+                                "/api/user/complete-social-signup",
+                                "/api/user/verify-email"
+                        ).permitAll()
                         .anyRequest().permitAll()
+//                        .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .authorizationEndpoint(endpoint ->

@@ -75,4 +75,4 @@ jwt:
   secret: c2VjcmV0S2V5Zm9ySldUVG9rZW5zZWNyZXRrZXlmb3Jqd3R0b2tlbnNlY3JldGtleWZvcmp3dHRva2Vu
 
 cors:
-  allowed-origins: "http://localhost:3000"
+  allowed-origins: "http://localhost:3000, http://localhost:18080"
