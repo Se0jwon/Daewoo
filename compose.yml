@@ -34,7 +34,7 @@ services:
   #    restart: always
 
   boot-app:
-    image: seojw173/back_image
+    #image: seojw173/back_image
     build:
       context: ./
       dockerfile: dockerfile
@@ -42,7 +42,7 @@ services:
     ports:
       - 18888:8085
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE=local
       - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb_container:3306/hotels_db
       - SPRING_DATASOURCE_USERNAME=hotels_user
       - SPRING_DATASOURCE_PASSWORD=hotels12345
