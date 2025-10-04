@@ -3,6 +3,7 @@ package com.example.daewoo.accommodation.apicontroller;
 import com.example.daewoo.accommodation.accresponse.AccommodationResponse;
 import com.example.daewoo.accommodation.dto.AccommodationAllDto;
 import com.example.daewoo.accommodation.dto.AccommodationOneDto;
+import com.example.daewoo.accommodation.image.dto.ComImageDetailDto;
 import com.example.daewoo.accommodation.image.service.ComImageService;
 import com.example.daewoo.accommodation.service.AccommodationService;
 import com.example.daewoo.common.CommonRestController;
@@ -63,6 +64,7 @@ public class ApiAccommodationController extends CommonRestController {
     public ResponseEntity<ResponseDto> findById(@PathVariable Long comId){
         try {
             Optional<AccommodationOneDto> find = this.accommodationService.findById(comId);
+            ComImageDetailDto dto = this.comImageService.findComImage(comId);
             return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
         }catch (Throwable e){
             log.error("예외 : " + e.toString());

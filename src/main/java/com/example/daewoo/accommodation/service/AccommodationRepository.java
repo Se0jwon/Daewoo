@@ -24,7 +24,11 @@ public interface AccommodationRepository extends JpaRepository<AccommodationEnti
     Integer findLowestPriceByHotelId(@Param("comId") Long comId);
 
     @Query("SELECT c.imageUrl FROM ComImageEntity c WHERE c.accommodation.comId = :comId AND c.isMain = true")
-    String findComImage(@Param("comId") Long comId);
+    String findMainComImage(@Param("comId") Long comId);
+
+    @Query("SELECT c.imageUrl FROM ComImageEntity c WHERE c.accommodation.comId = :comId AND c.isMain = false")
+    List<String> findSubComImage(@Param("comId") Long comId);
+
 
 
     Long comId(Long comId);
