@@ -193,6 +193,8 @@ public class UserService {
     /**
      * 소셜 회원가입 추가 정보 입력 및 완료 처리
      */
+
+
     @Transactional
     public UserDto completeSocialSignup(SocialSignupRequestDto dto) {
         // 1. 해당 유저 엔티티를 찾습니다.
