@@ -11,6 +11,7 @@ import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
 import com.example.daewoo.review.dto.ReviewDto;
 import com.example.daewoo.review.service.ReviewService;
+import com.example.daewoo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,24 +35,33 @@ public class ApiAccommodationController extends CommonRestController {
     private AccommodationService accommodationService;
 
     @Autowired
-    private ComImageService  comImageService;
+    private ComImageService comImageService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("")
     public ResponseEntity<ResponseDto> findAll(@PageableDefault(size = 4, direction = Sort.Direction.DESC) Pageable pageable,
                                                @RequestParam(defaultValue = "") Integer minPrice, @RequestParam(defaultValue = "") Integer maxPrice,
                                                @RequestParam(defaultValue = "") List<String> amCategory,
                                                @RequestParam(defaultValue = "") String comTitle,
-                                               @RequestParam(defaultValue = "") Integer star){
+                                               @RequestParam(defaultValue = "") Integer star,
+                                               Authentication authentication){
         try {
+            Long userId = null;
+
+            if (authentication != null && authentication.isAuthenticated()) {
+                userId = userService.findByEmail(authentication.getName()).getUserId();
+            }
             if (pageable.getPageNumber() == 0) {
-                Slice<AccommodationAllDto> list = this.accommodationService.findAll(minPrice, maxPrice, amCategory, comTitle, star, pageable);
+                Slice<AccommodationAllDto> list = this.accommodationService.findAll(minPrice, maxPrice, amCategory, comTitle, star, pageable, userId);
 
                 Long totalCount = accommodationService.totalCount();
                 AccommodationResponse res = new AccommodationResponse(totalCount, list);
                 return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", res, null);
             }else{
 
-                Slice<AccommodationAllDto> list = this.accommodationService.findAll(minPrice, maxPrice, amCategory, comTitle, star, pageable);
+                Slice<AccommodationAllDto> list = this.accommodationService.findAll(minPrice, maxPrice, amCategory, comTitle, star, pageable, userId);
 
                 return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
             }

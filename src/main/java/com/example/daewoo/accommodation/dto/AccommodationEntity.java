@@ -31,6 +31,7 @@ public class AccommodationEntity {
     private BigDecimal reviewAvg;
     private Integer reviewCount;
     private Integer star;
+    private String category;
 
     @ManyToOne
     @JoinColumn(name = "location_id")

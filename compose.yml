@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   redis:
     image: 'redis:latest'
@@ -35,6 +34,7 @@ services:
 
   boot-app:
     image: seojw173/back_image
+    platform: linux/amd64
     container_name: boot_container
     ports:
       - 18888:8085

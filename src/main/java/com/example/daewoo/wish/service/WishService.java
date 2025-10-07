@@ -1,5 +1,7 @@
 package com.example.daewoo.wish.service;
 
+import com.example.daewoo.accommodation.dto.AccommodationEntity;
+import com.example.daewoo.accommodation.service.AccommodationRepository;
 import com.example.daewoo.parlor.dto.ParlorEntity;
 import com.example.daewoo.parlor.service.ParlorRepository;
 import com.example.daewoo.user.dto.UserEntity;
@@ -20,14 +22,14 @@ public class WishService {
     private UserRepository userRepository;
 
     @Autowired
-    private ParlorRepository parlorRepository;
+    private AccommodationRepository accommodationRepository;
 
     public WishDto insert(Long userId, WishDto dto) {
         WishEntity entity = dto.toEntity();
 
-        ParlorEntity parlorEntity = parlorRepository.findById(dto.getParlorId())
+        AccommodationEntity accommodationEntity = accommodationRepository.findById(dto.getComId())
                 .orElseThrow(() -> new RuntimeException("Parlor Not Found"));
-        entity.setParlorEntity(parlorEntity);
+        entity.setAccommodationEntity(accommodationEntity);
 
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User Not Found"));

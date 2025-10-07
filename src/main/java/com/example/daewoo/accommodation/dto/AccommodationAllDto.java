@@ -25,6 +25,8 @@ public class AccommodationAllDto {
     private Integer star;
     private Integer price;
     private String image;
+    private String category;
+    private Boolean isFavorite;
 
     private BigDecimal reviewAvg;
     private Integer reviewCount;
@@ -37,6 +39,7 @@ public class AccommodationAllDto {
         entity.setReviewAvg(this.reviewAvg);
         entity.setReviewCount(this.reviewCount);
         entity.setStar(this.star);
+        entity.setCategory(this.category);
 
         return entity;
     }
@@ -49,6 +52,7 @@ public class AccommodationAllDto {
         dto.setReviewAvg(entity.getReviewAvg());
         dto.setReviewCount(entity.getReviewCount());
         dto.setStar(entity.getStar());
+        dto.setCategory(entity.getCategory());
 
 //        dto.setLocation(LocationDto.fromEntity(entity.getLocationEntity()));
 
