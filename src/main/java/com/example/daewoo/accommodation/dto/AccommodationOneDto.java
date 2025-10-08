@@ -3,6 +3,9 @@ package com.example.daewoo.accommodation.dto;
 import com.example.daewoo.accommodation.amenities.AmenitiesDto;
 import com.example.daewoo.accommodation.location.dto.LocationDto;
 import com.example.daewoo.parlor.dto.ParlorDto;
+import com.example.daewoo.parlor.roomtype.AccRoomTypeDto;
+import com.example.daewoo.parlor.roomtype.AccRoomTypeEntity;
+import com.example.daewoo.parlor.roomtype.RoomTypeDto;
 import com.example.daewoo.reservation.dto.ReservationDto;
 import com.example.daewoo.review.dto.ReviewDto;
 import lombok.AllArgsConstructor;
@@ -35,7 +38,10 @@ public class AccommodationOneDto {
     private Integer reviewCount;
 //    private List<ReviewDto> reviews;
 
-    private List<ParlorDto> parlors;
+    private String mainImage;
+    private List<String> subImage;
+
+    private List<AccRoomTypeDto> rooms;
 
 
     public AccommodationEntity toEntity(){
@@ -65,13 +71,13 @@ public class AccommodationOneDto {
                 .map(AmenitiesDto::fromEntity)
                 .collect(Collectors.toList()));
 
+        dto.setRooms(entity.getRooms().stream()
+                .map(AccRoomTypeDto::fromEntity)
+                .collect(Collectors.toList()));
+
 //        dto.setReviews(entity.getReviews().stream()
 //                .map(ReviewDto::fromEntity)
 //                .collect(Collectors.toList()));
-
-        dto.setParlors(entity.getParlors().stream()
-                .map(ParlorDto::fromEntity)
-                .toList());
 
         dto.setLocation(LocationDto.fromEntity(entity.getLocationEntity()));
 

@@ -1,13 +1,13 @@
 package com.example.daewoo.parlor.service;
 
 import com.example.daewoo.parlor.dto.ParlorEntity;
+import com.example.daewoo.parlor.roomtype.AccRoomTypeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ParlorRepository extends JpaRepository<ParlorEntity, Long> {
-    @Query("SELECT COUNT(*) FROM ParlorEntity p WHERE p.accRoomTypeEntity.accId = :accId")
-    public Integer countMaxRoomByParlor(@Param("accId") Long accId);
+public interface AccRoomTypeRepository extends JpaRepository<AccRoomTypeEntity, Long> {
+
 }
