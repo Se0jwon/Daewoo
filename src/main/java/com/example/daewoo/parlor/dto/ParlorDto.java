@@ -14,8 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ParlorDto {
     private Long parId;
-    private Long comId;
-    private AccRoomTypeDto accRoomType;
+    private Long accId;
     private String parContent;
 
     public ParlorEntity toEntity(){
@@ -29,10 +28,8 @@ public class ParlorDto {
     public static ParlorDto fromEntity(ParlorEntity entity){
         ParlorDto dto = new ParlorDto();
         dto.setParId(entity.getParId());
-        dto.setComId(entity.getAccommodationEntity().getComId());
         dto.setParContent(entity.getParContent());
-
-        dto.setAccRoomType(AccRoomTypeDto.fromEntity(entity.getAccRoomTypeEntity()));
+        dto.setAccId(entity.getAccRoomTypeEntity().getAccId());
 
         return dto;
     }
