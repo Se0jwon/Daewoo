@@ -31,6 +31,7 @@ public class AccommodationEntity {
     private BigDecimal reviewAvg;
     private Integer reviewCount;
     private Integer star;
+    private String category;
 
     @ManyToOne
     @JoinColumn(name = "location_id")
@@ -50,11 +51,6 @@ public class AccommodationEntity {
 //    private List<ReviewEntity> reviews = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "accommodationEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference // JSON 출력
-    private List<ParlorEntity> parlors = new ArrayList<>();
-
-    @Builder.Default
     @OneToMany(mappedBy = "accommodation")
-    private List<AccRoomTypeEntity> room = new ArrayList<>();
+    private List<AccRoomTypeEntity> rooms = new ArrayList<>();
 }

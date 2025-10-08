@@ -20,10 +20,6 @@ public class ParlorEntity {
     private Long parId;
 
     @ManyToOne
-    @JoinColumn(name = "com_id")
-    private AccommodationEntity accommodationEntity;
-
-    @ManyToOne
     @JoinColumn(name = "acc_id")
     private AccRoomTypeEntity accRoomTypeEntity;
 

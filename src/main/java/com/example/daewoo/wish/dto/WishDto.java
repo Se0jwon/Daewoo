@@ -12,7 +12,7 @@ import lombok.Setter;
 public class WishDto {
     private Long wishId;
     private Long userId;
-    private Long parlorId;
+    private Long comId;
 
     public WishEntity toEntity(){
         WishEntity entity = new WishEntity();
@@ -24,7 +24,7 @@ public class WishDto {
         WishDto dto = new WishDto();
         dto.setWishId(entity.getWishId());
         dto.setUserId(entity.getUserEntity().getUserId());
-        dto.setParlorId(entity.getParlorEntity().getParId());
+        dto.setComId(entity.getAccommodationEntity().getComId());
 
         return dto;
     }

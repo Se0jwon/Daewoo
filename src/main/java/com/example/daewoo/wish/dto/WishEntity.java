@@ -1,5 +1,6 @@
 package com.example.daewoo.wish.dto;
 
+import com.example.daewoo.accommodation.dto.AccommodationEntity;
 import com.example.daewoo.parlor.dto.ParlorEntity;
 import com.example.daewoo.user.dto.UserEntity;
 import jakarta.persistence.*;
@@ -23,7 +24,7 @@ public class WishEntity {
     private UserEntity userEntity;
 
     @ManyToOne
-    @JoinColumn(name = "par_id")
-    private ParlorEntity parlorEntity;
+    @JoinColumn(name = "com_id")
+    private AccommodationEntity accommodationEntity;
 
 }

@@ -3,6 +3,7 @@ package com.example.daewoo.accommodation.dto;
 import com.example.daewoo.accommodation.amenities.AmenitiesDto;
 import com.example.daewoo.accommodation.location.dto.LocationDto;
 import com.example.daewoo.parlor.dto.ParlorDto;
+import com.example.daewoo.parlor.roomtype.AccRoomTypeDto;
 import com.example.daewoo.review.dto.ReviewDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,12 +25,11 @@ public class AccommodationAllDto {
     private Integer star;
     private Integer price;
     private String image;
-
-//    private LocationDto location;
+    private String category;
+    private Boolean isFavorite;
 
     private BigDecimal reviewAvg;
     private Integer reviewCount;
-
 
     public AccommodationEntity toEntity(){
         AccommodationEntity entity = new AccommodationEntity();
@@ -39,6 +39,7 @@ public class AccommodationAllDto {
         entity.setReviewAvg(this.reviewAvg);
         entity.setReviewCount(this.reviewCount);
         entity.setStar(this.star);
+        entity.setCategory(this.category);
 
         return entity;
     }
@@ -51,6 +52,7 @@ public class AccommodationAllDto {
         dto.setReviewAvg(entity.getReviewAvg());
         dto.setReviewCount(entity.getReviewCount());
         dto.setStar(entity.getStar());
+        dto.setCategory(entity.getCategory());
 
 //        dto.setLocation(LocationDto.fromEntity(entity.getLocationEntity()));
 
