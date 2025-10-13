@@ -4,14 +4,14 @@ import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
 import com.example.daewoo.parlor.dto.ParlorDto;
+import com.example.daewoo.parlor.roomtype.AccRoomTypeDto;
+import com.example.daewoo.parlor.roomtype.AccRoomTypeEntity;
+import com.example.daewoo.parlor.roomtype.PaymentAccRoomTypeDto;
 import com.example.daewoo.parlor.service.ParlorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -29,6 +29,18 @@ public class ApiParlorController extends CommonRestController {
         }catch (Throwable e){
             log.error(e.toString());
             return getResponseEntity(ResponseCode.INSERT_FAIL, "Insert Error", null, e);
+        }
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto> findById(@PathVariable Long id){
+        try{
+            PaymentAccRoomTypeDto dto = parlorService.findById(id);
+            return getResponseEntity(ResponseCode.SUCCESS, "Select Ok", dto, null);
+        }catch (Throwable e){
+            log.error(e.toString());
+            return getResponseEntity(ResponseCode.SELECT_FAIL, "Select Error", null, e);
         }
 
     }
