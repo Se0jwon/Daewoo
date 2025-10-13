@@ -4,6 +4,7 @@ import com.example.daewoo.user.card.dto.CardDto;
 import com.example.daewoo.user.card.dto.CardEntity;
 import com.example.daewoo.user.dto.UserEntity;
 import com.example.daewoo.user.service.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,8 @@ public class CardService {
                 .toList();
     }
 
-    public void delete(Long cardId){
-        this.cardRepository.deleteById(cardId);
+    @Transactional
+    public void delete(Long cardId, Long userId){
+        this.cardRepository.deleteByCardIdAndUserEntity_userId(cardId, userId);
     }
 }

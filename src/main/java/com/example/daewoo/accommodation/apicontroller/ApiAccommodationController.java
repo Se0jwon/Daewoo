@@ -75,7 +75,7 @@ public class ApiAccommodationController extends CommonRestController {
     public ResponseEntity<ResponseDto> findById(@PathVariable Long comId){
         try {
             Optional<AccommodationOneDto> find = this.accommodationService.findById(comId);
-            ComImageDetailDto dto = this.comImageService.findComImage(comId);
+            this.comImageService.findComImage(comId);
             return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
         }catch (Throwable e){
             log.error("예외 : " + e.toString());

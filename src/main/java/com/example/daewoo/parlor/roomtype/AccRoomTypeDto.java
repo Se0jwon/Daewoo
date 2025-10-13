@@ -1,9 +1,13 @@
 package com.example.daewoo.parlor.roomtype;
 
+import com.example.daewoo.accommodation.amenities.AmenitiesDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -12,7 +16,7 @@ import lombok.Setter;
 public class AccRoomTypeDto {
     private Long accId;
     private Long comId;
-    private RoomTypeDto roomType;
+    private List<RoomTypeDto> roomType;
     private Integer price;
     private Integer maxRoom;
 
@@ -32,7 +36,7 @@ public class AccRoomTypeDto {
         dto.setMaxRoom(entity.getMaxRoom());
         dto.setComId(entity.getAccommodation().getComId());
 
-        dto.setRoomType(RoomTypeDto.fromEntity(entity.getRoomType()));
+//        dto.setRoomType(entity.getRoomType());
 
         return dto;
     }
