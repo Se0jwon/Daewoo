@@ -76,3 +76,6 @@ jwt:
 
 cors:
   allowed-origins: "http://localhost:3000, http://localhost:18080"
+
+toss:
+  secret-key: test_sk_XZYkKL4MrjL5Y0ABPgwk30zJwlEW # 테스트 시크릿 키
