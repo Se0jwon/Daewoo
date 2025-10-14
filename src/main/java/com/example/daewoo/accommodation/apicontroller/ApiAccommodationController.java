@@ -2,6 +2,7 @@ package com.example.daewoo.accommodation.apicontroller;
 
 import com.example.daewoo.accommodation.accresponse.AccommodationResponse;
 import com.example.daewoo.accommodation.dto.AccommodationAllDto;
+import com.example.daewoo.accommodation.dto.AccommodationDiscountDto;
 import com.example.daewoo.accommodation.dto.AccommodationOneDto;
 import com.example.daewoo.accommodation.image.dto.ComImageDetailDto;
 import com.example.daewoo.accommodation.image.service.ComImageService;
@@ -86,6 +87,18 @@ public class ApiAccommodationController extends CommonRestController {
         }catch (Throwable e){
             log.error("예외 : " + e.toString());
             return getResponseEntity(ResponseCode.SELECT_FAIL, "Find One Error", null, e);
+        }
+    }
+
+    // 특가 호텔만 출력
+    @GetMapping("/discount")
+    public ResponseEntity<ResponseDto> findDiscountedAccommodations(@PageableDefault(size = 4, direction = Sort.Direction.DESC) Pageable pageable){
+        try {
+            Page<AccommodationDiscountDto> list = this.accommodationService.findDiscountedAccommodations(pageable);
+            return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
+        }catch (Throwable e){
+            log.error("예외 : "+e.toString());
+            return getResponseEntity(ResponseCode.SELECT_FAIL, "Find All Error", null, e);
         }
     }
 

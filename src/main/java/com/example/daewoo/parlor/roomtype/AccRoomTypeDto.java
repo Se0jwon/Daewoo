@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,8 +18,12 @@ public class AccRoomTypeDto {
     private Long accId;
     private Long comId;
     private RoomTypeDto roomType;
-    private Integer price;
+    private Integer price; //원가
     private Integer maxRoom;
+
+    private Integer discountedPrice; //할인가
+    private BigDecimal discountRate;
+
 
 
     public AccRoomTypeEntity toEntity(){
