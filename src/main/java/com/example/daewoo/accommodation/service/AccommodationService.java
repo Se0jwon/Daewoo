@@ -4,11 +4,10 @@ import com.example.daewoo.accommodation.dto.AccommodationAllDto;
 import com.example.daewoo.accommodation.dto.AccommodationEntity;
 
 import com.example.daewoo.accommodation.dto.AccommodationOneDto;
-import com.example.daewoo.accommodation.image.dto.ComImageDto;
-import com.example.daewoo.accommodation.image.dto.ComImageEntity;
 import com.example.daewoo.accommodation.image.service.ComImageRepository;
+import com.example.daewoo.parlor.roomtype.AccRoomTypeDto;
 import com.example.daewoo.parlor.roomtype.AccRoomTypeEntity;
-import com.example.daewoo.review.service.ReviewRepository;
+import com.example.daewoo.parlor.service.AccRoomTypeRepository;
 import com.example.daewoo.wish.service.WishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +15,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,6 +29,9 @@ public class AccommodationService {
 
     @Autowired
     private WishRepository wishRepository;
+
+    @Autowired
+    private AccRoomTypeRepository accRoomTypeRepository;
 
     public Long totalCount(){
         return accommodationRepository.hotelCount();
@@ -81,7 +82,7 @@ public class AccommodationService {
         return dto;
     }
 
-    public Optional<AccommodationOneDto> findById(Long comId){
+    public AccommodationOneDto findById(Long comId, LocalDate checkIn, LocalDate checkOut){
         AccommodationEntity accommodation = accommodationRepository.findById(comId)
                 .orElseThrow(() -> new RuntimeException("숙소를 찾을 수 없습니다."));
 
@@ -91,10 +92,19 @@ public class AccommodationService {
         List<String> subImage = accommodationRepository.findSubComImage(comId);
 
         AccommodationOneDto dto = AccommodationOneDto.fromEntity(accommodation);
+        if (checkIn != null && checkOut != null) {
+            List<AccRoomTypeEntity> availableEntities = accRoomTypeRepository.findAvailableRoomEntities(comId, checkIn, checkOut);
+
+            List<AccRoomTypeDto> availableDtos = availableEntities.stream()
+                    .map(AccRoomTypeDto::fromEntity)
+                    .collect(Collectors.toList());
+
+            dto.setRooms(availableDtos);
+        }
         dto.setPrice(price);
         dto.setMainImage(mainImage);
         dto.setSubImage(subImage);
 
-        return Optional.of(dto);
+        return dto;
     }
 }

@@ -14,6 +14,10 @@ import org.hibernate.annotations.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ParlorService {
     @Autowired
@@ -59,5 +63,12 @@ public class ParlorService {
         );
 
         return PaymentAccRoomTypeDto.fromEntity(accRoomTypeEntity, comDto);
+    }
+
+    public List<AccRoomTypeDto> findAvailableRooms(Long comId, LocalDate checkIn, LocalDate checkOut){
+        return accRoomTypeRepository.findAvailableRoomEntities(comId, checkIn, checkOut)
+                .stream()
+                .map(AccRoomTypeDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }

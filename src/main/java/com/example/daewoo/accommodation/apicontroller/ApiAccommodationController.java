@@ -19,10 +19,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +48,8 @@ public class ApiAccommodationController extends CommonRestController {
                                                @RequestParam(defaultValue = "") List<String> amCategory,
                                                @RequestParam(defaultValue = "") String comTitle,
                                                @RequestParam(defaultValue = "") Integer star,
+                                               @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
+                                               @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut,
                                                Authentication authentication){
         try {
             Long userId = null;
@@ -72,9 +76,11 @@ public class ApiAccommodationController extends CommonRestController {
     }
 
     @GetMapping("/{comId}")
-    public ResponseEntity<ResponseDto> findById(@PathVariable Long comId){
+    public ResponseEntity<ResponseDto> findById(@PathVariable Long comId,
+                                                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
+                                                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut){
         try {
-            Optional<AccommodationOneDto> find = this.accommodationService.findById(comId);
+            AccommodationOneDto find = this.accommodationService.findById(comId, checkIn,checkOut);
             this.comImageService.findComImage(comId);
             return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
         }catch (Throwable e){

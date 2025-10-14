@@ -16,9 +16,10 @@ import java.util.stream.Collectors;
 public class AccRoomTypeDto {
     private Long accId;
     private Long comId;
-    private List<RoomTypeDto> roomType;
+    private RoomTypeDto roomType;
     private Integer price;
     private Integer maxRoom;
+
 
     public AccRoomTypeEntity toEntity(){
         AccRoomTypeEntity entity = new AccRoomTypeEntity();
@@ -36,7 +37,7 @@ public class AccRoomTypeDto {
         dto.setMaxRoom(entity.getMaxRoom());
         dto.setComId(entity.getAccommodation().getComId());
 
-//        dto.setRoomType(entity.getRoomType());
+        dto.setRoomType(RoomTypeDto.fromEntity(entity.getRoomType()));
 
         return dto;
     }
