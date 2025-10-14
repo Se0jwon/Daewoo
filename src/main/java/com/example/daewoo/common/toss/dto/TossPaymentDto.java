@@ -9,4 +9,5 @@ public class TossPaymentDto {
     private String paymentKey;
     private String orderId;
     private Long amount;
+    private String customerKey;
 }

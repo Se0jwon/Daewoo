@@ -35,7 +35,7 @@ public class SecurityConfig {
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final ClientRegistrationRepository clientRegistrationRepository;
 
-    @Value("${cors.allowed-origins:http://localhost:3000}, http:://localhost:8080")
+    @Value("${cors.allowed-origins:http://localhost:3000}")
     private String[] allowedOrigins;
 
 
@@ -79,6 +79,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
 
+                                // 인증이 필요한 API 경로
+                                .requestMatchers("/api/user/profile").authenticated()
 //                        .requestMatchers(
 //                                "/api/user/send-reset-code",
 //                                "/api/user/verify-reset-code",

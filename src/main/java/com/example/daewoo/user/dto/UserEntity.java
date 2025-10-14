@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter // 💡 setRegistrationId, setOauthId, setRole 등이 자동으로 생성됩니다.
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

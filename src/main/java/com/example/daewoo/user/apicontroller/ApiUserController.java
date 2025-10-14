@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -225,6 +226,18 @@ public class ApiUserController extends CommonRestController {
         } catch (Throwable e) {
             log.error(e.toString());
             return getResponseEntity(ResponseCode.UPDATE_FAIL, "Image Upload Error", null, e);
+        }
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserProfile() {
+        try {
+            UserDto userProfile = service.getUserProfile();
+            // 비밀번호 필드를 "****"로 마스킹 처리
+            userProfile.setPassword("********");
+            return ResponseEntity.ok(userProfile);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

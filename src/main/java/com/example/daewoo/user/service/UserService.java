@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -193,6 +195,23 @@ public class UserService {
     /**
      * 소셜 회원가입 추가 정보 입력 및 완료 처리
      */
+
+    @Transactional(readOnly = true)
+    public UserDto getUserProfile() {
+        // SecurityContext에서 현재 사용자의 인증 정보를 가져옴
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            throw new RuntimeException("인증된 사용자를 찾을 수 없습니다.");
+        }
+        String userEmail = authentication.getName();
+
+        // 이메일을 기반으로 사용자 정보를 데이터베이스에서 조회
+        UserEntity userEntity = repository.findByUserEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("사용자 정보를 찾을 수 없습니다."));
+
+        // Entity를 Dto로 변환하여 반환 (비밀번호는 DTO 생성자에서 null 처리됨)
+        return new UserDto(userEntity);
+    }
 
 
     @Transactional
