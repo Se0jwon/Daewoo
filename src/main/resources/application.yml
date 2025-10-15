@@ -75,4 +75,6 @@ jwt:
   secret: c2VjcmV0S2V5Zm9ySldUVG9rZW5zZWNyZXRrZXlmb3Jqd3R0b2tlbnNlY3JldGtleWZvcmp3dHRva2Vu
 
 cors:
-  allowed-origins: "http://localhost:3000"
+  allowed-origins:
+    - http://localhost:3000 # local 개발주소
+    - http://tomhoon.my:780 # test 서버주소 
