@@ -12,9 +12,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-// PasswordEncoder 관련 import는 유지
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.web.SecurityFilterChain;
@@ -36,30 +33,21 @@ public class SecurityConfig {
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final ClientRegistrationRepository clientRegistrationRepository;
 
-    @Value("${cors.allowed-origins:http://localhost:3000}")
+    private static final String[] PUBLIC_ENDPOINTS = {
+            "/api/user/send-reset-code",
+            "/api/user/verify-reset-code",
+            "/api/user/reset-password",
+            "/api/user/login",
+            "/api/user",
+            "/images/**",
+            "/css/**",
+            "/js/**",
+            "/api/user/complete-social-signup",
+            "/api/user/verify-email"
+    };
+
+    @Value("${cors.allowed-origins}") 
     private String[] allowedOrigins;
-
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용 안 함
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/api/user/**", "/login", "/signup").permitAll() // user API에 대한 모든 접근 허용
-//                        .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
-//                                .anyRequest().permitAll()
-//                )
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); // JWT 필터 추가
-//        return http.build();
-//    }
-
-
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -79,17 +67,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-
-//                        .requestMatchers(
-//                                "/api/user/send-reset-code",
-//                                "/api/user/verify-reset-code",
-//                                "/api/user/reset-password",
-//                                "/api/user/login",
-//                                "/api/user",
-//                                "/images/**", "/css/**", "/js/**",
-//                                "/api/user/complete-social-signup",
-//                                "/api/user/verify-email"
-//                        ).permitAll()
+//                .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
 //                        .anyRequest().authenticated()
                         .anyRequest().permitAll()
 
