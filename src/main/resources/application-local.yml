@@ -18,7 +18,7 @@ spring:
 #      ddl-auto: update
 
 file:
-  upload-dir: D:/image/
+  upload-dir: /Users/jwo/image/
   resource-handler: /images/**
 
 #JPA log
@@ -31,4 +31,4 @@ logging:
           jdbc:
             bind: TRACE
 cors:
-  allowed-origins: http://localhost:3000,http://127.0.0.1:3000
+  allowed-origins: http://localhost:3000,http://127.0.0.1:3000, http://localhost:8080, http://localhost:8085, http://tomhoon.my:780
