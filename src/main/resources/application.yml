@@ -75,7 +75,7 @@ jwt:
   secret: c2VjcmV0S2V5Zm9ySldUVG9rZW5zZWNyZXRrZXlmb3Jqd3R0b2tlbnNlY3JldGtleWZvcmp3dHRva2Vu
 
 cors:
-  allowed-origins: "http://localhost:3000, http://localhost:18080, http:://localhost:8080"
+  allowed-origins: "http://localhost:3000, http://localhost:18080, http://localhost:8080, http://localhost:8085"
 
 toss:
   client-key: test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm
