@@ -19,5 +19,4 @@ public class RoomTypeEntity {
     private Long roomTypeId;
 
     private String roomTypeName;
-    private Integer maxCapacity;
 }

@@ -12,8 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocationDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long locationId;
     private String locationName;
 

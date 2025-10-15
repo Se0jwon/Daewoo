@@ -10,4 +10,6 @@ import java.util.*;
 public interface CardRepository extends JpaRepository<CardEntity, Long> {
 
     public List<CardEntity> findAllByUserEntity_UserId(Long userId);
+
+    void deleteByCardIdAndUserEntity_userId(Long cardId, Long userId);
 }

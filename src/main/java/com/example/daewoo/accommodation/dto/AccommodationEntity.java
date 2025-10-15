@@ -33,6 +33,9 @@ public class AccommodationEntity {
     private Integer star;
     private String category;
 
+    @Column(name = "discount_rate")
+    private BigDecimal discountRate;
+
     @ManyToOne
     @JoinColumn(name = "location_id")
     private LocationEntity locationEntity;
