@@ -38,7 +38,8 @@ public interface AccommodationRepository extends JpaRepository<AccommodationEnti
                     "   a.comTitle, " +
                     "   (SELECT img.imageUrl FROM ComImageEntity img WHERE img.accommodation = a AND img.isMain = true), " +
                     "   (SELECT MIN(art.price) FROM AccRoomTypeEntity art WHERE art.accommodation = a), " +
-                    "   a.discountRate" +
+                    "   a.discountRate," +
+                    "   a.locationEntity.locationName" +
                     ") " +
                     "FROM AccommodationEntity a " +
                     "WHERE a.discountRate > :rate"

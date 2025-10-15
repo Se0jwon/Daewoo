@@ -18,13 +18,14 @@ public class AccommodationDiscountDto {
     private Integer price; //원가
     private Integer discountedPrice; //할인가
     private String image;
-    private LocationDto location;
+    private String location;
 
-    public AccommodationDiscountDto(Long comId, String comTitle, String image, Integer price, BigDecimal discountRate) {
+    public AccommodationDiscountDto(Long comId, String comTitle, String image, Integer price, BigDecimal discountRate, String location) {
         this.comId = comId;
         this.comTitle = comTitle;
         this.image = image;
         this.price = price;
+        this.location = location;
 
         // 생성자 안에서 할인가를 직접 계산합니다.
         if (price != null && discountRate != null && discountRate.compareTo(BigDecimal.ZERO) > 0) {
@@ -51,7 +52,7 @@ public class AccommodationDiscountDto {
         dto.setComId(entity.getComId());
         dto.setComTitle(entity.getComTitle());
 
-        dto.setLocation(LocationDto.fromEntity(entity.getLocationEntity()));
+        dto.setLocation(entity.getLocationEntity().getLocationName());
 
         return dto;
     }
