@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -17,7 +19,18 @@ public class ReservationDto {
     private Long userId;
     private LocalDate checkIn;
     private LocalDate checkOut;
+    private LocalTime checkInTime;
+    private LocalTime checkOutTime;
 
+    public ReservationDto(Long reservationId, Long parId, Long userId, LocalTime checkInTime, LocalTime checkOutTime, LocalDate checkIn, LocalDate checkOut) {
+        this.reservationId = reservationId;
+        this.parId = parId;
+        this.userId = userId;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+    }
     public ReservationEntity toEntity(){
         ReservationEntity entity = new ReservationEntity();
         entity.setReservationId(this.reservationId);
@@ -34,6 +47,8 @@ public class ReservationDto {
         dto.setCheckOut(entity.getCheckOut());
         dto.setParId(entity.getParlorEntity().getParId());
         dto.setUserId(entity.getUserEntity().getUserId());
+        dto.setCheckInTime(entity.getParlorEntity().getAccRoomTypeEntity().getAccommodation().getCheckInTime());
+        dto.setCheckInTime(entity.getParlorEntity().getAccRoomTypeEntity().getAccommodation().getCheckOutTime());
 
         return dto;
     }

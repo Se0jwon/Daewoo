@@ -39,10 +39,19 @@ public class ReservationService {
 
 
     public List<ReservationDto> findByUserId(Long userId){
-        return this.reservationRepository.findByUserEntity_UserId(userId).stream()
-                .map(ReservationDto::fromEntity)
-                .collect(Collectors.toList());
+        if (userId == null) {
+            // userId가 null인 경우 처리
+            return Collections.emptyList();
+        }
 
+        // 2. Repository 메서드 호출
+        // JPQL 쿼리 덕분에, DB에서 이미 checkInTime과 checkOutTime이 채워진 DTO 리스트를 바로 가져옵니다.
+        List<ReservationDto> reservations =
+                reservationRepository.findAllReservationsByUserIdWithCheckInOut(userId);
+
+        // 3. 결과 반환
+        // 별도의 DTO 변환 과정 없이 바로 반환 가능 (Projection의 장점)
+        return reservations;
 
     }
 
