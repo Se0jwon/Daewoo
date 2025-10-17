@@ -17,9 +17,7 @@ public class AccommodationSpecification {
                 return null;
             }
 
-            // ==================== 👇 [수정] "roomType"을 실제 필드명인 "rooms"로 변경 👇 ====================
             Join<AccommodationEntity, AccRoomTypeEntity> priceJoin = root.join("rooms");
-            // =========================================================================================
 
             List<Predicate> predicates = new ArrayList<>();
 
