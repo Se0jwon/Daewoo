@@ -89,7 +89,7 @@ public class ReservationService {
                 continue;
             }
 
-            dto.setParId(candidate.getParId());
+            dto.setRoomNumber(candidate.getParContent());
             return candidate;
         }
 

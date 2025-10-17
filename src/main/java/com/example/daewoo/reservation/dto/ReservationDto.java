@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class ReservationDto {
     private Long reservationId;
-    private Long parId;
+    private String roomNumber;
     private Long accId;
     private Long userId;
     private LocalDate checkIn;
@@ -23,9 +23,9 @@ public class ReservationDto {
     private LocalTime checkInTime;
     private LocalTime checkOutTime;
 
-    public ReservationDto(Long reservationId, Long parId, Long accId, Long userId, LocalTime checkInTime, LocalTime checkOutTime, LocalDate checkIn, LocalDate checkOut) {
+    public ReservationDto(Long reservationId, String roomNumber, Long accId, Long userId, LocalTime checkInTime, LocalTime checkOutTime, LocalDate checkIn, LocalDate checkOut) {
         this.reservationId = reservationId;
-        this.parId = parId;
+        this.roomNumber = roomNumber;
         this.accId = accId;
         this.userId = userId;
         this.checkInTime = checkInTime;
@@ -47,7 +47,7 @@ public class ReservationDto {
         dto.setReservationId(entity.getReservationId());
         dto.setCheckIn(entity.getCheckIn());
         dto.setCheckOut(entity.getCheckOut());
-        dto.setParId(entity.getParlorEntity().getParId());
+        dto.setRoomNumber(entity.getParlorEntity().getParContent());
         dto.setAccId(entity.getParlorEntity().getAccRoomTypeEntity().getAccId());
         dto.setUserId(entity.getUserEntity().getUserId());
         dto.setCheckInTime(entity.getParlorEntity().getAccRoomTypeEntity().getAccommodation().getCheckInTime());

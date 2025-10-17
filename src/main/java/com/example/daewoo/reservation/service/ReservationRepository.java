@@ -16,7 +16,7 @@ import java.util.Set;
 public interface ReservationRepository extends JpaRepository<ReservationEntity, Long> {
     @Query("SELECT new com.example.daewoo.reservation.dto.ReservationDto(" +
             "    r.reservationId," +
-            "    r.parlorEntity.parId, " +
+            "    r.parlorEntity.parContent, " +
             "    r.parlorEntity.accRoomTypeEntity.accId, " +
             "    r.userEntity.userId," +
             "    r.parlorEntity.accRoomTypeEntity.accommodation.checkInTime," +
