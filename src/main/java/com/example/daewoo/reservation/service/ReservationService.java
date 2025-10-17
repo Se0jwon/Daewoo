@@ -9,8 +9,8 @@ import com.example.daewoo.user.service.UserRepository;
 import com.example.daewoo.wish.dto.WishDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class ReservationService {
@@ -26,8 +26,7 @@ public class ReservationService {
     public void insert(Long userId, ReservationDto dto){
         ReservationEntity entity = dto.toEntity();
 
-        ParlorEntity parlorEntity = parlorRepository.findById(dto.getParId())
-        .orElseThrow(() -> new RuntimeException("Parlor Not Found"));
+        ParlorEntity parlorEntity = resolveParlorForReservation(dto);
         entity.setParlorEntity(parlorEntity);
 
         UserEntity userEntity = userRepository.findById(userId)
@@ -59,8 +58,7 @@ public class ReservationService {
     public void update(Long userId, ReservationDto dto){
         ReservationEntity entity = dto.toEntity();
 
-        ParlorEntity parlorEntity = parlorRepository.findById(dto.getParId())
-                .orElseThrow(() -> new RuntimeException("Parlor Not Found"));
+        ParlorEntity parlorEntity = resolveParlorForReservation(dto);
         entity.setParlorEntity(parlorEntity);
 
         UserEntity userEntity = userRepository.findById(userId)
@@ -68,6 +66,34 @@ public class ReservationService {
         entity.setUserEntity(userEntity);
 
         this.reservationRepository.save(entity);
+    }
+    private ParlorEntity resolveParlorForReservation(ReservationDto dto) {
+        if (dto.getAccId() == null) {
+            throw new IllegalArgumentException("accId is required for auto assignment");
+        }
+
+        if (dto.getCheckIn() == null || dto.getCheckOut() == null) {
+            throw new IllegalArgumentException("checkIn과 checkOut은 필수입니다.");
+        }
+
+        List<ParlorEntity> parlors = parlorRepository.findByAccRoomTypeEntityAccId(dto.getAccId());
+        if (parlors.isEmpty()) {
+            throw new IllegalStateException("예약 가능한 객실이 없습니다.");
+        }
+
+        for (ParlorEntity candidate : parlors) {
+            boolean overlapping = reservationRepository
+                    .existsByParlorEntityParIdAndCheckOutGreaterThanEqualAndCheckInLessThanEqual(
+                            candidate.getParId(), dto.getCheckIn(), dto.getCheckOut());
+            if (overlapping) {
+                continue;
+            }
+
+            dto.setParId(candidate.getParId());
+            return candidate;
+        }
+
+        throw new IllegalStateException("요청 조건에 맞는 배정 가능한 객실이 없습니다.");
     }
 
     public void delete(Long id){

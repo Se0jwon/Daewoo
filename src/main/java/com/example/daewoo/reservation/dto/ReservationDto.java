@@ -16,15 +16,17 @@ import java.time.LocalTime;
 public class ReservationDto {
     private Long reservationId;
     private Long parId;
+    private Long accId;
     private Long userId;
     private LocalDate checkIn;
     private LocalDate checkOut;
     private LocalTime checkInTime;
     private LocalTime checkOutTime;
 
-    public ReservationDto(Long reservationId, Long parId, Long userId, LocalTime checkInTime, LocalTime checkOutTime, LocalDate checkIn, LocalDate checkOut) {
+    public ReservationDto(Long reservationId, Long parId, Long accId, Long userId, LocalTime checkInTime, LocalTime checkOutTime, LocalDate checkIn, LocalDate checkOut) {
         this.reservationId = reservationId;
         this.parId = parId;
+        this.accId = accId;
         this.userId = userId;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
@@ -46,9 +48,10 @@ public class ReservationDto {
         dto.setCheckIn(entity.getCheckIn());
         dto.setCheckOut(entity.getCheckOut());
         dto.setParId(entity.getParlorEntity().getParId());
+        dto.setAccId(entity.getParlorEntity().getAccRoomTypeEntity().getAccId());
         dto.setUserId(entity.getUserEntity().getUserId());
         dto.setCheckInTime(entity.getParlorEntity().getAccRoomTypeEntity().getAccommodation().getCheckInTime());
-        dto.setCheckInTime(entity.getParlorEntity().getAccRoomTypeEntity().getAccommodation().getCheckOutTime());
+        dto.setCheckOutTime(entity.getParlorEntity().getAccRoomTypeEntity().getAccommodation().getCheckOutTime());
 
         return dto;
     }
