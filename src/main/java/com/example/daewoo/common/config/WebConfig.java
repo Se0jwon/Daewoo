@@ -12,11 +12,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     // yml의 file 그룹 밑에 있는 resource-handler 값을 가져옴
     @Value("${file.resource-handler}")
-    private String resourceHandler; // "/images/**" 값이 주입됨
+    private String resourceHandler;
 
     // yml의 file 그룹 밑에 있는 upload-dir 값을 가져옴
     @Value("${file.upload-dir}")
-    private String resourceLocation; // "D:/image/" 값이 주입됨
+    private String resourceLocation;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -37,12 +37,11 @@ public class WebConfig implements WebMvcConfigurer {
                 .setViewName("forward:/index.html");
     }
 
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowedOrigins("*")
-//                .allowedMethods("*")
-//                .allowedHeaders("*")
-//                .allowCredentials(true);
-//    }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*");
+    }
 }
