@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,6 +18,8 @@ public class PaymentAccRoomTypeDto {
     private PaymentAccommodationDto paymentAccommodation;
     private RoomTypeDto roomType;
     private Integer maxRoom;
+    private LocalDate checkIn;
+    private LocalDate checkOut;
 
     public AccRoomTypeEntity toEntity(){
         AccRoomTypeEntity entity = new AccRoomTypeEntity();
