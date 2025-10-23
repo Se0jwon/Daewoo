@@ -32,7 +32,7 @@ public class AccommodationOneDto {
 
     private List<AmenitiesDto> amenities;
 
-    private LocationDto location;
+    private String location;
 
     private BigDecimal reviewAvg;
     private Integer reviewCount;
@@ -79,7 +79,7 @@ public class AccommodationOneDto {
 //                .map(ReviewDto::fromEntity)
 //                .collect(Collectors.toList()));
 
-        dto.setLocation(LocationDto.fromEntity(entity.getLocationEntity()));
+        dto.setLocation(entity.getLocationEntity().getLocationName());
 
         return dto;
     }

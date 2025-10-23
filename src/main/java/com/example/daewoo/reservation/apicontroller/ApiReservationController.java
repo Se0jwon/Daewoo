@@ -17,7 +17,7 @@ import java.util.*;
 
 @Slf4j
 @RestController
-@RequestMapping("api/reservation")
+@RequestMapping("/api/reservation")
 public class ApiReservationController extends CommonRestController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class ApiReservationController extends CommonRestController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<ResponseDto> insert(@RequestBody ReservationDto dto,
                                               Authentication authentication) {
         try{

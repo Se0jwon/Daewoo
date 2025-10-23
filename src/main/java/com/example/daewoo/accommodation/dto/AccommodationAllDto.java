@@ -26,6 +26,9 @@ public class AccommodationAllDto {
     private Integer price;
     private String image;
     private String category;
+
+    private Integer amenitiesCount;
+
     private Boolean isFavorite;
 
     private BigDecimal reviewAvg;
