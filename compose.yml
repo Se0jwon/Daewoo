@@ -51,7 +51,6 @@ services:
       - TZ=Asia/Seoul
     depends_on:
       - redis
-
       - mariadb_container
 
     networks:
