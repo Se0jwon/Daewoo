@@ -45,7 +45,8 @@ public class ApiAccommodationController extends CommonRestController {
 
     @GetMapping("")
     public ResponseEntity<ResponseDto> findAll(@PageableDefault(size = 4, direction = Sort.Direction.DESC) Pageable pageable,
-                                               @RequestParam(defaultValue = "") Integer minPrice, @RequestParam(defaultValue = "") Integer maxPrice,
+                                               @RequestParam(required = false) Integer minPrice,
+                                               @RequestParam(required = false) Integer maxPrice,
                                                @RequestParam(defaultValue = "") List<String> amCategory,
                                                @RequestParam(defaultValue = "") String comTitle,
                                                @RequestParam(defaultValue = "") Integer star,
