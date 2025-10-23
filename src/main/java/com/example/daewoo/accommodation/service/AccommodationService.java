@@ -74,7 +74,9 @@ public class AccommodationService {
             Long comId = item.getComId();
             Integer price = accommodationRepository.findLowestPriceByHotelId(comId);
             String image = accommodationRepository.findMainComImage(comId);
+            Integer amenitiesCount = accommodationRepository.countAmenitiesByAccommodationId(comId);
 
+            item.setAmenitiesCount(amenitiesCount);
             item.setImage(image);
             item.setPrice(price);
 

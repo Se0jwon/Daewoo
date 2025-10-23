@@ -4,14 +4,11 @@ import com.example.daewoo.accommodation.accresponse.AccommodationResponse;
 import com.example.daewoo.accommodation.dto.AccommodationAllDto;
 import com.example.daewoo.accommodation.dto.AccommodationDiscountDto;
 import com.example.daewoo.accommodation.dto.AccommodationOneDto;
-import com.example.daewoo.accommodation.image.dto.ComImageDetailDto;
 import com.example.daewoo.accommodation.image.service.ComImageService;
 import com.example.daewoo.accommodation.service.AccommodationService;
 import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
-import com.example.daewoo.review.dto.ReviewDto;
-import com.example.daewoo.review.service.ReviewService;
 import com.example.daewoo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController

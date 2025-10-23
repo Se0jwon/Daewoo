@@ -10,8 +10,11 @@ import com.example.daewoo.parlor.roomtype.PaymentAccRoomTypeDto;
 import com.example.daewoo.parlor.service.ParlorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @Slf4j
 @RestController
@@ -34,9 +37,13 @@ public class ApiParlorController extends CommonRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto> findById(@PathVariable Long id){
+    public ResponseEntity<ResponseDto> findById(@PathVariable Long id,
+                                                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
+                                                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut){
         try{
             PaymentAccRoomTypeDto dto = parlorService.findById(id);
+            dto.setCheckIn(checkIn);
+            dto.setCheckOut(checkOut);
             return getResponseEntity(ResponseCode.SUCCESS, "Select Ok", dto, null);
         }catch (Throwable e){
             log.error(e.toString());

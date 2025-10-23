@@ -11,6 +11,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.*;
 
 @Getter
@@ -32,6 +33,8 @@ public class AccommodationEntity {
     private Integer reviewCount;
     private Integer star;
     private String category;
+    private LocalTime checkInTime;
+    private LocalTime checkOutTime;
 
     @Column(name = "discount_rate")
     private BigDecimal discountRate;
