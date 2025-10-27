@@ -22,7 +22,10 @@ public class PaymentAccommodationDto {
     private Integer reviewCount;
     private String mainImage;
     private Integer discount;
+
     private String location;
+
+
 
     public AccommodationEntity toEntity(){
         AccommodationEntity entity = new AccommodationEntity();
@@ -45,6 +48,19 @@ public class PaymentAccommodationDto {
         dto.setMainImage(mainImage);
         dto.setPrice(price);
         dto.setLocation(entity.getLocationEntity().getLocationName());
+
+        BigDecimal bdPrice = new BigDecimal(price);
+        BigDecimal discountRate = entity.getDiscountRate();
+
+        BigDecimal hundred = new BigDecimal("100");
+        BigDecimal rateFraction = discountRate.divide(hundred, 4, RoundingMode.HALF_UP);
+
+        BigDecimal bdDiscount = bdPrice.multiply(rateFraction)
+                .setScale(0, RoundingMode.HALF_UP);
+
+        Integer discount = bdDiscount.intValue();
+
+        dto.setDiscount(discount);
 
         BigDecimal bdPrice = new BigDecimal(price);
         BigDecimal discountRate = entity.getDiscountRate();
