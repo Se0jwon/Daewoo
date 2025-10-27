@@ -34,6 +34,8 @@ public class AccommodationOneDto {
 
     private String location;
 
+    private String category;
+
     private BigDecimal reviewAvg;
     private Integer reviewCount;
 //    private List<ReviewDto> reviews;
@@ -67,6 +69,8 @@ public class AccommodationOneDto {
         dto.setReviewCount(entity.getReviewCount());
         dto.setStar(entity.getStar());
 
+        dto.setCategory(entity.getCategory());
+
         dto.setAmenities(entity.getAmenities().stream()
                 .map(AmenitiesDto::fromEntity)
                 .collect(Collectors.toList()));
@@ -79,7 +83,13 @@ public class AccommodationOneDto {
 //                .map(ReviewDto::fromEntity)
 //                .collect(Collectors.toList()));
 
-        dto.setLocation(entity.getLocationEntity().getLocationName());
+        // [!!!] 수정된 부분입니다. [!!!]
+        // entity.getLocationEntity()가 null인지 확인하여 NullPointerException을 방지합니다.
+        if (entity.getLocationEntity() != null) {
+            dto.setLocation(entity.getLocationEntity().getLocationName());
+        } else {
+            dto.setLocation(null); // Location이 없으면 null을 설정합니다.
+        }
 
         return dto;
     }
