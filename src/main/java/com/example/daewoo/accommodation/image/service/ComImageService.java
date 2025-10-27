@@ -1,15 +1,11 @@
 package com.example.daewoo.accommodation.image.service;
 
-import com.example.daewoo.accommodation.dto.AccommodationEntity;
-import com.example.daewoo.accommodation.dto.AccommodationOneDto;
 import com.example.daewoo.accommodation.image.dto.ComImageDetailDto;
-import com.example.daewoo.accommodation.image.dto.ComImageDto;
 import com.example.daewoo.accommodation.image.dto.ComImageEntity;
-import com.example.daewoo.accommodation.service.AccommodationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,23 +21,22 @@ public class ComImageService {
     @Autowired
     private ComImageRepository comImageRepository;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+    @Value("${file.upload.hotel.path}")
+    private String hotelImagePath;
 
     public Resource loadImage(String filename) {
         try {
-            Path filePath = Paths.get(uploadDir).resolve(filename).normalize();
-            Resource resource = new UrlResource(filePath.toUri());
-
+            // Load image from classpath
+            String classpath = "classpath:static/hotelimage/" + filename;
+            Resource resource = new ClassPathResource("static/hotelimage/" + filename);
+            
             if (resource.exists() && resource.isReadable()) {
                 return resource;
             } else {
-                // 파일이 존재하지 않거나 읽을 수 없는 경우 예외를 발생시킵니다.
                 throw new RuntimeException("파일을 찾을 수 없거나 읽을 수 없습니다: " + filename);
             }
-        } catch (MalformedURLException e) {
-            // 파일 경로가 유효하지 않은 URL 형식일 때 예외를 발생시킵니다.
-            throw new RuntimeException("파일 경로가 올바르지 않습니다: " + filename, e);
+        } catch (Exception e) {
+            throw new RuntimeException("이미지 로드 중 오류가 발생했습니다: " + filename, e);
         }
     }
 

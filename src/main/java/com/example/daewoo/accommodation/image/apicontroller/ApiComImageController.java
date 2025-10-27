@@ -30,37 +30,34 @@ public class ApiComImageController extends CommonRestController {
     @Autowired
     private ComImageService comImageService;
 
-    @GetMapping("/load/{filename}")
+// For backward compatibility with existing image URLs
+    @GetMapping("/{filename:.+}")
+    public ResponseEntity<Resource> loadImageOld(@PathVariable String filename) {
+        return loadImage(filename);
+    }
+    
+    @GetMapping("/file/{filename:.+}")
     public ResponseEntity<Resource> loadImage(@PathVariable String filename) {
         try {
-            // 1. 서비스에서 Resource 객체를 가져옵니다.
+            // Load image from service
             Resource resource = comImageService.loadImage(filename);
-
-            // 2. 파일의 MIME 타입을 동적으로 결정합니다.
-            //    이 로직은 서비스나 유틸리티 클래스에서 처리하는 것이 더 좋습니다.
-            //    여기서는 설명을 위해 직접 작성합니다.
-            String contentType = null;
-            try {
-                contentType = Files.probeContentType(resource.getFile().toPath());
-            } catch (IOException e) {
-                log.error("Failed to determine content type for file: {}", filename, e);
-            }
-            if (contentType == null) {
-                contentType = "application/octet-stream"; // 기본값
-            }
-
-            // 3. HTTP 응답 헤더에 Content-Type을 설정하여 반환합니다.
+            
+            // Get MIME type
+            String contentType = comImageService.getMimeType(resource);
+            
+            // Return image with proper headers
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_TYPE, contentType)
+                    .contentType(org.springframework.http.MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
                     .body(resource);
-
-        } catch (RuntimeException e) {
+                    
+        } catch (Exception e) {
             log.error("Image load error for filename {}: {}", filename, e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping("/{comId}")
+    @GetMapping("/com/{comId}")
     public ResponseEntity<ResponseDto> findComImage(@PathVariable Long comId){
         try{
             ComImageDetailDto dto = this.comImageService.findComImage(comId);

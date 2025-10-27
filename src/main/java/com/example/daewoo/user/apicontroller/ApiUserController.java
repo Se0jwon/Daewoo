@@ -43,15 +43,15 @@ public class ApiUserController extends CommonRestController {
 
     // 회원가입 요청 (1단계): 이메일 인증번호 전송 및 임시 저장
     @PostMapping("")
-    public ResponseEntity<ResponseDto> registerAndSendVerificationEmail(@RequestBody UserDto dto){
-        try{
+    public ResponseEntity<ResponseDto> registerAndSendVerificationEmail(@RequestBody UserDto dto) {
+        try {
 
             service.insert(dto);
 
             String verificationCode = service.generateVerificationCode(dto.getUserEmail());
             emailService.sendVerificationCode(dto.getUserEmail(), verificationCode);
             return getResponseEntity(ResponseCode.SUCCESS, "회원가입을 위해 이메일로 전송된 인증번호를 확인해주세요.", null, null);
-        }catch (Throwable e){
+        } catch (Throwable e) {
             log.error(e.toString());
 
             return getResponseEntity(ResponseCode.INSERT_FAIL, e.getMessage(), dto, e);
@@ -166,94 +166,80 @@ public class ApiUserController extends CommonRestController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseDto> findAll(){
+    public ResponseEntity<ResponseDto> findAll() {
         try {
             List<UserDto> list = this.service.findAll();
             return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
-        }catch (Throwable e){
+        } catch (Throwable e) {
             log.error(e.toString());
             return getResponseEntity(ResponseCode.SELECT_FAIL, "Find All Error", null, e);
         }
     }
 
     @GetMapping("/one")
-    public ResponseEntity<ResponseDto> findById(Authentication authentication){
+    public ResponseEntity<ResponseDto> findById(Authentication authentication) {
         try {
             Long userId = service.findByEmail(authentication.getName()).getUserId();
             Optional<UserDto> find = this.service.findById(userId);
             return getResponseEntity(ResponseCode.SUCCESS, "Find One Ok", find, null);
-        }catch (Throwable e){
+        } catch (Throwable e) {
             log.error(e.toString());
             return getResponseEntity(ResponseCode.SELECT_FAIL, "Find One Error", null, e);
         }
     }
 
     @PatchMapping("")
-    public ResponseEntity<ResponseDto> update(@RequestBody UserDto dto, Authentication authentication){
-        try{
+    public ResponseEntity<ResponseDto> update(@RequestBody UserDto dto, Authentication authentication) {
+        try {
             Long userId = service.findByEmail(authentication.getName()).getUserId();
             dto.setUserId(userId);
             UserDto result = service.update(dto);
             return getResponseEntity(ResponseCode.SUCCESS, "Update Ok", result, null);
-        }catch (Throwable e){
+        } catch (Throwable e) {
             log.error(e.toString());
             return getResponseEntity(ResponseCode.UPDATE_FAIL, "Update Error", dto, e);
         }
     }
-
-    @DeleteMapping("")
-    public ResponseEntity<ResponseDto> delete(Authentication authentication){
-        try{
-            Long userId = service.findByEmail(authentication.getName()).getUserId();
-            service.delete(userId);
-            return getResponseEntity(ResponseCode.SUCCESS, "Delete Ok", userId, null);
-        }catch (Throwable e){
-            log.error(e.toString());
-            return getResponseEntity(ResponseCode.UPDATE_FAIL, "Delete Error", null, e);
+        @DeleteMapping("")
+        public ResponseEntity<ResponseDto> delete (Authentication authentication){
+            try {
+                Long userId = service.findByEmail(authentication.getName()).getUserId();
+                service.delete(userId);
+                return getResponseEntity(ResponseCode.SUCCESS, "Delete Ok", userId, null);
+            } catch (Throwable e) {
+                log.error(e.toString());
+                return getResponseEntity(ResponseCode.UPDATE_FAIL, "Delete Error", null, e);
+            }
         }
-    }
 
-    // 이미지 업로드
+        // 프로필 조회
+        @GetMapping("/profile")
+        public ResponseEntity<?> getCurrentUserProfile () {
+            try {
+                UserDto userProfile = service.getUserProfile();
+                // 비밀번호 필드를 "****"로 마스킹 처리
+                userProfile.setPassword("********");
+                return ResponseEntity.ok(userProfile);
+            } catch (Exception e) {
+                log.error("사용자 프로필 조회 중 오류 발생", e);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            }
+        }
+
+        // 프로필 이미지 업로드
         @PostMapping("/{id}/profile-image")
-    public ResponseEntity<ResponseDto> updateUserProfileImage(
-            @PathVariable Long id,
-            @RequestParam("image") MultipartFile imageFile,
-            Authentication authentication) {
-        try {
-            Long userId = service.findByEmail(authentication.getName()).getUserId();
-            String imageUrl = service.imageUpload(userId, imageFile);
-            return getResponseEntity(ResponseCode.SUCCESS, "Image Upload Ok", imageUrl, null);
-        } catch (Throwable e) {
-            log.error(e.toString());
-            return getResponseEntity(ResponseCode.UPDATE_FAIL, "Image Upload Error", null, e);
-        }
-    }
-
-    @GetMapping("/profile")
-    public ResponseEntity<?> getUserProfile() {
-        try {
-            UserDto userProfile = service.getUserProfile();
-            // 비밀번호 필드를 "****"로 마스킹 처리
-            userProfile.setPassword("********");
-            return ResponseEntity.ok(userProfile);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-
-    @GetMapping("/images/{filename}")
-    public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
-        try {
-            Resource resource = service.loadImage(filename);
-            return ResponseEntity.ok(resource);
-//            return getResponseEntity(ResponseCode.SUCCESS, "Image Load Ok", resource, null);
-        } catch (Throwable e) {
-
-            // 5. 경로가 이상하면 500 에러 반환
-//            return getResponseEntity(ResponseCode.SELECT_FAIL, "Image Load Error", null, e);
-            return ResponseEntity.notFound().build();
-
-
+        public ResponseEntity<ResponseDto> updateUserProfileImage (
+                @PathVariable Long id,
+                @RequestParam("image") MultipartFile imageFile,
+                Authentication authentication){
+            try {
+                Long userId = service.findByEmail(authentication.getName()).getUserId();
+                String imageUrl = service.imageUpload(userId, imageFile);
+                return getResponseEntity(ResponseCode.SUCCESS, "Image Upload Ok", imageUrl, null);
+            } catch (Throwable e) {
+                log.error(e.toString());
+                return getResponseEntity(ResponseCode.UPDATE_FAIL, "Image Upload Error", null, e);
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ import com.example.daewoo.common.ResponseDto;
 import com.example.daewoo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -98,6 +99,5 @@ public class ApiAccommodationController extends CommonRestController {
             return getResponseEntity(ResponseCode.SELECT_FAIL, "Find All Error", null, e);
         }
     }
-
 
 }

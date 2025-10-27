@@ -1,27 +1,56 @@
 package com.example.daewoo.common.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.concurrent.TimeUnit;
+
+@Slf4j
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // yml의 file 그룹 밑에 있는 resource-handler 값을 가져옴
-    @Value("${file.resource-handler}")
-    private String resourceHandler;
-
-    // yml의 file 그룹 밑에 있는 upload-dir 값을 가져옴
-    @Value("${file.upload-dir}")
-    private String resourceLocation;
+    // 호텔 이미지 리소스 핸들러
+    @Value("${file.upload.hotel.resourceHandler}")
+    private String hotelResourceHandler;
+    
+    @Value("${file.upload.hotel.path}")
+    private String hotelResourceLocation;
+    
+    // 사용자 이미지 리소스 핸들러
+    @Value("${file.upload.user.resourceHandler}")
+    private String userResourceHandler;
+    
+    @Value("${file.upload.user.path}")
+    private String userResourceLocation;
+    
+    @Value("${file.upload.user.webPath}")
+    private String userWebPath;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(resourceHandler)
-                .addResourceLocations("file:///" + resourceLocation);
+        try {
+            // 호텔 이미지 리소스 핸들러 등록
+            registry.addResourceHandler(hotelResourceHandler)
+                    .addResourceLocations(hotelResourceLocation);
+                    
+            // 사용자 이미지 리소스 핸들러 등록 (classpath:static/userimage/)
+            registry.addResourceHandler(userResourceHandler)
+                    .addResourceLocations("classpath:static/userimage/", "file:./src/main/resources/static/userimage/")
+                    .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));
+                    
+            // 개발 환경에서의 리소스 핸들러 (선택사항)
+            registry.addResourceHandler("/**")
+                    .addResourceLocations("classpath:/static/");
+                    
+        } catch (Exception e) {
+            log.error("리소스 핸들러 설정 중 오류 발생", e);
+        }
     }
 
     @Override
