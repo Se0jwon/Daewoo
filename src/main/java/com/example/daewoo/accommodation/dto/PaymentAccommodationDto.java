@@ -62,19 +62,6 @@ public class PaymentAccommodationDto {
 
         dto.setDiscount(discount);
 
-        BigDecimal bdPrice = new BigDecimal(price);
-        BigDecimal discountRate = entity.getDiscountRate();
-
-        BigDecimal hundred = new BigDecimal("100");
-        BigDecimal rateFraction = discountRate.divide(hundred, 4, RoundingMode.HALF_UP);
-
-        BigDecimal bdDiscount = bdPrice.multiply(rateFraction)
-                .setScale(0, RoundingMode.HALF_UP);
-
-        Integer discount = bdDiscount.intValue();
-
-        dto.setDiscount(discount);
-
         return dto;
     }
 }

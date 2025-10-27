@@ -1,20 +1,11 @@
 package com.example.daewoo.user.service;
 
-import com.example.daewoo.reservation.dto.ReservationDto;
 import com.example.daewoo.user.dto.SocialSignupRequestDto;
 import com.example.daewoo.user.dto.UserDto;
 import com.example.daewoo.user.dto.UserEntity;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.UrlResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,12 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,35 +29,14 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private RedisTemplate<String, String> redisTemplate;
-
     @Autowired
-    private ObjectMapper objectMapper;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Value("${file.upload.user.path}")
     private String userImagePath;
 
     @Value("${file.upload.user.webPath}")
     private String userWebPath;
-    
-    @Value("${project.basedir}/src/main/resources/static/userimage")
-    private String staticImagePath;
-
-    @Autowired
-    private ResourceLoader resourceLoader;
-    
-    @PostConstruct
-    public void init() {
-        try {
-            // Ensure the directory exists
-            File uploadDir = new File(staticImagePath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-        } catch (Exception e) {
-            log.error("Failed to create upload directory", e);
-        }
-    }
 
     // ======================================================================
     //  ApiUserController에서 요구하는 누락된 메서드들 
@@ -105,10 +70,7 @@ public class UserService {
     public boolean verifyCode(String userEmail, String verificationCode) {
         String storedCode = redisTemplate.opsForValue().get("VERIFY:" + userEmail);
         // 코드가 일치하면 Redis에서 해당 키를 삭제하고 true 반환
-        if (verificationCode != null && verificationCode.equals(storedCode)) {
-            return true;
-        }
-        return false;
+        return verificationCode != null && verificationCode.equals(storedCode);
      }
 
     @Transactional
@@ -282,40 +244,64 @@ public class UserService {
     // 이미지 업로드 로직
     @Transactional
     public String imageUpload(Long userId, MultipartFile imageFile) throws IOException {
-        // 1. 기존 프로필 이미지 삭제
-        deleteOldProfileImage(userId);
+        // 1. 사용자 엔티티 조회
+        UserEntity user = repository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다. ID: " + userId));
 
-        // 2. 새 파일명 생성 (사용자ID_타임스탬프.확장자)
+        // 2. 경로 정규화 (상대 경로 처리)
+        String uploadPath = userImagePath;
+        File uploadDir;
+        
+        if (uploadPath.startsWith("./") || uploadPath.startsWith(".\\")) {
+            // 상대 경로인 경우 프로젝트 루트 기준으로 변환
+            String projectRoot = System.getProperty("user.dir");
+            uploadPath = uploadPath.substring(2); // "./" 제거
+            uploadDir = new File(projectRoot, uploadPath);
+        } else {
+            // 절대 경로인 경우 그대로 사용
+            uploadDir = new File(uploadPath);
+        }
+        
+        log.info("Upload directory path: {}", uploadDir.getAbsolutePath());
+
+        // 3. 기존 프로필 이미지가 있다면 삭제
+        if (user.getImageUrl() != null && !user.getImageUrl().isEmpty()) {
+            try {
+                String oldFilename = user.getImageUrl().substring(user.getImageUrl().lastIndexOf('/') + 1);
+                File oldFile = new File(uploadDir, oldFilename);
+                if (oldFile.exists() && !oldFile.delete()) {
+                    log.warn("Failed to delete old profile image: {}", oldFile.getAbsolutePath());
+                }
+            } catch (Exception e) {
+                log.error("기존 프로필 이미지 삭제 실패", e);
+            }
+        }
+
+        // 4. 새 파일명 생성 (사용자ID_타임스탬프.확장자)
         String originalFilename = imageFile.getOriginalFilename();
         String fileExtension = originalFilename != null ? 
             originalFilename.substring(originalFilename.lastIndexOf('.')) : ".jpg";
         String newFilename = userId + "_" + System.currentTimeMillis() + fileExtension;
 
-        if (user.getImageUrl() != null && !user.getImageUrl().isEmpty()) {
-            try {
-                String oldFilename = user.getImageUrl().substring(user.getImageUrl().lastIndexOf('/') + 1);
-                File oldFile = new File(staticImagePath, oldFilename);
-                if (oldFile.exists()) {
-                    if (!oldFile.delete()) {
-                        log.warn("Failed to delete old profile image: " + oldFile.getAbsolutePath());
-                    }
-                }
-            } catch (Exception e) {
-                log.error("기존 프로필 이미지 삭제 실패: " + e.getMessage(), e);
+        // 5. 업로드 디렉토리 확인 및 생성
+        if (!uploadDir.exists()) {
+            log.info("Creating upload directory: {}", uploadDir.getAbsolutePath());
+            if (!uploadDir.mkdirs()) {
+                throw new IOException("업로드 디렉토리 생성 실패: " + uploadDir.getAbsolutePath());
             }
         }
-    }
 
-    public Resource loadImage(String filename) throws IOException {
-        try {
-            // Try to load from classpath first
-            Resource resource = resourceLoader.getResource(userImagePath + filename);
-            if (resource.exists() && resource.isReadable()) {
-                return resource;
-            }
-            throw new RuntimeException("File not found " + filename);
-        } catch (Exception e) {
-            throw new IOException("이미지를 로드할 수 없습니다: " + filename, e);
-        }
+        // 6. 파일 저장
+        File destFile = new File(uploadDir, newFilename);
+        log.info("Saving file to: {}", destFile.getAbsolutePath());
+        imageFile.transferTo(destFile);
+
+        // 7. 웹 경로 생성 및 DB 업데이트
+        String webPath = userWebPath + newFilename;
+        user.setImageUrl(webPath);
+        repository.save(user);
+
+        log.info("Image uploaded successfully: {}", webPath);
+        return webPath;
     }
 }

@@ -227,9 +227,8 @@ public class ApiUserController extends CommonRestController {
     }
 
     // 프로필 이미지 업로드
-    @PostMapping("/{id}/profile-image")
+    @PostMapping("/profile-image")
     public ResponseEntity<ResponseDto> updateUserProfileImage (
-            @PathVariable Long id,
             @RequestParam("image") MultipartFile imageFile,
             Authentication authentication){
         try {

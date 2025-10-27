@@ -22,12 +22,12 @@ spring:
 file:
   upload:
     hotel:
-      path: classpath:static/hotelimage/
+      path: classpath:static/hotelimage/    # 기존 static 폴더에서 읽기만
       resourceHandler: /hotel-images/**
     user:
-      path: classpath:static/userimage/  # 웹에서 접근할 경로 (classpath: 사용)
-      resourceHandler: /user-images/**    # URL 매핑
-      webPath: /user-images/              # 웹 URL 경로
+      path: ./uploads/userimage/            # 업로드 및 읽기
+      resourceHandler: /user-images/**
+      webPath: /user-images/
 
 # 프로젝트 기본 경로 설정 (필요한 경우)
 project:

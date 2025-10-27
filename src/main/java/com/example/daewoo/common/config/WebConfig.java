@@ -36,13 +36,17 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         try {
             // 호텔 이미지 리소스 핸들러 등록
+            String hotelLocation = resolveResourceLocation(hotelResourceLocation);
             registry.addResourceHandler(hotelResourceHandler)
-                    .addResourceLocations(hotelResourceLocation);
+                    .addResourceLocations(hotelLocation);
+            log.info("Hotel image resource handler registered: {} -> {}", hotelResourceHandler, hotelLocation);
                     
-            // 사용자 이미지 리소스 핸들러 등록 (classpath:static/userimage/)
+            // 사용자 이미지 리소스 핸들러 등록
+            String userLocation = resolveResourceLocation(userResourceLocation);
             registry.addResourceHandler(userResourceHandler)
-                    .addResourceLocations("classpath:static/userimage/", "file:./src/main/resources/static/userimage/")
+                    .addResourceLocations(userLocation)
                     .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));
+            log.info("User image resource handler registered: {} -> {}", userResourceHandler, userLocation);
                     
             // 개발 환경에서의 리소스 핸들러 (선택사항)
             registry.addResourceHandler("/**")
@@ -51,6 +55,35 @@ public class WebConfig implements WebMvcConfigurer {
         } catch (Exception e) {
             log.error("리소스 핸들러 설정 중 오류 발생", e);
         }
+    }
+    
+    /**
+     * 리소스 경로를 Spring이 이해할 수 있는 형태로 변환
+     */
+    private String resolveResourceLocation(String location) {
+        // classpath: 프로토콜이 이미 있으면 그대로 반환
+        if (location.startsWith("classpath:")) {
+            return location;
+        }
+        
+        // 상대 경로 처리 (./ 또는 .\로 시작)
+        if (location.startsWith("./") || location.startsWith(".\\")) {
+            String projectRoot = System.getProperty("user.dir");
+            String relativePath = location.substring(2).replace("\\", "/");
+            String absolutePath = projectRoot.replace("\\", "/") + "/" + relativePath;
+            // 끝에 / 추가 (Spring ResourceHandler 요구사항)
+            if (!absolutePath.endsWith("/")) {
+                absolutePath += "/";
+            }
+            return "file:" + absolutePath;
+        }
+        
+        // 절대 경로 처리
+        String path = location.replace("\\", "/");
+        if (!path.endsWith("/")) {
+            path += "/";
+        }
+        return "file:" + path;
     }
 
     @Override
