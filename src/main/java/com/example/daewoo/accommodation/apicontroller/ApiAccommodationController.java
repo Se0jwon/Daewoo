@@ -89,7 +89,7 @@ public class ApiAccommodationController extends CommonRestController {
 
     // 특가 호텔만 출력
     @GetMapping("/discount")
-    public ResponseEntity<ResponseDto> findDiscountedAccommodations(@PageableDefault(size = 4, direction = Sort.Direction.DESC) Pageable pageable){
+    public ResponseEntity<ResponseDto> findDiscountedAccommodations(@PageableDefault(size = 5, direction = Sort.Direction.DESC) Pageable pageable){
         try {
             Page<AccommodationDiscountDto> list = this.accommodationService.findDiscountedAccommodations(pageable);
             return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
