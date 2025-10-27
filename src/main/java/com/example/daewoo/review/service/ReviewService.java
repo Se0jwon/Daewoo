@@ -44,12 +44,6 @@ public class ReviewService {
         updateAccommodationReviewSummary(dto.getComId());
     }
 
-    public Page<ReviewDto> findAll(Pageable pageable){
-        Page<ReviewEntity> entities = reviewRepository.findAll(pageable);
-
-        return entities.map(ReviewDto::fromEntity);
-    }
-
     public Page<ReviewDto> findAllByAccommodationEntity_ComId(Long comId, Pageable pageable){
         Page<ReviewEntity> entities = reviewRepository.findAllByAccommodationEntity_ComId(comId, pageable);
 

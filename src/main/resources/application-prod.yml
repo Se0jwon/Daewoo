@@ -18,8 +18,14 @@ spring:
       ddl-auto: update
 
 file:
-  upload-dir: D:/image/
-  resource-handler: /images/**
+  upload:
+    hotel:
+      path: /app/uploads/hotelimage/
+      resourceHandler: /hotel-images/**
+    user:
+      path: /app/uploads/userimage/      # Docker 컨테이너 내부 경로
+      resourceHandler: /user-images/**
+      webPath: /user-images/
 
 #JPA log
 logging:

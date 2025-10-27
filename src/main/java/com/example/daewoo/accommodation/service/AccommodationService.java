@@ -11,6 +11,9 @@ import com.example.daewoo.parlor.roomtype.AccRoomTypeEntity;
 import com.example.daewoo.parlor.service.AccRoomTypeRepository;
 import com.example.daewoo.wish.service.WishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -18,6 +21,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,11 +42,14 @@ public class AccommodationService {
     @Autowired
     private AccRoomTypeRepository accRoomTypeRepository;
 
+    @Value("${file.upload.hotel.path}")
+    private String uploadDir;
+
     public Long totalCount(){
         return accommodationRepository.hotelCount();
     }
 
-    public Slice<AccommodationAllDto> findAll(Integer minPrice,Integer maxPrice, List<String> amCategory, String comTitle, Integer star, Pageable pageable, Long userId){
+    public Slice<AccommodationAllDto> findAll(Integer minPrice, Integer maxPrice, List<String> amCategory, String comTitle, Integer star, Pageable pageable, Long userId) {
         Specification<AccommodationEntity> spec = AccommodationSpecification.hasPriceInRange(minPrice, maxPrice);
         spec = spec.and(AccommodationSpecification.hasAmenities(amCategory));
         spec = spec.and(AccommodationSpecification.hasName(comTitle));
@@ -142,5 +151,16 @@ public class AccommodationService {
 
     public Page<AccommodationDiscountDto> findDiscountedAccommodations(Pageable pageable) {
         return accommodationRepository.findDiscountedHotels(BigDecimal.ZERO, pageable);
+    }
+
+    public Resource loadImage(String filename) throws MalformedURLException {
+        Path filePath = Paths.get(uploadDir).resolve(filename).normalize();
+        Resource resource = new UrlResource(filePath.toUri());
+
+        if (resource.exists()) {
+            return resource;
+        } else {
+            throw new RuntimeException("File not found " + filename);
+        }
     }
 }
