@@ -29,6 +29,7 @@ public class ApiReviewController extends CommonRestController {
         try{
             dto.setComId(comId);
             this.service.insert(dto);
+
             return getResponseEntity(ResponseCode.SUCCESS, "Insert Ok", dto, null);
         }catch (Throwable e){
             log.error(e.toString());
