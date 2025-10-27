@@ -25,8 +25,6 @@ public class PaymentAccommodationDto {
 
     private String location;
 
-
-
     public AccommodationEntity toEntity(){
         AccommodationEntity entity = new AccommodationEntity();
         entity.setComId(this.comId);
