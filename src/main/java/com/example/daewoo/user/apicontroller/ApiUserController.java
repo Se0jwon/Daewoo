@@ -200,46 +200,45 @@ public class ApiUserController extends CommonRestController {
             return getResponseEntity(ResponseCode.UPDATE_FAIL, "Update Error", dto, e);
         }
     }
-        @DeleteMapping("")
-        public ResponseEntity<ResponseDto> delete (Authentication authentication){
-            try {
-                Long userId = service.findByEmail(authentication.getName()).getUserId();
-                service.delete(userId);
-                return getResponseEntity(ResponseCode.SUCCESS, "Delete Ok", userId, null);
-            } catch (Throwable e) {
-                log.error(e.toString());
-                return getResponseEntity(ResponseCode.UPDATE_FAIL, "Delete Error", null, e);
-            }
+    @DeleteMapping("")
+    public ResponseEntity<ResponseDto> delete (Authentication authentication){
+        try {
+            Long userId = service.findByEmail(authentication.getName()).getUserId();
+            service.delete(userId);
+            return getResponseEntity(ResponseCode.SUCCESS, "Delete Ok", userId, null);
+        } catch (Throwable e) {
+            log.error(e.toString());
+            return getResponseEntity(ResponseCode.UPDATE_FAIL, "Delete Error", null, e);
         }
+    }
 
-        // 프로필 조회
-        @GetMapping("/profile")
-        public ResponseEntity<?> getCurrentUserProfile () {
-            try {
-                UserDto userProfile = service.getUserProfile();
-                // 비밀번호 필드를 "****"로 마스킹 처리
-                userProfile.setPassword("********");
-                return ResponseEntity.ok(userProfile);
-            } catch (Exception e) {
-                log.error("사용자 프로필 조회 중 오류 발생", e);
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-            }
+    // 프로필 조회
+    @GetMapping("/profile")
+    public ResponseEntity<?> getCurrentUserProfile () {
+        try {
+            UserDto userProfile = service.getUserProfile();
+            // 비밀번호 필드를 "****"로 마스킹 처리
+            userProfile.setPassword("********");
+            return ResponseEntity.ok(userProfile);
+        } catch (Exception e) {
+            log.error("사용자 프로필 조회 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
 
-        // 프로필 이미지 업로드
-        @PostMapping("/{id}/profile-image")
-        public ResponseEntity<ResponseDto> updateUserProfileImage (
-                @PathVariable Long id,
-                @RequestParam("image") MultipartFile imageFile,
-                Authentication authentication){
-            try {
-                Long userId = service.findByEmail(authentication.getName()).getUserId();
-                String imageUrl = service.imageUpload(userId, imageFile);
-                return getResponseEntity(ResponseCode.SUCCESS, "Image Upload Ok", imageUrl, null);
-            } catch (Throwable e) {
-                log.error(e.toString());
-                return getResponseEntity(ResponseCode.UPDATE_FAIL, "Image Upload Error", null, e);
-            }
+    // 프로필 이미지 업로드
+    @PostMapping("/{id}/profile-image")
+    public ResponseEntity<ResponseDto> updateUserProfileImage (
+            @PathVariable Long id,
+            @RequestParam("image") MultipartFile imageFile,
+            Authentication authentication){
+        try {
+            Long userId = service.findByEmail(authentication.getName()).getUserId();
+            String imageUrl = service.imageUpload(userId, imageFile);
+            return getResponseEntity(ResponseCode.SUCCESS, "Image Upload Ok", imageUrl, null);
+        } catch (Throwable e) {
+            log.error(e.toString());
+            return getResponseEntity(ResponseCode.UPDATE_FAIL, "Image Upload Error", null, e);
         }
     }
 }
