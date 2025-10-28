@@ -1,5 +1,6 @@
 package com.example.daewoo.wish.dto;
 
+import com.example.daewoo.accommodation.dto.AccommodationAllDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.Setter;
 public class WishDto {
     private Long wishId;
     private Long userId;
-    private Long comId;
+    private AccommodationAllDto accommodationAllDto;
 
     public WishEntity toEntity(){
         WishEntity entity = new WishEntity();
@@ -24,7 +25,7 @@ public class WishDto {
         WishDto dto = new WishDto();
         dto.setWishId(entity.getWishId());
         dto.setUserId(entity.getUserEntity().getUserId());
-        dto.setComId(entity.getAccommodationEntity().getComId());
+        dto.setAccommodationAllDto(AccommodationAllDto.fromEntity(entity.getAccommodationEntity()));
 
         return dto;
     }
