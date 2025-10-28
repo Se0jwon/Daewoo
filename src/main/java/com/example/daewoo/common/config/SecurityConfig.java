@@ -69,6 +69,7 @@ public class SecurityConfig {
 
                                 // 인증이 필요한 API 경로
                                 .requestMatchers("/api/user/profile").authenticated()
+                                .requestMatchers("/api/accommodation/*/review/**").authenticated()
 //                .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
 //                        .anyRequest().authenticated()
                         .anyRequest().permitAll()

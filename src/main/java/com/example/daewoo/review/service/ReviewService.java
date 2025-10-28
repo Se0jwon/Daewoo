@@ -28,10 +28,12 @@ public class ReviewService {
     @Autowired
     private UserRepository userRepository;
 
-    public void insert(ReviewDto dto) {
+    // [✅ 1. 메서드 시그니처 수정: (ReviewDto dto) -> (Long userId, ReviewDto dto)]
+    public void insert(Long userId, ReviewDto dto) {
         ReviewEntity entity = dto.toEntity();
 
-        UserEntity userEntity = userRepository.findById(dto.getUserId())
+        // [✅ 2. 매개변수 userId 사용 (dto.getUserId() X)]
+        UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User Not Found"));
         entity.setUserEntity(userEntity);
 
@@ -55,9 +57,9 @@ public class ReviewService {
                 .map(ReviewDto::fromEntity);
     }
 
+    // (참고: update 메서드는 기존 DTO의 userId를 사용하도록 유지했습니다.)
     public void update(ReviewDto dto){
         ReviewEntity entity = dto.toEntity();
-
 
         UserEntity userEntity = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User Not Found"));
