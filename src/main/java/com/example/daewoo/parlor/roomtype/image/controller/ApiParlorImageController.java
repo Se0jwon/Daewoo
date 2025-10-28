@@ -1,15 +1,13 @@
-package com.example.daewoo.accommodation.image.apicontroller;
+package com.example.daewoo.parlor.roomtype.image.controller;
 
 import com.example.daewoo.accommodation.image.dto.ComImageDetailDto;
-import com.example.daewoo.accommodation.image.dto.ComImageDto;
-import com.example.daewoo.accommodation.image.service.ComImageRepository;
-import com.example.daewoo.accommodation.image.service.ComImageService;
 import com.example.daewoo.common.CommonRestController;
 import com.example.daewoo.common.ResponseCode;
 import com.example.daewoo.common.ResponseDto;
+import com.example.daewoo.parlor.roomtype.RoomTypeDto;
+import com.example.daewoo.parlor.roomtype.image.service.ParlorImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.*;
-
 @Slf4j
 @RestController
-@RequestMapping("api/accommodation/images")
-public class ApiComImageController extends CommonRestController {
+@RequestMapping("api/parlor/images")
+public class ApiParlorImageController extends CommonRestController {
 
     @Autowired
-    private ComImageService comImageService;
+    private ParlorImageService parlorImageService;
 
 // For backward compatibility with existing image URLs
     @GetMapping("/{filename:.+}")
@@ -40,10 +34,10 @@ public class ApiComImageController extends CommonRestController {
     public ResponseEntity<Resource> loadImage(@PathVariable String filename) {
         try {
             // Load image from service
-            Resource resource = comImageService.loadImage(filename);
+            Resource resource = parlorImageService.loadImage(filename);
             
             // Get MIME type
-            String contentType = comImageService.getMimeType(resource);
+            String contentType = parlorImageService.getMimeType(resource);
             
             // Return image with proper headers
             return ResponseEntity.ok()
@@ -57,10 +51,10 @@ public class ApiComImageController extends CommonRestController {
         }
     }
 
-    @GetMapping("/com/{comId}")
-    public ResponseEntity<ResponseDto> findComImage(@PathVariable Long comId){
+    @GetMapping("/parlor/{roomTypeId}")
+    public ResponseEntity<ResponseDto> findComImage(@PathVariable Long roomTypeId){
         try{
-            ComImageDetailDto dto = this.comImageService.findComImage(comId);
+            RoomTypeDto dto = this.parlorImageService.findById(roomTypeId);
             return getResponseEntity(ResponseCode.SUCCESS, "Image Select Ok", dto, null);
         }catch (Throwable e){
             log.error(e.toString());
