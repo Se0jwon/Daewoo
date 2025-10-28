@@ -16,6 +16,7 @@ public class ReviewDto {
     private String title;
     private String content;
     private BigDecimal score;
+    private Integer reviewCount;
 
     private Long userId;
     private String username;
@@ -41,6 +42,7 @@ public class ReviewDto {
         dto.setUsername(entity.getUserEntity().getUsername());
         dto.setUserId(entity.getUserEntity().getUserId());
         dto.setComId(entity.getAccommodationEntity().getComId());
+        dto.setReviewCount(entity.getAccommodationEntity().getReviewCount());
 
         return dto;
     }

@@ -34,13 +34,15 @@ services:
   #    restart: always
 
   boot-app:
-    #image: seojw173/back_image
+    image: seojw173/back_image:1.0.3
     build:
       context: ./
       dockerfile: dockerfile
     container_name: boot_container
     ports:
       - 18888:8085
+    volumes:
+      - ./uploads:/app/uploads  # 업로드 파일 영구 저장
     environment:
       - SPRING_PROFILES_ACTIVE=local
       - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb_container:3306/hotels_db

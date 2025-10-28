@@ -42,3 +42,5 @@ out/
 ### mariadb_data ###
 /mariadb_data
 
+### Upload files ###
+/uploads/

@@ -7,25 +7,39 @@ spring:
   config:
     activate:
       on-profile: local
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:13306/hotels_db
     username: hotels_user
     password: hotels12345
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
 
+# 파일 업로드 설정
 file:
-  upload-dir: D:/image/
-  resource-handler: /images/**
+  upload:
+    hotel:
+      path: classpath:static/hotelimage/    # 기존 static 폴더에서 읽기만
+      resourceHandler: /hotel-images/**
+    user:
+      path: ./uploads/userimage/            # 업로드 및 읽기
+      resourceHandler: /user-images/**
+      webPath: /user-images/
+    parlor:
+      path: classpath:static/parlorimage/    # 기존 static 폴더에서 읽기만
+      resourceHandler: /parlor-images/**
+# 프로젝트 기본 경로 설정 (필요한 경우)
+project:
+  basedir: .
+
 
 #JPA log
 logging:
   level:
     org:
-      hibernate:
         SQL: DEBUG
         orm:
           jdbc:

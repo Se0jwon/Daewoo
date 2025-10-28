@@ -1,7 +1,9 @@
-package com.example.daewoo.accommodation.image.service;
+package com.example.daewoo.parlor.roomtype.image.service;
 
 import com.example.daewoo.accommodation.image.dto.ComImageDetailDto;
 import com.example.daewoo.accommodation.image.dto.ComImageEntity;
+import com.example.daewoo.parlor.roomtype.RoomTypeDto;
+import com.example.daewoo.parlor.roomtype.RoomTypeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -9,26 +11,23 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class ComImageService {
+public class ParlorImageService {
     @Autowired
-    private ComImageRepository comImageRepository;
+    private ParlorImageRepository parlorImageRepository;
 
-    @Value("${file.upload.hotel.path}")
-    private String hotelImagePath;
+    @Value("${file.upload.parlor.path}")
+    private String parlorImagePath;
 
     public Resource loadImage(String filename) {
         try {
             // Load image from classpath
-            String classpath = "classpath:static/hotelimage/" + filename;
-            Resource resource = new ClassPathResource("static/hotelimage/" + filename);
+            String classpath = "classpath:static/parlorimage/" + filename;
+            Resource resource = new ClassPathResource("static/parlorimage/" + filename);
             
             if (resource.exists() && resource.isReadable()) {
                 return resource;
@@ -45,21 +44,9 @@ public class ComImageService {
         return contentType != null ? contentType : "application/octet-stream";
     }
 
-    public ComImageDetailDto findComImage(Long comId){
-        List<ComImageEntity> entities = this.comImageRepository.findByAccommodation_ComId(comId);
-
-        String mainImage = entities.stream()
-                .filter(ComImageEntity::getIsMain)
-                .map(ComImageEntity::getImageUrl)
-                .findFirst()
-                .orElse(null);
-
-        List<String> subImages = entities.stream()
-                .filter(image -> !image.getIsMain())
-                .map(ComImageEntity::getImageUrl)
-                .toList();
-
-        return new ComImageDetailDto(comId, mainImage, subImages);
+    public RoomTypeDto findById(Long roomTypeId){
+        Optional<RoomTypeEntity> entities = this.parlorImageRepository.findById(roomTypeId);
+        return entities.map(RoomTypeDto::fromEntity).orElse(null);
     }
 
 }
