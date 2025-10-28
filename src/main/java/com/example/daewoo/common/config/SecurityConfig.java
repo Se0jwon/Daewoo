@@ -69,7 +69,12 @@ public class SecurityConfig {
 
                                 // 인증이 필요한 API 경로
                                 .requestMatchers("/api/user/profile").authenticated()
-                                .requestMatchers("/api/accommodation/*/review/**").authenticated()
+                                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/accommodation/*/review/**").permitAll()
+                                // 리뷰 작성/수정(POST, PATCH)은 인증된 사용자만
+                                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/accommodation/*/review/**").authenticated()
+                                .requestMatchers(org.springframework.http.HttpMethod.PATCH, "/api/accommodation/*/review/**").authenticated()
+                                // 리뷰 삭제(DELETE)도 인증된 사용자만
+                                .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/accommodation/review/**").authenticated()
 //                .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
 //                        .anyRequest().authenticated()
                         .anyRequest().permitAll()
