@@ -19,4 +19,6 @@ public class RoomTypeEntity {
     private Long roomTypeId;
 
     private String roomTypeName;
+
+    private String parlorImage;
 }
