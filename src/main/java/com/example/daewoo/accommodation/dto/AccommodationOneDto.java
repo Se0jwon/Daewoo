@@ -15,6 +15,7 @@ import lombok.Setter;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,13 +72,17 @@ public class AccommodationOneDto {
 
         dto.setCategory(entity.getCategory());
 
-        dto.setAmenities(entity.getAmenities().stream()
-                .map(AmenitiesDto::fromEntity)
-                .collect(Collectors.toList()));
+        dto.setAmenities(entity.getAmenities() != null ?
+                entity.getAmenities().stream()
+                        .map(AmenitiesDto::fromEntity)
+                        .collect(Collectors.toList()) :
+                Collections.emptyList()); // null이면 빈 리스트
 
-        dto.setRooms(entity.getRooms().stream()
-                .map(AccRoomTypeDto::fromEntity)
-                .collect(Collectors.toList()));
+        dto.setRooms(entity.getRooms() != null ?
+                entity.getRooms().stream()
+                        .map(AccRoomTypeDto::fromEntity)
+                        .collect(Collectors.toList()) :
+                Collections.emptyList());
 
 //        dto.setReviews(entity.getReviews().stream()
 //                .map(ReviewDto::fromEntity)

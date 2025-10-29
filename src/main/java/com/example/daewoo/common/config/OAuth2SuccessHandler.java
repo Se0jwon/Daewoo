@@ -21,7 +21,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private static final String FRONTEND_BASE_URL = "http://localhost:3000";
+    private static final String FRONTEND_BASE_URL = "http://localhost:8080";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -64,9 +64,12 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             // ROLE_USER 등 이미 최종 등록된 사용자: JWT 토큰 발급 및 최종 리다이렉트
             String token = jwtTokenProvider.generateToken(authentication);
 
+            Long userId = (Long) oAuth2User.getAttributes().get("userId");
+
             String finalRedirectUrl = UriComponentsBuilder.fromUriString(FRONTEND_BASE_URL)
-                    .path("/accommodation")
+                    .path("/hotellisting")
                     .queryParam("token", token)
+                    .queryParam("userId", userId)
                     .build()
                     .toUriString();
 
