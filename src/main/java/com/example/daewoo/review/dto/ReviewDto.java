@@ -20,6 +20,7 @@ public class ReviewDto {
 
     private Long userId;
     private String username;
+    private String profileImageUrl;
 
     private Long comId;
 
@@ -43,7 +44,7 @@ public class ReviewDto {
         dto.setUserId(entity.getUserEntity().getUserId());
         dto.setComId(entity.getAccommodationEntity().getComId());
         dto.setReviewCount(entity.getAccommodationEntity().getReviewCount());
-
+        dto.setProfileImageUrl(entity.getUserEntity().getImageUrl());
         return dto;
     }
 }

@@ -11,5 +11,6 @@ public enum ResponseCode {
     INVALID_REQUEST,
     ERROR,
     INTERNAL_SERVER_ERROR,
-    AUTH_ERROR
+    AUTH_ERROR,
+    FORBIDDEN
 }
