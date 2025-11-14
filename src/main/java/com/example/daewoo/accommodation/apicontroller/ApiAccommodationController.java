@@ -47,6 +47,7 @@ public class ApiAccommodationController extends CommonRestController {
                                                @RequestParam(defaultValue = "") List<String> amCategory,
                                                @RequestParam(defaultValue = "") String comTitle,
                                                @RequestParam(defaultValue = "") Integer star,
+                                               @RequestParam(defaultValue = "호텔") String comCategory,
                                                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
                                                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut,
                                                Authentication authentication){
@@ -57,14 +58,14 @@ public class ApiAccommodationController extends CommonRestController {
                 userId = userService.findByEmail(authentication.getName()).getUserId();
             }
             if (pageable.getPageNumber() == 0) {
-                Slice<AccommodationAllDto> list = this.accommodationService.findAll(minPrice, maxPrice, amCategory, comTitle, star, pageable, userId);
+                Slice<AccommodationAllDto> list = this.accommodationService.findAll(minPrice, maxPrice, amCategory, comTitle, star, comCategory, pageable, userId);
 
                 Long totalCount = accommodationService.totalCount();
                 AccommodationResponse res = new AccommodationResponse(totalCount, list);
                 return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", res, null);
             }else{
 
-                Slice<AccommodationAllDto> list = this.accommodationService.findAll(minPrice, maxPrice, amCategory, comTitle, star, pageable, userId);
+                Slice<AccommodationAllDto> list = this.accommodationService.findAll(minPrice, maxPrice, amCategory, comTitle, star, comCategory, pageable, userId);
 
                 return getResponseEntity(ResponseCode.SUCCESS, "Find All Ok", list, null);
             }

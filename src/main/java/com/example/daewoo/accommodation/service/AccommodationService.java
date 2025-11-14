@@ -50,11 +50,12 @@ public class AccommodationService {
         return accommodationRepository.hotelCount();
     }
 
-    public Slice<AccommodationAllDto> findAll(Integer minPrice, Integer maxPrice, List<String> amCategory, String comTitle, Integer star, Pageable pageable, Long userId) {
+    public Slice<AccommodationAllDto> findAll(Integer minPrice, Integer maxPrice, List<String> amCategory, String comTitle, Integer star, String comCategory, Pageable pageable, Long userId) {
         Specification<AccommodationEntity> spec = AccommodationSpecification.hasPriceInRange(minPrice, maxPrice);
         spec = spec.and(AccommodationSpecification.hasAmenities(amCategory));
         spec = spec.and(AccommodationSpecification.hasName(comTitle));
         spec = spec.and(AccommodationSpecification.hasStar(star));
+        spec = spec.and(AccommodationSpecification.hasComCategory(comCategory));
 
         Slice<AccommodationEntity> entities = accommodationRepository.findAll(spec, pageable);
         Slice<AccommodationAllDto> dto = entities.map(AccommodationAllDto::fromEntity);
