@@ -43,12 +43,12 @@ public class ParlorService {
                 .orElseThrow(() -> new EntityNotFoundException("객실 옵션을 찾을 수 없습니다. accId: " + accId));
 
         Long comId = accRoomTypeEntity.getAccommodation().getComId();
-        Integer lowestPrice = accommodationRepository.findLowestPriceByHotelId(comId);
+        Integer price = accRoomTypeRepository.findPriceByAccId(accId);
         String mainImage = accommodationRepository.findMainComImage(comId);
 
         PaymentAccommodationDto comDto = PaymentAccommodationDto.fromEntity(
                 accRoomTypeEntity.getAccommodation(),
-                lowestPrice,
+                price,
                 mainImage
         );
 

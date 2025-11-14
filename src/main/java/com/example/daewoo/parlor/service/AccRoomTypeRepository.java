@@ -25,4 +25,7 @@ public interface AccRoomTypeRepository extends JpaRepository<AccRoomTypeEntity, 
             @Param("checkIn") LocalDate checkIn,
             @Param("checkOut") LocalDate checkOut
     );
+
+    @Query("SELECT a.price FROM AccRoomTypeEntity a WHERE a.accId = :accId")
+    Integer findPriceByAccId(@Param("accId") Long accId);
 }

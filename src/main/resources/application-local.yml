@@ -40,7 +40,6 @@ project:
 logging:
   level:
     org:
-      hibernate:
         SQL: DEBUG
         orm:
           jdbc:
