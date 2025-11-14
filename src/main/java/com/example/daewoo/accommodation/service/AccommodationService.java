@@ -5,6 +5,7 @@ import com.example.daewoo.accommodation.dto.AccommodationDiscountDto;
 import com.example.daewoo.accommodation.dto.AccommodationEntity;
 
 import com.example.daewoo.accommodation.dto.AccommodationOneDto;
+import com.example.daewoo.accommodation.image.dto.ComImageEntity; // [✅ Import 추가]
 import com.example.daewoo.accommodation.image.service.ComImageRepository;
 import com.example.daewoo.parlor.roomtype.AccRoomTypeDto;
 import com.example.daewoo.parlor.roomtype.AccRoomTypeEntity;
@@ -102,8 +103,29 @@ public class AccommodationService {
 
 
         Integer price = accommodationRepository.findLowestPriceByHotelId(comId);
-        String mainImage = accommodationRepository.findMainComImage(comId);
-        List<String> subImage = accommodationRepository.findSubComImage(comId);
+
+        // [--- ❌ 기존 쿼리 방식 ❌ ---]
+        // String mainImage = accommodationRepository.findMainComImage(comId);
+        // List<String> subImage = accommodationRepository.findSubComImage(comId);
+
+        // [--- ✅ 수정된 로직 (Java 스트림 방식) ✅ ---]
+        // 1. com_id로 모든 이미지 엔티티를 한 번에 가져옵니다.
+        List<ComImageEntity> allImages = comImageRepository.findByAccommodation_ComId(comId);
+
+        // 2. Java 스트림으로 메인 이미지를 찾습니다. (is_main = 1)
+        String mainImage = allImages.stream()
+                .filter(ComImageEntity::getIsMain) // isMain == true
+                .map(ComImageEntity::getImageUrl)
+                .findFirst()
+                .orElse(null);
+
+        // 3. Java 스트림으로 서브 이미지 리스트를 만듭니다. (is_main = 0)
+        List<String> subImage = allImages.stream()
+                .filter(image -> !image.getIsMain()) // isMain == false
+                .map(ComImageEntity::getImageUrl)
+                .collect(Collectors.toList());
+        // [--- ✅ 수정 끝 ✅ ---]
+
 
         AccommodationOneDto dto = AccommodationOneDto.fromEntity(accommodation);
 

@@ -89,6 +89,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         additionalAttributes.put("registrationId", user.getRegistrationId());
         additionalAttributes.put("userEmail", user.getUserEmail());
         additionalAttributes.put("nickname", user.getUsername());
+        additionalAttributes.put("userId", user.getUserId());
 
         Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
 

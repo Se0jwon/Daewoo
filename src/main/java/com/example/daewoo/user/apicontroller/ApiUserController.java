@@ -133,8 +133,19 @@ public class ApiUserController extends CommonRestController {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDto.getUserEmail(), loginDto.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            // ...
             String token = jwtTokenProvider.generateToken(authentication);
-            return getResponseEntity(ResponseCode.SUCCESS, "Login Ok", token, null);
+
+            String userEmail = authentication.getName();
+
+            Long userId = service.findByEmail(userEmail).getUserId();
+
+            java.util.Map<String, Object> responseData = new java.util.HashMap<>();
+            responseData.put("token", token);
+            responseData.put("userId", userId);
+
+            return getResponseEntity(ResponseCode.SUCCESS, "Login Ok", responseData, null);
+// ...
         } catch (Throwable e) {
             log.error(e.toString());
             return getResponseEntity(ResponseCode.LOGIN_FAIL, "Login Error", null, e);
