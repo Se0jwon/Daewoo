@@ -71,4 +71,13 @@ public class AccommodationSpecification {
             return criteriaBuilder.equal(root.get("star"), star);
         };
     }
+
+    public static Specification<AccommodationEntity> hasComCategory(String comCategory) {
+        return (root, query, criteriaBuilder) -> {
+            if (comCategory == null) {
+                return null;
+            }
+            return criteriaBuilder.equal(root.get("category"), comCategory);
+        };
+    }
 }
